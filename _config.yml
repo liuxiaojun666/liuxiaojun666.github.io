@@ -5,14 +5,14 @@
 # Site
 title: 刘小军的博客
 subtitle:
-description: 暂无
+description: 让我想想。
 author: 刘小军
 language: zh-Hans
 timezone:
 
 # URL
 ## If your site is put in a subdirectory, set url as 'http://yoursite.com/child' and root as '/child/'
-url: http://yoursite.com
+url: http://liuxiaojun.win
 root: /
 permalink: :year/:month/:day/:title/
 permalink_defaults:
