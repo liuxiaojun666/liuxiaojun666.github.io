@@ -5,7 +5,7 @@ tags:
 ---
 
 ### 需求
-![](../images/2017-12-08/jindutiao2.png)
+![](/images/2017-12-08/jindutiao2.png)
 
 ### 实现方法
 
