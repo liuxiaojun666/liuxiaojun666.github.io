@@ -800,6 +800,7 @@ vendors:
 css: css
 js: js
 images: images
+demo: demo
 
 # Theme version
 version: 5.1.3

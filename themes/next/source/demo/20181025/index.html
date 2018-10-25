@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title></title>
+    <script src="../../lib/jquery/index.js"></script>
+    <script src="./drag.js"></script>
+</head>
+
+<body>
+    <img id="dragImg" src="/images/2018-10-23/chart.png" alt="图片">
+
+    <script>
+        const drag = $solway.drag({
+            ele: document.getElementById('dragImg'),
+            translateX: 100,
+            originX: '50%',
+            originY: '0',
+            scale: 0.6,
+            minScale: 0.5
+        });
+        // drag.scale(1.5);
+        // $scope.drag.destroy();
+    </script>
+</body>
+
+</html>
