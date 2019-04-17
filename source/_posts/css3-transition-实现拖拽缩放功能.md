@@ -1,5 +1,5 @@
 ---
-title: css3 transition 实现拖拽缩放功能
+title: 实现拖拽缩放任意元素功能
 date: 2018-10-24 10:24:44
 tags:
 ---
@@ -7,127 +7,155 @@ tags:
 ### 功能
 
 拖拽 缩放。  元素太小，滚动太快可能会出现抖动。  可限制最小缩放倍数。
+可拖拽缩放任何元素   依赖jquery
 
 ### 使用方法
-```js
-$scope.drag = $solway.drag({ 
-    ele: $svg[0], 
-    translateX: (viewWidth - svgWidth) / 2,
-    originX: '50%',
-    originY: '0',
-    scale: (svgWidth < viewWidth) ? 1 : (viewWidth / svgWidth),
-    minScale: 0.1
-});
-$scope.drag.scale(1.5);
-$scope.$on('$destroy', () => $scope.drag.destroy());
+```html
+<div id="dragDiv">
+    <svg> </svg>
+</div>
 ```
+```js
+window.onload = function () {
+    const zoom = $solway.zoom({
+        ele: document.getElementById('zoomSvg'),
+        scale: 0.6,
+        minScale: 0.1
+    });
+
+
+    $solway.drag({
+        ele: document.getElementById('dragDiv')
+    });
+};
+```
+{% link 示例 http://liuxiaojun.win/demo/20181026/ true 查看示例 %}
+
+
+{% iframe /demo/20181026/ 700 400 %}
+
+
 
 ### 实现
+zoom.js
 
 ```js
-/**
- * 严重依赖 JQuery
- */
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
         typeof define === 'function' && define.amd ? define(['exports'], factory) :
             (factory((global.$solway = global.$solway || {})));
 }(window, ((exports) => {
-    let scale = 1, 
-        minScale = 0.5,
-        maxScale = 14,
-        translateX = 0, 
-        translateY = 0, 
-        originX = '0%', 
-        originY = '0%';
 
-    function scaleFunc(obj, val) {
-        scale += val;
-        if (scale > 5 && val < 0) scale += val * 9;
-        scale = scale <= minScale ? minScale : scale;
-        scale = scale >= maxScale ? maxScale : scale;
-        if (scale <= minScale || scale >= maxScale) return false;
-        obj.css({
-            'transform': 'matrix(' + scale + ',0,0,' + scale + ',' + translateX + ',' + translateY + ')',
-            '-ms-transform': 'matrix(' + scale + ',0,0,' + scale + ',' + translateX + ',' + translateY + ')',
-            '-moz-transform': 'matrix(' + scale + ',0,0,' + scale + ',' + translateX + ',' + translateY + ')',
-            '-webkit-transform': 'matrix(' + scale + ',0,0,' + scale + ',' + translateX + ',' + translateY + ')',
-            '-o-transform': 'matrix(' + scale + ',0,0,' + scale + ',' + translateX + ',' + translateY + ')',
-            'transform-origin': `${originX} ${originY}`,
-            '-ms-transform-origin': `${originX} ${originY}`,
-            '-webkit-transform-origin': `${originX} ${originY}`,
-            '-moz-transform-origin': `${originX} ${originY}`,
-            '-o-transform-origin': `${originX} ${originY}`
-        });
-        return false;
-    }
 
-    const drag = (options) => {
-        scale = options.scale || 1;
-        minScale = options.minScale || 0.5;
-        maxScale = options.maxScale || 14;
-        translateX = options.translateX || 0;
-        translateY = options.translateY || 0;
-        originX = options.originX || '0%';
-        originY = options.originY || '0%';
-        
-        let obj = $(options.ele);
-        let svgWidth, svgHeight, gapX, gapY, parentOffsetLeft, parentOffsetTop;
+    const zoom = ({ scale = 1, minScale = 0.1, maxScale = 14, ele, rate = 0.1, translate = [0, 0] }) => {
 
-        obj.css({
+        const obj = $(ele).css({
             'transition': 'all 0.1s', '-moz-transition': 'all 0.1s', '-webkit-transition': 'all 0.1s', '-o-transition': 'all 0.1s', position: 'absolute', cursor: 'pointer', left: 0, top: 0
-        })
-        .on("mousewheel DOMMouseScroll", mouseWheelHandel).on("mousedown", start);
-        
+        }).on("mousewheel DOMMouseScroll", mouseWheelHandel);
+
+        scaleFunc(0, true);
+
         function mouseWheelHandel(e) {
-            originX = (e.clientX - obj.offset().left) / (obj.width() * scale) * 100 + '%';
-            originY = (e.clientY - obj.offset().top) / (obj.height() * scale) * 100 + '%';
             const delta = (e.originalEvent.wheelDelta && (e.originalEvent.wheelDelta > 0 ? 1 : -1)) || (e.originalEvent.detail && (e.originalEvent.detail > 0 ? -1 : 1));
-            if (delta > 0) return scaleFunc(obj, scale < 0.5 ? 0.2 : 0.05);
-            else if (delta < 0) return scaleFunc(obj, scale < 0.5 ? -0.01 : -0.08);
+            if (delta > 0) return scaleFunc(rate);
+            else if (delta < 0) return scaleFunc(-rate);
         }
 
-        function start(event) {
-            originX = '50%';
-            originY = '50%';
-            svgWidth = obj.width();
-            svgHeight = obj.height();
-            parentOffsetLeft = obj.parent().offset().left;
-            parentOffsetTop = obj.parent().offset().top;
-            if (event.button == 0) {
-                gapX = event.clientX - obj.offset().left;
-                gapY = event.clientY - obj.offset().top;
-                $(document).on("mousemove", move);
-                $(document).on("mouseup", stop);
-            }
+        function scaleFunc(val, origin) {
+            scale += (val * scale);
+            scale = scale <= minScale ? minScale : scale;
+            scale = scale >= maxScale ? maxScale : scale;
+            if (scale <= minScale || scale >= maxScale) return false;
+            obj.css({
+                'transform': 'matrix(' + scale + ',0,0,' + scale + ', ' + translate[0] + ',' + translate[1] + ')',
+                '-ms-transform': 'matrix(' + scale + ',0,0,' + scale + ', ' + translate[0] + ',' + translate[1] + ')',
+                '-moz-transform': 'matrix(' + scale + ',0,0,' + scale + ', ' + translate[0] + ',' + translate[1] + ')',
+                '-webkit-transform': 'matrix(' + scale + ',0,0,' + scale + ', ' + translate[0] + ',' + translate[1] + ')',
+                '-o-transform': 'matrix(' + scale + ',0,0,' + scale + ', ' + translate[0] + ',' + translate[1] + ')',
+            });
             return false;
         }
 
-        function move(event) {
-            translateX = event.clientX - gapX - parentOffsetLeft + (svgWidth * scale - svgWidth) / 2;
-            translateY = event.clientY - gapY - parentOffsetTop + (svgHeight * scale - svgHeight) / 2;
-            return scaleFunc(obj, 0);
-        }
-
-        function stop() {
-            $(document).off("mousemove", move);
-            $(document).off("mouseup", stop);
-        }
-
-        scaleFunc(obj, 0);
-
         return {
             scale(n) {
-                originX = '0%';
-                originY = '0%';
-                scaleFunc(obj, n - scale);
+                scaleFunc(n - scale);
             },
             destroy() {
-                obj.off("mousedown", start);
                 obj.off("mousewheel DOMMouseScroll", mouseWheelHandel);
-                obj = null;
             }
         };
+    };
+
+    exports.zoom = zoom;
+})));
+```
+
+drag.js
+```js
+(function (global, factory) {
+    typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
+        typeof define === 'function' && define.amd ? define(['exports'], factory) :
+            (factory((global.$solway = global.$solway || {})));
+}(window, ((exports) => {
+
+    const drag = ({ele: dv}) => {
+        dv.setAttribute('style', (dv.getAttribute('style') || '') + 'position: absolute;transition: all 0.1s ease 0s;-webkit-transition: all 0.1s ease 0s;-o-transition: all 0.1s ease 0s;-moz-transition: all 0.1s ease 0s;-moz-user-select: -moz-none; -moz-user-select: none; -o-user-select: none; -webkit-user-select: none; -ms-user-select: none; user-select: none;');
+        let x = 0;
+        let y = 0;
+        let l = 0;
+        let t = 0;
+        let isDown = false;
+        dv.addEventListener('mousedown', eleMousedown);
+        document.addEventListener('mousemove', eleMousemove);
+        dv.addEventListener('mouseup', eleMouseup);
+        
+        
+        //鼠标按下事件
+        function eleMousedown (e) {
+            //获取x坐标和y坐标
+            x = e.clientX;
+            y = e.clientY;
+
+            //获取左部和顶部的偏移量
+            l = dv.offsetLeft;
+            t = dv.offsetTop;
+            //开关打开
+            isDown = true;
+            //设置样式  
+            dv.style.cursor = 'move';
+            return false;
+        }
+        //鼠标移动
+        function eleMousemove (e) {
+            if (isDown == false) {
+                return;
+            }
+            //获取x和y
+            const nx = e.clientX;
+            const ny = e.clientY;
+            //计算移动后的左偏移量和顶部的偏移量
+            const nl = nx - (x - l);
+            const nt = ny - (y - t);
+
+            dv.style.left = nl + 'px';
+            dv.style.top = nt + 'px';
+            return false;
+        }
+        //鼠标抬起事件
+        function eleMouseup () {
+            //开关关闭
+            isDown = false;
+            dv.style.cursor = 'default';
+            return false;
+        }
+        return {
+            destroy() {
+                dv.removeEventListener('mousedown', eleMousedown);
+                document.removeEventListener('mousemove', eleMousemove);
+                dv.removeEventListener('mouseup', eleMouseup);                
+                dv = null;
+            }
+        }
     };
 
     exports.drag = drag;

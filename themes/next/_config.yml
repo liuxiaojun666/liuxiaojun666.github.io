@@ -371,8 +371,8 @@ changyan:
 # more info please open https://valine.js.org
 valine:
   enable: false
-  appid:  # your leancloud application appid
-  appkey:  # your leancloud application appkey
+  appid: QrQXqH8h3rLUnOfSQsUahbhj-gzGzoHsz # your leancloud application appid
+  appkey: exT4E2hOos79VDDPkQWrMorl # your leancloud application appkey
   notify: false # mail notifier , https://github.com/xCss/Valine/wiki
   verify: false # Verification code
   placeholder: Just go go # comment box placeholder
@@ -800,7 +800,6 @@ vendors:
 css: css
 js: js
 images: images
-demo: demo
 
 # Theme version
 version: 5.1.3
