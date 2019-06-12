@@ -29,8 +29,7 @@ window.onload = function () {
     });
 };
 ```
-{% link 示例 http://liuxiaojun.win/demo/20181026/ true 查看示例 %}
-
+[查看示例](/demo/20181026/ "查看示例")
 
 {% iframe /demo/20181026/ 700 400 %}
 
