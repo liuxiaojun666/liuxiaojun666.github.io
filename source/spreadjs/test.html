@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="css/gc.spread.sheets.excel2013white.11.0.0.css" title="spread-theme" />
+    <script type="text/javascript" src="scripts/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript" src="scripts/gc.spread.sheets.all.11.0.0.min.js"></script>
+    <script type="text/javascript" src="scripts/FileSaver.min.js"></script>
+    <script type="text/javascript" src="scripts/gc.spread.excelio.11.0.0.min.js"></script>
+    <script type="text/javascript" src="scripts/gc.spread.sheets.charts.11.0.0.min.js"></script>
+    <script type="text/javascript" src="scripts/gc.spread.sheets.print.11.0.0.min.js"></script>
+
+    <!-- <script type="text/javascript" src="scripts/resources.js"></script> -->
+
+
+</head>
+
+<body>
+    <input type="file" name="" id="doImport">
+    <input type="button" value="导出" id="doExport">
+    <input type="button" value="打印" id="doPrint">
+    <input type="button" value="复制表格" id="doCopy">
+    <input type="button" value="标记为已完成" id="doFinish">
+    <div style="height: 600px;" id="ss" class="sample-spreadsheets"></div>
+    <div style="height: 600px;" id="ss2" class="sample-spreadsheets"></div>
+</body>
+
+<script>
+    window.onload = function () {
+        var spreadNS = GC.Spread.Sheets;
+        var DataValidation = spreadNS.DataValidation;
+        var ConditionalFormatting = spreadNS.ConditionalFormatting;
+        var ComparisonOperators = ConditionalFormatting.ComparisonOperators;
+        var Calc = GC.Spread.CalcEngine;
+        var ExpressionType = Calc.ExpressionType;
+        var SheetsCalc = spreadNS.CalcEngine;
+        var Sparklines = spreadNS.Sparklines;
+        var isSafari = (function () {
+            var tem, M = navigator.userAgent.match(/(opera|chrome|safari|firefox|msie|trident(?=\/))\/?\s*(\d+)/i) || [];
+            if (!/trident/i.test(M[1]) && M[1] !== 'Chrome') {
+                M = M[2] ? [M[1], M[2]] : [navigator.appName, navigator.appVersion, '-?'];
+                if ((tem = navigator.userAgent.match(/version\/(\d+)/i)) != null) M.splice(1, 1, tem[1]);
+                return M[0].toLowerCase() === "safari";
+            }
+            return false;
+        })();
+        var isIE = navigator.userAgent.toLowerCase().indexOf('compatible') < 0 && /(trident)(?:.*? rv ([\w.]+)|)/.exec(navigator.userAgent.toLowerCase()) !== null;
+        var DOWNLOAD_DIALOG_WIDTH = 300;
+
+        var spread, excelIO;
+        var tableIndex = 1, pictureIndex = 1;
+        // var fbx, isShiftKey = false;
+        var resourceMap = {},
+            conditionalFormatTexts = {};
+        var mergable = false, unmergable = false;
+        var isFirstChart = true;
+        var showValue = false;
+        var showSeriesName = false;
+        var showCategoryName = false;
+
+        spread = new spreadNS.Workbook(document.getElementById('ss'), { tabStripRatio: 0.88 });
+        spread.options.useTouchLayout = true;
+        excelIO = new GC.Spread.Excel.IO();
+
+        // 导入 Excel
+        document.getElementById('doImport').addEventListener('change', function (e) {
+            excelIO.open(e.currentTarget.files[0], function (spreadJson) {
+                if (spreadJson.version && spreadJson.sheets) {
+                    spread.unbindAll();
+                    spread.fromJSON(spreadJson);
+                    spread.focus();
+                } else {
+                    alert('无效的文件');
+                }
+            }, function (e) {
+                // process error
+                console.log(e);
+            });
+        });
+
+        // 导出 Excel
+        document.getElementById('doExport').addEventListener('click', function () {
+            var json = spread.toJSON({ includeBindingSource: true });
+            excelIO.save(json, function (blob) {
+                if (isSafari) {
+                    var reader = new FileReader();
+                    reader.onloadend = function () {
+                        // showModal(uiResource.toolBar.downloadTitle, DOWNLOAD_DIALOG_WIDTH, $("#downloadDialog").children(), function () {
+                        //     $("#downloadDialog").hide();
+                        // });
+                        // var link = $("#download");
+                        // link[0].href = reader.result;
+                    };
+                    reader.readAsDataURL(blob);
+                } else {
+                    saveAs(blob, 'fileName' + ".xlsx");
+                }
+            }, function (e) {
+                alert(e);
+            });
+        });
+
+        // 打印
+        document.getElementById('doPrint').addEventListener('click', function () {
+            spread.print();
+        });
+
+        // 复制 表格
+        document.getElementById('doCopy').addEventListener('click', function () {
+            var jsonString = JSON.stringify(spread.toJSON());
+            var spread2 = new spreadNS.Workbook(document.getElementById('ss2'));
+            spread2.fromJSON(JSON.parse(jsonString)); 
+        });
+
+        // 标记为已完成
+        document.getElementById('doFinish').addEventListener('click', function () {
+            var sheet = spread.getSheet(0);
+            var picture = sheet.pictures.add("f2", "GTTNIY[EPWE)(UBKBPIW)RO.png", 500, 10, 250, 100);
+        });
+
+    };
+
+
+</script>
+
+</html>
