@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>RTMP测试</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <link rel="stylesheet" href="./video-js-5.19.2/video-js.css"/>
+    <script src="./video-js-5.19.2/video.js"></script>
+</head>
+
+<body >
+
+    <video 
+        id="videojs" 
+        class="video-js vjs-default-skin vjs-big-play-centered" 
+        style="width: 800px; height: 600px;" 
+        controls>
+
+        <source src="rtmp://netest.solway.cn/myapp/3002_1" type="rtmp/mp4"></source>
+    
+    </video>
+    
+    <script>
+        videojs.options.flash.swf = './video-js-5.19.2/video-js-fixed.swf';
+        videojs.options.techOrder = ['flash'];
+        videojs("videojs", { });
+    </script>
+</body>
+
+</html>
