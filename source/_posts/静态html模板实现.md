@@ -5,7 +5,7 @@ tags:
 ---
 
 可读取静态html文件，用字符串的方式插入dom中
-仅适用于纯html模板，模板中script表情内js不会生效，可在回调函数中插入模板同时，创建并插入js外链。
+仅适用于纯html模板，模板中script标签内js不会生效，可在回调函数中插入模板同时，创建并插入js外链。
 
 
 xhr请求，blob类型接收，存储为blob，用FileReader读取blob内容。

@@ -23,11 +23,11 @@ favicon:
   medium: /favicon.ico
   apple_touch_icon: /images/apple-touch-icon-next.png
   safari_pinned_tab: /images/logo.svg
-  android_manifest: /images/manifest.json
+  # android_manifest: /images/manifest.json
   ms_browserconfig: /images/browserconfig.xml
 
 # Set default keywords (Use a comma to separate)
-keywords: "Hexo, NexT"
+keywords: "刘小军, 前端"
 
 # Set rss to false to disable feed link.
 # Leave rss as empty to use site's feed link.
@@ -222,9 +222,9 @@ post_meta:
 # Dependencies: https://github.com/willin/hexo-wordcount
 post_wordcount:
   item_text: true
-  wordcount: false
-  min2read: false
-  totalcount: false
+  wordcount: true #单篇文章字数
+  min2read: true #单篇阅读时长
+  totalcount: true #站点总字数
   separated_meta: true
 
 # Wechat Subscriber
@@ -477,10 +477,10 @@ cnzz_siteid: true
 # Make duoshuo show UA
 # user_id must NOT be null when admin_enable is true!
 # you can visit http://dev.duoshuo.com get duoshuo user id.
-duoshuo_info:
-  ua_enable: true
-  admin_enable: false
-  user_id: 0
+# duoshuo_info:
+#   ua_enable: true
+#   admin_enable: false
+#   user_id: 0
   #admin_nickname: Author
 
 # Post widgets & FB/VK comments settings.
