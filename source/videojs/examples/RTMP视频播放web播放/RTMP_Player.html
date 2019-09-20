@@ -8,17 +8,17 @@
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <link rel="stylesheet" href="./video-js-5.19.2/video-js.css"/>
     <script src="./video-js-5.19.2/video.js"></script>
+    <script src="./jquery-2.2.3.min.js"></script>
 </head>
 
 <body >
-
     <video 
         id="videojs" 
         class="video-js vjs-default-skin vjs-big-play-centered" 
-        style="width: 800px; height: 600px;" 
+        style="width: 800px; height: 20px;" 
         controls>
 
-        <source src="rtmp://netest.solway.cn/myapp/3002_1" type="rtmp/mp4"></source>
+        <source src="rtmp://netest.solway.cn/myapp/3002_2" type="rtmp/mp4"></source>
     
     </video>
     
@@ -28,5 +28,21 @@
         videojs("videojs", { });
     </script>
 </body>
+<script>
+    setInterval(() => {
+        $.ajax({
+            type: 'POST',
+            url: 'http://netest.solway.cn:50125',
+            data: '{"station_id":3002,"stream":[{"name":"四期西北角","source":"rtsp://admin:abcd1234@192.168.1.202:554/h264/ch1/sub/av_stream","dest":"rtmp://netest.solway.cn/myapp/3002_2"}]}: ',
+            beforeSend() { }
+        });
+    }, 30 * 1000);
 
+    $.ajax({
+        type: 'POST',
+        url: 'http://netest.solway.cn:50125',
+        data: '{"station_id":3002,"stream":[{"name":"四期西北角","source":"rtsp://admin:abcd1234@192.168.1.202:554/h264/ch1/sub/av_stream","dest":"rtmp://netest.solway.cn/myapp/3002_2"}]}: ',
+        beforeSend() { }
+    });
+</script>
 </html>

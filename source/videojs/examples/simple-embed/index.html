@@ -16,4 +16,12 @@
 	</video>
 </body>
 
+<script>
+	$.ajax({
+		type: 'POST',
+		url: 'http://netest.solway.cn:50125',
+		data: '{"station_id":3002,"stream":[{"name":"四期西南角","source":"rtsp://admin:abcd1234@192.168.1.201:554/h264/ch1/sub/av_stream","dest":"rtmp://netest.solway.cn/myapp/3002_1"}]}: ',
+		beforeSend() { }
+	});
+</script>
 </html>

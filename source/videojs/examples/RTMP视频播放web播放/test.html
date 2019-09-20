@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>RTMP测试</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <link rel="stylesheet" href="./video-js-5.19.2/video-js.css" />
+    <script src="./video-js-5.19.2/video.js"></script>
+    <script src="./jquery-2.2.3.min.js"></script>
+</head>
+
+<body>
+    <a ng-if="!EnableFlash" href="http://www.adobe.com/go/getflashplayer" rel="nofollow" target="_blank" title="升级Flash插件">
+        请启用或下载flash查看视频监控，点击启用或下载！
+    </a>
+    <video id="videojs" class="video-js vjs-default-skin vjs-big-play-centered" style="width: 300px; height: 300px;"
+        controls>
+        <source id="source" src="rtmp://netest.solway.cn/myapp/3002_2" type="rtmp/mp4">
+        </source>
+    </video>
+    <label>rtmpSource：<input id="rtmpSource" value="rtmp://netest.solway.cn/myapp" style="width: 300px;" type="text"></label>
+    <br>
+    <label>token:<input id="token" type="text" value="300ed7a59cf399b651f641233c6373d752fa0bacaf61cc8fc7575506432694bb08d51aa913aa172e2109441db3e43212" style="width: 360px;"></label>
+    <br>
+    <label>电站id-stid:<input id="stid" type="text" value="4235"></label>
+    <br>
+    <label>设备id-eqid:<input id="eqid" type="text" value="1"></label>
+    <br>
+    <label>ws地址：<input id="ws_src" value="ws://114.112.96.218:50225/video" type="text" style="width: 300px;"></label>
+    <button onclick="openWs();">连接</button>
+    <br>
+    <button onclick="wsSend('up');">上</button>
+    <button onclick="wsSend('dwon');">下</button>
+    <button onclick="wsSend('left');">左</button>
+    <button onclick="wsSend('right');">右</button>
+    <button onclick="wsSend('stop');">停止</button>
+    <button onclick="wsSend('zoom+');">放大</button>
+    <button onclick="wsSend('zomm-');">缩小</button>
+</body>
+<script>
+    videojs.options.flash.swf = './video-js-5.19.2/video-js-fixed.swf';
+    videojs.options.techOrder = ['flash'];
+    var ws, rtmpSource, token, eqid, stid, rtspDistUrl, wsSrc;
+    window.onload = function () {
+        var __dataStr = localStorage.getItem('__data');
+        if (!__dataStr) return;
+        __data = JSON.parse(__dataStr);
+        document.getElementById('token').value = __data.token;
+        document.getElementById('eqid').value = __data.eqid;
+        document.getElementById('stid').value = __data.stid;
+        document.getElementById('rtmpSource').value = __data.rtspDistUrl;
+    };
+    function openWs() {
+        wsSrc = document.getElementById('ws_src').value;
+        var _ws = new WebSocket(wsSrc);
+        _ws.onopen = function () {
+            alert('连接成功');
+            wsSuccess();
+        };
+        _ws.onmessage = function (evt) {
+            alert('error:' + evt.data)
+        };
+        _ws.onclose = function () {
+            alert('连接关闭')
+        };
+        ws = _ws;
+        return _ws;
+    }
+
+    function wsSuccess() {
+        token = document.getElementById('token').value;
+        eqid = document.getElementById('eqid').value;
+        stid = document.getElementById('stid').value;
+        rtspDistUrl = document.getElementById('rtmpSource').value;
+
+        localStorage.setItem('__data', JSON.stringify({
+            wsSrc: wsSrc,
+            eqid: eqid,
+            stid: stid,
+            token: token,
+            rtspDistUrl: rtspDistUrl
+        }));
+
+        rtmpSource = (rtspDistUrl + '/' + stid + '_' + eqid + '?stid=' + stid + '&eqid=' + eqid + '&token=' + encodeURIComponent(token));
+        document.getElementById('source').src = rtmpSource;
+        videojs("videojs", {});
+        wsSend('getvideo');
+    }
+
+    function wsSend(event) {
+        ws.send(JSON.stringify({ eqid: +eqid, stid: +stid, token: token, cmd: event }));
+    }
+    
+    setInterval(function () {
+        ws && wsSend('getvideo');
+    }, 30 * 1000);
+</script>
+
+</html>
