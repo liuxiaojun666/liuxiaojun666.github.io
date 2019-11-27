@@ -31,6 +31,7 @@ skip_render:
   - 'spreadjs/**'
   - 'videojs/**'
   - 'TTS/**'
+  - 'form-json-create/**'
 
 # Writing
 new_post_name: :title.md # File name of new posts
