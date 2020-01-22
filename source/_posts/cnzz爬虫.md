@@ -14,9 +14,9 @@ npm install -g phantomjs
 # 3.安装casperjs
 npm install -g casperjs
 
-$ phantomjs --version
-$ python --version
-$ casperjs --version
+phantomjs --version
+python --version
+casperjs --version
 ```
 
 创建js文件  start.js
