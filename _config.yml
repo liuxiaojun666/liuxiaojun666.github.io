@@ -30,7 +30,6 @@ skip_render:
   - 'demo/**'
   - 'spreadjs/**'
   - 'videojs/**'
-  - 'TTS/**'
   - 'form-json-create/**'
 
 # Writing
