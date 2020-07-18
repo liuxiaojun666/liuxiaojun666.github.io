@@ -85,6 +85,10 @@ pagination_dir: page
 ## Themes: https://hexo.io/themes/
 theme: next
 
+# 解决白屏问题
+server:
+  compress: true
+
 
 # Deployment
 ## Docs: https://hexo.io/docs/deployment.html
