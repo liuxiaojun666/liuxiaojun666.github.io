@@ -254,7 +254,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://liuxiaojun.win/2019/01/16/静态html模板实现/">
+    <link itemprop="mainEntityOfPage" href="http://liuxiaojun.win/2019/07/10/畅言去广告/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="刘小军">
@@ -273,7 +273,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/01/16/静态html模板实现/" itemprop="url">静态Html模板实现</a></h1>
+                <a class="post-title-link" href="/2019/07/10/畅言去广告/" itemprop="url">畅言去广告</a></h1>
         
 
         <div class="post-meta">
@@ -285,8 +285,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-01-16T16:10:22+08:00">
-                2019-01-16
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-07-10T10:53:18+08:00">
+                2019-07-10
               </time>
             
 
@@ -304,8 +304,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2019/01/16/静态html模板实现/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2019/01/16/静态html模板实现/" itemprop="commentCount"></span>
+                <a href="/2019/07/10/畅言去广告/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/07/10/畅言去广告/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -327,7 +327,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  208
+                  126
                 </span>
               
 
@@ -366,9 +366,8 @@
       
         
           
-            <p>可读取静态html文件，用字符串的方式插入dom中<br>仅适用于纯html模板，模板中script标签内js不会生效，可在回调函数中插入模板同时，创建并插入js外链。</p>
-<p>xhr请求，blob类型接收，存储为blob，用FileReader读取blob内容。</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">(<span class="function"><span class="keyword">function</span> (<span class="params">global, factory</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">typeof</span> exports === <span class="string">'object'</span> &amp;&amp; <span class="keyword">typeof</span> <span class="built_in">module</span> !== <span class="string">'undefined'</span> ? factory(exports) :</span><br><span class="line">        <span class="keyword">typeof</span> define === <span class="string">'function'</span> &amp;&amp; define.amd ? define([<span class="string">'exports'</span>], factory) :</span><br><span class="line">            (factory((global.$solway = global.$solway || &#123;&#125;)));</span><br><span class="line">&#125;(<span class="built_in">window</span>, (<span class="function">(<span class="params">exports</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> download = <span class="function">(<span class="params">url, callback = (</span>) =&gt;</span> &#123;&#125;) =&gt; &#123;</span><br><span class="line">        <span class="keyword">const</span> oReq = <span class="keyword">new</span> XMLHttpRequest();</span><br><span class="line">        oReq.open(<span class="string">"GET"</span>, url, <span class="literal">true</span>);</span><br><span class="line">        oReq.responseType = <span class="string">"blob"</span>;</span><br><span class="line">        oReq.onload = <span class="function"><span class="keyword">function</span> (<span class="params">oEvent</span>) </span>&#123;</span><br><span class="line">            <span class="keyword">if</span> (oReq.response.size === <span class="number">0</span> || oReq.status === <span class="number">404</span>) &#123;</span><br><span class="line">                <span class="keyword">if</span> (confirm(<span class="string">' 文件为空或不存在，确定继续执行吗？'</span>)) __fun();</span><br><span class="line">                <span class="keyword">return</span> callback();</span><br><span class="line">            &#125; <span class="keyword">else</span> __fun();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">            <span class="function"><span class="keyword">function</span> <span class="title">__fun</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">                <span class="keyword">const</span> _blob = <span class="keyword">new</span> Blob([oReq.response]);</span><br><span class="line">                <span class="keyword">const</span> reader = <span class="keyword">new</span> FileReader();</span><br><span class="line">                reader.onload = <span class="function"><span class="keyword">function</span> (<span class="params">event</span>) </span>&#123;</span><br><span class="line">                    <span class="keyword">const</span> content = reader.result;</span><br><span class="line">                    callback(content);</span><br><span class="line">                &#125;;</span><br><span class="line">                reader.readAsText(_blob);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;;</span><br><span class="line">        oReq.send();</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    exports.getFileStr = download;</span><br><span class="line">&#125;)));</span><br></pre></td></tr></table></figure>
+            <h2 id="不用看了，现在不管用了，又换套路了，不用这么麻烦，-现在display-none-就可以解决"><a href="#不用看了，现在不管用了，又换套路了，不用这么麻烦，-现在display-none-就可以解决" class="headerlink" title="不用看了，现在不管用了，又换套路了，不用这么麻烦，  现在display:none;就可以解决"></a>不用看了，现在不管用了，又换套路了，不用这么麻烦，  现在display:none;就可以解决</h2><p>添加以下代码 到changyan.js 之前<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> style = <span class="built_in">document</span>.createElement(<span class="string">'style'</span>);</span><br><span class="line">    style.type = <span class="string">'text/css'</span>;</span><br><span class="line">    style.innerHTML = <span class="string">'#pop_ad&#123; display: none !important; &#125;'</span>;</span><br><span class="line">    <span class="built_in">document</span>.getElementsByTagName(<span class="string">'HEAD'</span>).item(<span class="number">0</span>).appendChild(style);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">var</span> __observe = <span class="built_in">window</span>.MutationObserver.prototype.observe;</span><br><span class="line">    <span class="built_in">window</span>.MutationObserver.prototype.observe = <span class="function"><span class="keyword">function</span> (<span class="params">target, options</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (target.id !== <span class="string">"cy-cmt-list"</span>) <span class="keyword">return</span> __observe();</span><br><span class="line">        <span class="keyword">return</span> setTimeout(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">            <span class="built_in">document</span>.getElementById(<span class="string">'feedAv'</span>).style.cssText = <span class="string">'display: none !important'</span>;</span><br><span class="line">        &#125;, <span class="number">0</span>);</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;());</span><br></pre></td></tr></table></figure></p>
+<p>本地调试方法，修改host文件为域名白名单的域名。</p>
 
           
         
@@ -408,7 +407,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/9/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><span class="page-number current">10</span><a class="page-number" href="/page/11/">11</a><span class="space">&hellip;</span><a class="page-number" href="/page/23/">23</a><a class="extend next" rel="next" href="/page/11/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/page/9/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><span class="page-number current">10</span><a class="page-number" href="/page/11/">11</a><span class="space">&hellip;</span><a class="page-number" href="/page/24/">24</a><a class="extend next" rel="next" href="/page/11/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -454,7 +453,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">23</span>
+                  <span class="site-state-item-count">24</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -520,7 +519,7 @@
     
       <span class="post-meta-item-text">Site words total count&#58;</span>
     
-    <span title="Site words total count">14.8k</span>
+    <span title="Site words total count">16.6k</span>
   
 </div>
 
