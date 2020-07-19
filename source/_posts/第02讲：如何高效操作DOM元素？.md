@@ -1,7 +1,7 @@
 ---
 title: 如何高效操作DOM元素？
 date: 2020-07-18 20:39:27
-tags:
+tags: 前端,DOM,javascript,DOM事件,DOM节点
 ---
 
 #### 什么是 DOM
@@ -113,7 +113,6 @@ console.timeEnd('batch') // 0.846923828125ms
 先将 1 万个 div 元素的 html 字符串拼接成一个完整字符串，然后赋值给 body 元素的 innerHTML 属性就可以明显减少耗时。
 
 ``` html
-<!-- markdown 神奇的操作，在这里直接用 js怎么也渲染不出来，只好改用html script标签 -->
 <script>
 const times = 10000
 console.time('createElement')
