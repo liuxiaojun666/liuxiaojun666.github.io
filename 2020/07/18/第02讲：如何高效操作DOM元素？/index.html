@@ -70,7 +70,7 @@
 
 
 
-  <meta name="keywords" content="刘小军, 前端">
+  <meta name="keywords" content="前端,DOM,javascript,DOM事件,DOM节点,">
 
 
 
@@ -82,13 +82,14 @@
 
 
 <meta name="description" content="什么是 DOMDOM（Document Object Model，文档对象模型）是 JavaScript 操作 HTML 的接口（这里只讨论属于前端范畴的 HTML DOM） 借助DOM实现比如 动态渲染列表、表格表单数据； 监听点击、提交事件； 懒加载一些脚本或样式文件； 实现动态展开树组件，表单组件级联等这类复杂的操作。  DOM V3 标准 归纳起来常用的主要由 3 个部分组成 DOM 节点">
+<meta name="keywords" content="前端,DOM,javascript,DOM事件,DOM节点">
 <meta property="og:type" content="article">
 <meta property="og:title" content="如何高效操作DOM元素？">
 <meta property="og:url" content="http://liuxiaojun.win/2020/07/18/第02讲：如何高效操作DOM元素？/index.html">
 <meta property="og:site_name" content="刘小军的博客">
 <meta property="og:description" content="什么是 DOMDOM（Document Object Model，文档对象模型）是 JavaScript 操作 HTML 的接口（这里只讨论属于前端范畴的 HTML DOM） 借助DOM实现比如 动态渲染列表、表格表单数据； 监听点击、提交事件； 懒加载一些脚本或样式文件； 实现动态展开树组件，表单组件级联等这类复杂的操作。  DOM V3 标准 归纳起来常用的主要由 3 个部分组成 DOM 节点">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2020-07-18T15:43:34.839Z">
+<meta property="og:updated_time" content="2020-07-19T04:25:40.673Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="如何高效操作DOM元素？">
 <meta name="twitter:description" content="什么是 DOMDOM（Document Object Model，文档对象模型）是 JavaScript 操作 HTML 的接口（这里只讨论属于前端范畴的 HTML DOM） 借助DOM实现比如 动态渲染列表、表格表单数据； 监听点击、提交事件； 懒加载一些脚本或样式文件； 实现动态展开树组件，表单组件级联等这类复杂的操作。  DOM V3 标准 归纳起来常用的主要由 3 个部分组成 DOM 节点">
@@ -427,7 +428,7 @@
 <li><a href="#批量修改元素属性样式">批量修改元素属性样式</a></li>
 </ul>
 <h6 id="批量创建元素"><a href="#批量创建元素" class="headerlink" title="批量创建元素"></a><a id="批量创建元素">批量创建元素</a></h6><p>先将 1 万个 div 元素的 html 字符串拼接成一个完整字符串，然后赋值给 body 元素的 innerHTML 属性就可以明显减少耗时。</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- markdown 神奇的操作，在这里直接用 js怎么也渲染不出来，只好改用html script标签 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="javascript"><span class="keyword">const</span> times = <span class="number">10000</span></span></span><br><span class="line"><span class="javascript"><span class="built_in">console</span>.time(<span class="string">'createElement'</span>)</span></span><br><span class="line"><span class="javascript"><span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; times; i++) &#123;</span></span><br><span class="line"><span class="javascript">  <span class="keyword">const</span> div = <span class="built_in">document</span>.createElement(<span class="string">'div'</span>)</span></span><br><span class="line"><span class="javascript">  <span class="built_in">document</span>.body.appendChild(div)</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="javascript"><span class="built_in">console</span>.timeEnd(<span class="string">'createElement'</span>) <span class="comment">// 54.964111328125ms</span></span></span><br><span class="line"><span class="javascript"><span class="built_in">console</span>.time(<span class="string">'innerHTML'</span>)</span></span><br><span class="line"><span class="javascript"><span class="keyword">let</span> html=<span class="string">''</span></span></span><br><span class="line"><span class="javascript"><span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; times; i++) &#123;</span></span><br><span class="line"><span class="xml">  html+='<span class="tag">&lt;<span class="name">div</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span>'</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="javascript"><span class="built_in">document</span>.body.innerHTML += html <span class="comment">// 31.919921875ms</span></span></span><br><span class="line"><span class="javascript"><span class="built_in">console</span>.timeEnd(<span class="string">'innerHTML'</span>)</span></span><br><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">script</span>/&gt;</span></span></span><br></pre></td></tr></table></figure>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="javascript"><span class="keyword">const</span> times = <span class="number">10000</span></span></span><br><span class="line"><span class="javascript"><span class="built_in">console</span>.time(<span class="string">'createElement'</span>)</span></span><br><span class="line"><span class="javascript"><span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; times; i++) &#123;</span></span><br><span class="line"><span class="javascript">  <span class="keyword">const</span> div = <span class="built_in">document</span>.createElement(<span class="string">'div'</span>)</span></span><br><span class="line"><span class="javascript">  <span class="built_in">document</span>.body.appendChild(div)</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="javascript"><span class="built_in">console</span>.timeEnd(<span class="string">'createElement'</span>) <span class="comment">// 54.964111328125ms</span></span></span><br><span class="line"><span class="javascript"><span class="built_in">console</span>.time(<span class="string">'innerHTML'</span>)</span></span><br><span class="line"><span class="javascript"><span class="keyword">let</span> html=<span class="string">''</span></span></span><br><span class="line"><span class="javascript"><span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; times; i++) &#123;</span></span><br><span class="line"><span class="xml">  html+='<span class="tag">&lt;<span class="name">div</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span>'</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="javascript"><span class="built_in">document</span>.body.innerHTML += html <span class="comment">// 31.919921875ms</span></span></span><br><span class="line"><span class="javascript"><span class="built_in">console</span>.timeEnd(<span class="string">'innerHTML'</span>)</span></span><br><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">script</span>/&gt;</span></span></span><br></pre></td></tr></table></figure>
 <p>在此基础上实现事件监听就会略微麻烦，只能通过事件代理或者重新选取元素再进行单独绑定</p>
 <h6 id="批量修改元素属性样式"><a href="#批量修改元素属性样式" class="headerlink" title="批量修改元素属性样式"></a><a id="批量修改元素属性样式">批量修改元素属性样式</a></h6><p>创建 2 万个 div 元素，以单节点树结构进行排布，每个元素有一个对应的序号作为文本内容。现在通过 style 属性对第 1 个 div 元素进行 2 万次样式调整。下面是直接操作 style 属性的代码：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> times = <span class="number">20000</span>;</span><br><span class="line"><span class="keyword">let</span> html = <span class="string">''</span></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; times; i++) &#123;</span><br><span class="line">  html = <span class="string">`&lt;div&gt;<span class="subst">$&#123;i&#125;</span><span class="subst">$&#123;html&#125;</span>&lt;/div&gt;`</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">document</span>.body.innerHTML += html</span><br><span class="line"><span class="keyword">const</span> div = <span class="built_in">document</span>.querySelector(<span class="string">'div'</span>)</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; times; i++) &#123;</span><br><span class="line">  div.style.fontSize = (i % <span class="number">12</span>) + <span class="number">12</span> + <span class="string">'px'</span></span><br><span class="line">  div.style.color = i % <span class="number">2</span> ? <span class="string">'red'</span> : <span class="string">'green'</span></span><br><span class="line">  div.style.margin = (i % <span class="number">12</span>) + <span class="number">12</span> + <span class="string">'px'</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>如果将需要修改的样式属性放入 JavaScript 数组，然后对这些修改进行 reduce 操作，得到最终需要的样式之后再设置元素属性，那么性能会提升很多。代码如下</p>
@@ -485,6 +486,12 @@
 
     <footer class="post-footer">
       
+        <div class="post-tags">
+          
+            <a href="/tags/前端-DOM-javascript-DOM事件-DOM节点/" rel="tag"># 前端,DOM,javascript,DOM事件,DOM节点</a>
+          
+        </div>
+      
 
       
       
@@ -503,6 +510,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/07/19/前端模块化演进过程/" rel="prev" title="前端模块化演进过程">
+                前端模块化演进过程 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -582,7 +593,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">24</span>
+                  <span class="site-state-item-count">26</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -595,7 +606,7 @@
               
               <div class="site-state-item site-state-tags">
                 
-                  <span class="site-state-item-count">15</span>
+                  <span class="site-state-item-count">18</span>
                   <span class="site-state-item-name">标签</span>
                 
               </div>
@@ -664,7 +675,7 @@
     
       <span class="post-meta-item-text">Site words total count&#58;</span>
     
-    <span title="Site words total count">16.6k</span>
+    <span title="Site words total count">18.3k</span>
   
 </div>
 
