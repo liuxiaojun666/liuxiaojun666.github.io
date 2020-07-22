@@ -123,6 +123,148 @@ module.exports = source => {
 }
 ```
 
+#### webpack插件机制
+应用场景
+- 实现自动在打包之前清除 dist 目录（上次的打包结果）；
+- 自动生成应用所需要的 HTML 文件；
+- 根据不同环境为代码注入类似 API 地址这种可能变化的部分；
+- 拷贝不需要参与打包的资源文件到输出目录；
+- 压缩 Webpack 打包完成后输出的文件；
+- 自动发布打包结果到服务器实现自动部署。
+
+#### 开发一个插件
+
+自动清除 Webpack 打包结果中的注释
+``` js
+// ./remove-comments-plugin.js
+class RemoveCommentsPlugin {
+  apply (compiler) {
+    compiler.hooks.emit.tap('RemoveCommentsPlugin', compilation => {
+      // compilation => 可以理解为此次打包的上下文
+      for (const name in compilation.assets) {
+        if (name.endsWith('.js')) {
+          const contents = compilation.assets[name].source()
+          const noComments = contents.replace(/\/\*{2,}\/\s?/g, '')
+          compilation.assets[name] = {
+            source: () => noComments,
+            size: () => noComments.length
+          }
+        }
+      }
+    })
+  }
+}
+
+```
+
+#### webpack 工作过程关键环节
+1. Webpack CLI 启动打包流程；
+1. 载入 Webpack 核心模块，创建 Compiler 对象；
+1. 使用 Compiler 对象开始编译整个项目；
+1. 从入口文件开始，解析模块依赖，形成依赖关系树；
+1. 递归依赖树，将每个模块交给对应的 Loader 处理；
+1. 合并 Loader 处理完的结果，将打包结果输出到 dist 目录。
+
+#### Source Map
+Source Map 不同模块对比表
+![Source Map 不同模块对比表](https://s0.lgstatic.com/i/image/M00/07/35/Ciqc1F65B2aAGTvVAANPGIkqtEY706.png)
+开发环境下建议选择 cheap-module-eval-source-map
+生产环境下建议选择 none  或者  nosources-source-map
+
+
+#### 模块热替换
+开启 HMR（Hot Module Replacement）
+1. 首先需要将 devServer 对象中的 hot 属性设置为 true；
+1. 然后需要载入一个插件，这个插件是 webpack 内置的一个插件，所以我们先导入 webpack 模块，有了这个模块过后，这里使用的是一个叫作 HotModuleReplacementPlugin 的插件
+``` js
+// ./webpack.config.js
+const webpack = require('webpack')
+
+module.exports = {
+  // ...
+  devServer: {
+    // 开启 HMR 特性，如果资源不支持 HMR 会 fallback 到 live reloading
+    hot: true
+    // 只使用 HMR，不会 fallback 到 live reloading
+    // hotOnly: true
+  },
+  plugins: [
+    // ...
+    // HMR 特性所需要的插件
+    new webpack.HotModuleReplacementPlugin()
+  ]
+}
+```
+JS 模块热替换 并保持状态
+``` js
+// ./main.js
+import createEditor from './editor'
+
+const editor = createEditor()
+document.body.appendChild(editor)
+
+// ... 原本的业务代码
+
+// HMR --------------------------------
+let lastEditor = editor
+module.hot.accept('./editor', () => {
+  // 当 editor.js 更新，自动执行此函数
+  // 临时记录更新前编辑器内容
+  const value = lastEditor.innerHTML
+  // 移除更新前的元素
+  document.body.removeChild(lastEditor)
+  // 创建新的编辑器
+  // 此时 createEditor 已经是更新过后的函数了
+  lastEditor = createEditor()
+  // 还原编辑器内容
+  lastEditor.innerHTML = value
+  // 追加到页面
+  document.body.appendChild(lastEditor)
+})
+
+```
+图片热替换
+``` js
+// ./src/main.js
+import logo from './icon.png'
+// ... 其他代码
+module.hot.accept('./icon.png', () => {
+  // 当 icon.png 更新后执行
+  // 重写设置 src 会触发图片元素重新加载，从而局部更新图片
+  img.src = logo
+})
+
+```
+热替换只使用 HMR，不 fallback 到 live reloading 配置
+``` js
+// ./webpack.config.js
+const webpack = require('webpack')
+
+module.exports = {
+  // ...
+  devServer: {
+    // 只使用 HMR，不会 fallback 到 live reloading
+    hotOnly: true
+  },
+  plugins: [
+    // ...
+    // HMR 特性所需要的插件
+    new webpack.HotModuleReplacementPlugin()
+  ]
+}
+
+```
+未开启HMR兼容处理
+``` js
+// HMR -----------------------------------
+if (module.hot) { // 确保有 HMR API 对象
+  module.hot.accept('./editor', () => {
+    // ...
+  })
+}
+
+```
+
 
 ------------------------------------
 
