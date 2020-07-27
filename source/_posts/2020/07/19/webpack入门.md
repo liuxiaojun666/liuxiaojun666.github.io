@@ -265,6 +265,377 @@ if (module.hot) { // 确保有 HMR API 对象
 
 ```
 
+#### Tree Shaking
+
+``` js
+// ./webpack.config.js
+module.exports = {
+  // ... 其他配置项
+  optimization: {
+    // 模块只导出被使用的成员
+    usedExports: true,
+    // 压缩输出结果
+    minimize: true
+  }
+}
+```
+- usedExports - 打包结果中只导出外部用到的成员；
+- minimize - 压缩打包结果。
+
+
+- usedExports 的作用就是标记树上哪些是枯树枝、枯树叶
+- minimize 的作用就是负责把枯树枝、枯树叶摇下来。
+
+Tree-shaking 实现的前提是 ES Modules，也就是说：最终交给 Webpack 打包的代码，必须是使用 ES Modules 的方式来组织的模块化。
+
+经过 babel-loader  Tree-shaking babel 失效？
+``` js
+// ./webpack.config.js
+module.exports = {
+  mode: 'none',
+  entry: './src/main.js',
+  output: {
+    filename: 'bundle.js'
+  },
+  module: {
+    rules: [
+      {
+        test: /\.js$/,
+        use: {
+          loader: 'babel-loader',
+          options: {
+            presets: [
+              // modules 属性设置为 false，确保不会转换 ES Modules
+              ['@babel/preset-env', { modules: false }]
+            ]
+          }
+        }
+      }
+    ]
+  },
+  optimization: {
+    usedExports: true
+  }
+}
+
+```
+
+#### 合并模块（扩展）
+普通打包只是将一个模块最终放入一个单独的函数中，如果我们的模块很多，就意味着在输出结果中会有很多的模块函数。
+
+concatenateModules 配置的作用就是尽可能将所有模块合并到一起输出到一个函数中，这样既提升了运行效率，又减少了代码的体积。
+``` js
+// ./webpack.config.js
+module.exports = {
+  // ... 其他配置项
+  optimization: {
+    // 模块只导出被使用的成员
+    usedExports: true,
+    // 尽可能合并每一个模块到一个函数中
+    concatenateModules: true,
+    // 压缩输出结果
+    minimize: false
+  }
+}
+```
+
+#### sideEffects
+Tree-shaking 只能移除没有用到的代码成员，而想要完整移除没有用到的模块，那就需要开启 sideEffects 特性了。
+
+Webpack 4 中新增了一个 sideEffects 特性，它允许我们通过配置标识我们的代码是否有副作用，从而提供更大的压缩空间。
+
+``` js
+// ./src/components/index.js
+export { default as Button } from './button'
+export { default as Link } from './link'
+export { default as Heading } from './heading'
+
+```
+开启sideEffects 
+``` js
+// ./webpack.config.js
+module.exports = {
+  mode: 'none',
+  entry: './src/main.js',
+  output: {
+    filename: 'bundle.js'
+  },
+  optimization: {
+    sideEffects: true
+  }
+}
+```
+那此时 Webpack 在打包某个模块之前，会先检查这个模块所属的 package.json 中的 sideEffects 标识
+``` js
+{
+  "name": "09-side-effects",
+  "version": "0.1.0",
+  "author": "zce <w@zce.me> (https://zce.me)",
+  "license": "MIT",
+  "scripts": {
+    "build": "webpack"
+  },
+  "devDependencies": {
+    "webpack": "^4.43.0",
+    "webpack-cli": "^3.3.11"
+  },
+// 这样就表示我们这个项目中的所有代码都没有副作用，让 Webpack 放心大胆地去“干”
+  "sideEffects": false
+}
+```
+保留副作用代码文件
+``` js
+{
+  "name": "09-side-effects",
+  "version": "0.1.0",
+  "author": "zce <w@zce.me> (https://zce.me)",
+  "license": "MIT",
+  "scripts": {
+    "build": "webpack"
+  },
+  "devDependencies": {
+    "webpack": "^4.43.0",
+    "webpack-cli": "^3.3.11"
+  },
+  // 标识需要保留副作用的模块路径（可以使用通配符）
+  "sideEffects": [
+    "./src/extend.js",
+    "*.css"
+  ]
+}
+
+```
+sideEffects 注意
+``` js
+// ./src/extend.js
+// 为 Number 的原型添加一个扩展方法
+Number.prototype.pad = function (size) {
+  const leadingZeros = Array(size + 1).join(0)
+  return leadingZeros + this
+}
+
+```
+这里为 Number 类型做扩展的操作就是 extend 模块对全局产生的副作用。
+
+
+#### Code Splitting（分块打包）
+Webpack 实现分包的方式主要有两种：
+
+- 根据业务不同配置多个打包入口，输出多个打包结果；
+- 结合 ES Modules 的动态导入（Dynamic Imports）特性，按需加载模块。
+
+
+ ##### 多入口打包
+ ``` js
+// ./webpack.config.js
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+module.exports = {
+  entry: {
+    index: './src/index.js',
+    album: './src/album.js'
+  },
+  output: {
+    filename: '[name].bundle.js' // [name] 是入口名称
+  },
+  optimization: {
+    splitChunks: {
+      // 自动提取所有公共模块到单独 bundle
+      chunks: 'all'
+    }
+  }
+  // ... 其他配置
+  plugins: [
+    new HtmlWebpackPlugin({
+      title: 'Multi Entry',
+      template: './src/index.html',
+      filename: 'index.html',
+      chunks: ['index'] // 指定使用 index.bundle.js
+    }),
+    new HtmlWebpackPlugin({
+      title: 'Multi Entry',
+      template: './src/album.html',
+      filename: 'album.html',
+      chunks: ['album'] // 指定使用 album.bundle.js
+    })
+  ]
+}
+
+ ```
+
+ ##### 动态导入
+
+ ``` js
+// ./src/index.js
+// import posts from './posts/posts'
+// import album from './album/album'
+const update = () => {
+  const hash = window.location.hash || '#posts'
+  const mainElement = document.querySelector('.main')
+  mainElement.innerHTML = ''
+  if (hash === '#posts') {
+    // mainElement.appendChild(posts())
+    import('./posts/posts').then(({ default: posts }) => {
+      mainElement.appendChild(posts())
+    })
+  } else if (hash === '#album') {
+    // mainElement.appendChild(album())
+    import('./album/album').then(({ default: album }) => {
+      mainElement.appendChild(album())
+    })
+  }
+}
+window.addEventListener('hashchange', update)
+update()
+
+ ```
+
+ > P.S. 为了动态导入模块，可以将 import 关键字作为函数调用。当以这种方式使用时，import 函数返回一个 Promise 对象。这就是 ES Modules 标准中的 [Dynamic Imports](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import#Dynamic_Imports)。
+
+
+ 整个过程我们无需额外配置任何地方，只需要按照 ES Modules 动态导入的方式去导入模块就可以了，Webpack 内部会自动处理分包和按需加载。
+
+
+##### 魔法注释
+
+在 import 函数的形式参数位置，添加一个行内注释，这个注释有一个特定的格式：webpackChunkName: ''，这样就可以给分包的 chunk 起名字了
+``` js
+// 魔法注释
+import(/* webpackChunkName: 'posts' */'./posts/posts')
+  .then(({ default: posts }) => {
+    mainElement.appendChild(posts())
+  })
+
+```
+如果你的 chunkName 相同的话，那相同的 chunkName 最终就会被打包到一起，例如我们这里可以把这两个 chunkName 都设置为 components，然后再次运行打包，那此时这两个模块都会被打包到一个文件中
+
+
+#### 不同环境下的配置
+
+我们先为不同的工作环境创建不同的 Webpack 配置。创建不同环境配置的方式主要有两种：
+
+- 在配置文件中添加相应的判断条件，根据环境不同导出不同配置。
+- 为不同环境单独添加一个配置文件，一个环境对应一个配置文件。
+
+
+根据环境不同导出不同配置
+``` js
+// ./webpack.config.js
+module.exports = (env, argv) => {
+  const config = {
+    // ... 不同模式下的公共配置
+  }
+  
+  if (env === 'development') {
+    // 为 config 添加开发模式下的特殊配置
+    config.mode = 'development'
+    config.devtool = 'cheap-eval-module-source-map'
+  } else if (env === 'production') {
+    // 为 config 添加生产模式下的特殊配置
+    config.mode = 'production'
+    config.devtool = 'nosources-source-map'
+  }
+  
+  return config
+}
+```
+
+安装
+```  bash
+$ npm i webpack-merge --save-dev 
+# or yarn add webpack-merge --dev
+```
+
+不同环境的配置文件
+``` js
+// ./webpack.common.js
+module.exports = {
+  // ... 公共配置
+}
+// ./webpack.prod.js
+const merge = require('webpack-merge')
+const common = require('./webpack.common')
+module.exports = merge(common, {
+  // 生产模式配置
+})
+// ./webpack.dev.jss
+const merge = require('webpack-merge')
+const common = require('./webpack.common')
+module.exports = merge(common, {
+  // 开发模式配置
+})
+```
+
+
+#### 生产模式下的优化插件
+
+##### Define Plugin
+``` js
+// ./webpack.config.js
+const webpack = require('webpack')
+module.exports = {
+  // ... 其他配置
+  plugins: [
+    new webpack.DefinePlugin({
+      // 值要求的是一个代码片段
+      API_BASE_URL: '"https://api.example.com"'
+    })
+  ]
+}
+```
+
+``` js
+// ./src/main.js
+console.log(API_BASE_URL)
+
+```
+![](https://s0.lgstatic.com/i/image/M00/10/F5/CgqCHl7LaH-AMPKrAADQsK6wHzM717.png)
+
+
+##### Mini CSS Extract Plugin
+
+``` js
+// ./webpack.config.js
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+const OptimizeCssAssetsWebpackPlugin = require('optimize-css-assets-webpack-plugin')
+const TerserWebpackPlugin = require('terser-webpack-plugin')
+module.exports = {
+  mode: 'none',
+  entry: {
+    main: './src/index.js'
+  },
+  output: {
+    filename: '[name].bundle.js'
+  },
+  optimization: {
+    minimizer: [
+      // Webpack 认为我们需要使用自定义压缩器插件，那内部的 JS 压缩器就会被覆盖掉。我们必须手动再添加回来
+      // 内置的 JS 压缩插件叫作 terser-webpack-plugin
+      new TerserWebpackPlugin(),
+      // 用这个插件来压缩我们的样式文件。
+      new OptimizeCssAssetsWebpackPlugin()
+    ]
+  },
+  module: {
+    rules: [
+      {
+        test: /\.css$/,
+        use: [
+          // 使用 MiniCssExtractPlugin 中提供的 loader 去替换掉 style-loader，以此来捕获到所有的样式
+          // 'style-loader', // 将样式通过 style 标签注入
+          MiniCssExtractPlugin.loader,
+          'css-loader'
+        ]
+      }
+    ]
+  },
+  plugins: [
+    // 将 CSS 代码从打包结果中提取出来的插件
+    new MiniCssExtractPlugin()
+  ]
+}
+```
+
+
 
 ------------------------------------
 
