@@ -254,7 +254,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://liuxiaojun.win/2019/11/29/技术分享/">
+    <link itemprop="mainEntityOfPage" href="http://liuxiaojun.win/2020/01/22/json转csv/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="刘小军">
@@ -273,7 +273,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/11/29/技术分享/" itemprop="url">技术分享</a></h1>
+                <a class="post-title-link" href="/2020/01/22/json转csv/" itemprop="url">Json转csv</a></h1>
         
 
         <div class="post-meta">
@@ -285,8 +285,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-11-29T11:15:06+08:00">
-                2019-11-29
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-01-22T10:47:22+08:00">
+                2020-01-22
               </time>
             
 
@@ -304,8 +304,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2019/11/29/技术分享/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2019/11/29/技术分享/" itemprop="commentCount"></span>
+                <a href="/2020/01/22/json转csv/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2020/01/22/json转csv/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -327,7 +327,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  309
+                  113
                 </span>
               
 
@@ -366,20 +366,8 @@
       
         
           
-            <h2 id="为解决项目分模块、技术升级革新、适应现代开发等问题。为能招到人，为能找到工作。"><a href="#为解决项目分模块、技术升级革新、适应现代开发等问题。为能招到人，为能找到工作。" class="headerlink" title="为解决项目分模块、技术升级革新、适应现代开发等问题。为能招到人，为能找到工作。"></a>为解决项目分模块、技术升级革新、适应现代开发等问题。为能招到人，为能找到工作。</h2><p>项目臃肿，不可拆分，可维护性差<br>        首次加载书数十个文件<br>        路由文件过半万行</p>
-<p>技术老旧，缓存、基础设施差（热重载、编译等脚本）。使用不方便（多处配置，规则太多）<br>                                        nginx 代理<br>                                        es6js编译<br>                                        react编译<br>                                        less编译<br>                                        scss编译<br>                                        热重载<br>                                        代码管理git + svn</p>
-<p>老旧框架没有好看的ui，加入一个新东西都导致项目的更加臃肿，<br>基础组件（表格、带搜索的下拉等）都自己封装而且不是很美丽。<br>为实现日历功能（日期格式，范围等）引入第三方库。二次封装付出极大代价，样式等还是不很满意。</p>
-<h2 id="换新换一个爽一时。一直换一直爽。跟上时代步伐，走上人生巅峰。"><a href="#换新换一个爽一时。一直换一直爽。跟上时代步伐，走上人生巅峰。" class="headerlink" title="换新换一个爽一时。一直换一直爽。跟上时代步伐，走上人生巅峰。"></a>换新换一个爽一时。一直换一直爽。跟上时代步伐，走上人生巅峰。</h2><ol>
-<li>换框架</li>
-<li>多项目管理</li>
-<li>ui库</li>
-<li>切主题</li>
-<li>菜单控制</li>
-<li>系统升级，完美嵌套兼容旧版页面</li>
-<li>专家分析，拖拉选拽数据分析</li>
-<li>开机自启全屏自动登录<h3 id="换框架"><a href="#换框架" class="headerlink" title="换框架"></a>换框架</h3><pre><code>语法检测、webpack
-</code></pre><h3 id="多项目管理"><a href="#多项目管理" class="headerlink" title="多项目管理"></a>多项目管理</h3><h3 id="ui库"><a href="#ui库" class="headerlink" title="ui库"></a>ui库</h3><h3 id="切主题"><a href="#切主题" class="headerlink" title="切主题"></a>切主题</h3></li>
-</ol>
+            <h3 id="功能：-json转csv并下载"><a href="#功能：-json转csv并下载" class="headerlink" title="功能： json转csv并下载"></a>功能： json转csv并下载</h3><p>示例<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">downloadJSON2CSV([</span><br><span class="line">    &#123; <span class="attr">name</span>: <span class="string">'名称'</span>, <span class="attr">value</span>: <span class="string">'值'</span>, <span class="attr">description</span>: <span class="string">'描述'</span> &#125;,</span><br><span class="line">    &#123; <span class="attr">name</span>: <span class="string">'adsf'</span>, <span class="attr">value</span>: <span class="string">'asdga'</span>, <span class="attr">description</span>: <span class="string">'132132'</span> &#125;</span><br><span class="line">])</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">downloadJSON2CSV</span> (<span class="params">objArray, filename = <span class="string">'1.csv'</span></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">const</span> array = <span class="keyword">typeof</span> objArray !== <span class="string">'object'</span> ? <span class="built_in">JSON</span>.parse(objArray) : objArray</span><br><span class="line">    <span class="keyword">let</span> str = <span class="string">''</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; array.length; i++) &#123;</span><br><span class="line">        <span class="keyword">let</span> line = <span class="string">''</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">let</span> index <span class="keyword">in</span> array[i]) line += array[i][index] + <span class="string">','</span></span><br><span class="line">        line.slice(<span class="number">0</span>, line.Length - <span class="number">1</span>)</span><br><span class="line">        str += line + <span class="string">'\r'</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">const</span> elink = <span class="built_in">document</span>.createElement(<span class="string">'a'</span>)</span><br><span class="line">    elink.download = filename</span><br><span class="line">    <span class="keyword">const</span> blob = <span class="keyword">new</span> Blob([str])</span><br><span class="line">    elink.style.display = <span class="string">'none'</span></span><br><span class="line">    elink.href = URL.createObjectURL(blob)</span><br><span class="line">    elink.target = <span class="string">'_blank'</span></span><br><span class="line">    <span class="built_in">document</span>.body.appendChild(elink)</span><br><span class="line">    elink.click()</span><br><span class="line">    <span class="built_in">document</span>.body.removeChild(elink)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
           
         
@@ -419,7 +407,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/11/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/11/">11</a><span class="page-number current">12</span><a class="page-number" href="/page/13/">13</a><span class="space">&hellip;</span><a class="page-number" href="/page/28/">28</a><a class="extend next" rel="next" href="/page/13/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/page/11/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/11/">11</a><span class="page-number current">12</span><a class="page-number" href="/page/13/">13</a><span class="space">&hellip;</span><a class="page-number" href="/page/30/">30</a><a class="extend next" rel="next" href="/page/13/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -465,7 +453,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">28</span>
+                  <span class="site-state-item-count">30</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -531,7 +519,7 @@
     
       <span class="post-meta-item-text">Site words total count&#58;</span>
     
-    <span title="Site words total count">21.3k</span>
+    <span title="Site words total count">24.1k</span>
   
 </div>
 

@@ -254,7 +254,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://liuxiaojun.win/2020/07/29/js防抖/">
+    <link itemprop="mainEntityOfPage" href="http://liuxiaojun.win/2020/07/30/css布局/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="刘小军">
@@ -273,7 +273,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2020/07/29/js防抖/" itemprop="url">Js防抖</a></h1>
+                <a class="post-title-link" href="/2020/07/30/css布局/" itemprop="url">Css布局</a></h1>
         
 
         <div class="post-meta">
@@ -285,8 +285,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-07-29T20:52:22+08:00">
-                2020-07-29
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-07-30T20:40:58+08:00">
+                2020-07-30
               </time>
             
 
@@ -304,8 +304,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2020/07/29/js防抖/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2020/07/29/js防抖/" itemprop="commentCount"></span>
+                <a href="/2020/07/30/css布局/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2020/07/30/css布局/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -327,7 +327,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  148
+                  425
                 </span>
               
 
@@ -343,7 +343,7 @@
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
                 <span title="阅读时长">
-                  1
+                  2
                 </span>
               
             </div>
@@ -366,10 +366,20 @@
       
         
           
-            <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> debounce = <span class="function">(<span class="params">func, wait = <span class="number">0</span></span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">let</span> timeout = <span class="literal">null</span></span><br><span class="line">  <span class="keyword">let</span> args</span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">debounced</span>(<span class="params">...arg</span>) </span>&#123;</span><br><span class="line">    args = arg</span><br><span class="line">    <span class="keyword">if</span>(timeout) &#123;</span><br><span class="line">      clearTimeout(timeout)</span><br><span class="line">      timeout = <span class="literal">null</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 以Promise的形式返回函数执行结果</span></span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">res, rej</span>) =&gt;</span> &#123;</span><br><span class="line">      timeout = setTimeout(<span class="keyword">async</span> () =&gt; &#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">          <span class="keyword">const</span> result = <span class="keyword">await</span> func.apply(<span class="keyword">this</span>, args)</span><br><span class="line">          res(result)</span><br><span class="line">        &#125; <span class="keyword">catch</span>(e) &#123;</span><br><span class="line">          rej(e)</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;, wait)</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// 允许取消</span></span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">cancel</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    clearTimeout(timeout)</span><br><span class="line">    timeout = <span class="literal">null</span></span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// 允许立即执行</span></span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">flush</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    cancel()</span><br><span class="line">    <span class="keyword">return</span> func.apply(<span class="keyword">this</span>, args)</span><br><span class="line">  &#125;</span><br><span class="line">  debounced.cancel = cancel</span><br><span class="line">  debounced.flush = flush</span><br><span class="line">  <span class="keyword">return</span> debounced</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> ipt = <span class="built_in">document</span>.querySelector(<span class="string">'input'</span>)</span><br><span class="line"></span><br><span class="line">ipt.addEventListener(<span class="string">'input'</span>, debounce(<span class="function"><span class="params">e</span> =&gt;</span> &#123;</span><br><span class="line">    search(e.target.value).then(<span class="function"><span class="params">resp</span> =&gt;</span> &#123;</span><br><span class="line">      <span class="comment">// ...</span></span><br><span class="line">    &#125;, e =&gt; &#123;</span><br><span class="line">      <span class="comment">// ...</span></span><br><span class="line">    &#125;)</span><br><span class="line">&#125;, <span class="number">500</span>))</span><br></pre></td></tr></table></figure>
-<hr>
-<p><em>拉勾教育学习笔记，非原创。</em></p>
+            <h5 id="单列布局"><a href="#单列布局" class="headerlink" title="单列布局"></a>单列布局</h5><p>设置布局容器（最大）宽度以及左右边距为 auto 即可实现</p>
+<h5 id="2列-3列布局步骤"><a href="#2列-3列布局步骤" class="headerlink" title="2列 3列布局步骤"></a>2列 3列布局步骤</h5><p>（1）为了保证主要布局容器优先级，应将主要布局容器写在次要布局容器之前。</p>
+<p>（2）将布局容器进行水平排列；</p>
+<p>（3）设置宽度，即次要容器宽度固定，主要容器撑满；</p>
+<p>（4）消除布局方式的副作用，如浮动造成的高度塌陷；</p>
+<p>（5）为了在窄屏下也能正常显示，可以通过媒体查询进行优化。</p>
+<h5 id="2列布局"><a href="#2列布局" class="headerlink" title="2列布局"></a>2列布局</h5><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"wrap"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">main</span> <span class="attr">class</span>=<span class="string">"main"</span>&gt;</span>主要布局容器<span class="tag">&lt;/<span class="name">main</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">aside</span> <span class="attr">class</span>=<span class="string">"aside"</span>&gt;</span>次要布局容器<span class="tag">&lt;/<span class="name">aside</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.wrap</span> &#123;</span><br><span class="line">    <span class="attribute">display</span>: flex;</span><br><span class="line">    <span class="attribute">flex-direction</span>: row-reverse;</span><br><span class="line">    <span class="attribute">flex-wrap</span>: wrap;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="selector-class">.main</span> &#123;</span><br><span class="line">    <span class="attribute">flex</span>: <span class="number">1</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="selector-class">.aside</span> &#123;</span><br><span class="line">    <span class="attribute">width</span>: <span class="number">200px</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  @<span class="keyword">media</span> only screen and (max-width: <span class="number">1000px</span>) &#123;</span><br><span class="line">    <span class="selector-class">.wrap</span> &#123;</span><br><span class="line">      <span class="attribute">flex-direction</span>: row;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="selector-class">.main</span> &#123;</span><br><span class="line">      <span class="attribute">flex</span>: <span class="number">100%</span>;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+<p><img src="https://s0.lgstatic.com/i/image/M00/0E/03/Ciqc1F7E7vOAaoMnAALoOB59RVs256.gif" alt="两列布局"></p>
+<h5 id="3列布局"><a href="#3列布局" class="headerlink" title="3列布局"></a>3列布局</h5><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"wrap"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">main</span> <span class="attr">class</span>=<span class="string">"main"</span>&gt;</span>main<span class="tag">&lt;/<span class="name">main</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">aside</span> <span class="attr">class</span>=<span class="string">"left"</span>&gt;</span>left<span class="tag">&lt;/<span class="name">aside</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">aside</span> <span class="attr">class</span>=<span class="string">"right"</span>&gt;</span>right<span class="tag">&lt;/<span class="name">aside</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.main</span>, <span class="selector-class">.left</span>, <span class="selector-class">.right</span> &#123;</span><br><span class="line">    <span class="attribute">float</span>: left;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="selector-class">.wrap</span> &#123;</span><br><span class="line">    <span class="attribute">padding</span>: <span class="number">0</span> <span class="number">200px</span> <span class="number">0</span> <span class="number">300px</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="selector-class">.wrap</span><span class="selector-pseudo">::after</span> &#123;</span><br><span class="line">    <span class="attribute">content</span>: <span class="string">''</span>;</span><br><span class="line">    <span class="attribute">display</span>: block;</span><br><span class="line">    <span class="attribute">clear</span>: both;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="selector-class">.main</span> &#123;</span><br><span class="line">    <span class="attribute">width</span>: <span class="number">100%</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="selector-class">.left</span> &#123;</span><br><span class="line">    <span class="attribute">width</span>: <span class="number">300px</span>;</span><br><span class="line">    <span class="attribute">position</span>: relative;</span><br><span class="line">    <span class="attribute">left</span>: -<span class="number">300px</span>;</span><br><span class="line">    <span class="attribute">margin-left</span>: -<span class="number">100%</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="selector-class">.right</span> &#123;</span><br><span class="line">    <span class="attribute">position</span>: relative;</span><br><span class="line">    <span class="attribute">width</span>: <span class="number">200px</span>;</span><br><span class="line">    <span class="attribute">margin-left</span>: -<span class="number">200px</span>;</span><br><span class="line">    <span class="attribute">right</span>: -<span class="number">200px</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  @<span class="keyword">media</span> only screen and (max-width: <span class="number">1000px</span>) &#123;</span><br><span class="line">    <span class="selector-class">.wrap</span> &#123;</span><br><span class="line">      <span class="attribute">padding</span>: <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="selector-class">.left</span> &#123;</span><br><span class="line">      <span class="attribute">left</span>: <span class="number">0</span>;</span><br><span class="line">      <span class="attribute">margin-left</span>: <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="selector-class">.right</span> &#123;</span><br><span class="line">      <span class="attribute">margin-left</span>: <span class="number">0</span>;</span><br><span class="line">      <span class="attribute">right</span>: <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+<p>标准圣杯布局没有媒体查询<br><img src="https://s0.lgstatic.com/i/image/M00/0E/03/Ciqc1F7E72KAcZENAAI1dbZkP0I370.gif" alt="3列圣杯布局"></p>
+<h5 id="垂直方向的布局-上中下"><a href="#垂直方向的布局-上中下" class="headerlink" title="垂直方向的布局 上中下"></a>垂直方向的布局 上中下</h5><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"container"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">header</span>&gt;</span><span class="tag">&lt;/<span class="name">header</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">main</span>&gt;</span><span class="tag">&lt;/<span class="name">main</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">footer</span>&gt;</span><span class="tag">&lt;/<span class="name">footer</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.container</span> &#123;</span><br><span class="line">    <span class="attribute">box-sizing</span>: border-box;</span><br><span class="line">    <span class="attribute">min-height</span>: <span class="number">100vh</span>;</span><br><span class="line">    <span class="attribute">padding-bottom</span>: <span class="number">100px</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="selector-tag">header</span>, <span class="selector-tag">footer</span> &#123;</span><br><span class="line">    <span class="attribute">height</span>: <span class="number">100px</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="selector-tag">footer</span> &#123;</span><br><span class="line">    <span class="attribute">margin-top</span>: -<span class="number">100px</span>;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
 
           
         
@@ -409,7 +419,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/28/">28</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/30/">30</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -455,7 +465,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">28</span>
+                  <span class="site-state-item-count">30</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -521,7 +531,7 @@
     
       <span class="post-meta-item-text">Site words total count&#58;</span>
     
-    <span title="Site words total count">21.3k</span>
+    <span title="Site words total count">24.1k</span>
   
 </div>
 
