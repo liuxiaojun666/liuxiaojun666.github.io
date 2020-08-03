@@ -254,7 +254,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://liuxiaojun.win/2020/03/22/网站开机自启浏览器全屏自动登录/">
+    <link itemprop="mainEntityOfPage" href="http://liuxiaojun.win/2020/07/17/看不见的html标签/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="刘小军">
@@ -273,7 +273,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2020/03/22/网站开机自启浏览器全屏自动登录/" itemprop="url">网站开机自启浏览器全屏自动登录</a></h1>
+                <a class="post-title-link" href="/2020/07/17/看不见的html标签/" itemprop="url">看不见的Html标签</a></h1>
         
 
         <div class="post-meta">
@@ -285,8 +285,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-03-22T11:49:42+08:00">
-                2020-03-22
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-07-17T21:32:55+08:00">
+                2020-07-17
               </time>
             
 
@@ -304,8 +304,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2020/03/22/网站开机自启浏览器全屏自动登录/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2020/03/22/网站开机自启浏览器全屏自动登录/" itemprop="commentCount"></span>
+                <a href="/2020/07/17/看不见的html标签/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2020/07/17/看不见的html标签/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -327,7 +327,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  558
+                  919
                 </span>
               
 
@@ -343,7 +343,7 @@
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
                 <span title="阅读时长">
-                  2
+                  3
                 </span>
               
             </div>
@@ -366,39 +366,40 @@
       
         
           
-            <h2 id="需求"><a href="#需求" class="headerlink" title="需求"></a>需求</h2><p>大屏展示页面，需要开机自动启动浏览器并且实现绕过验证码自动登录。</p>
-<h2 id="最终实现"><a href="#最终实现" class="headerlink" title="最终实现"></a>最终实现</h2><ol>
-<li>配置开机自启动页面，用户输入账号、密码。</li>
-<li>配置完成后，用户下载一个vbs脚本</li>
-<li>把vbs脚本放入开机自启项</li>
-<li>下次开机就会执行脚本自动登录了</li>
-</ol>
-<h2 id="实现过程"><a href="#实现过程" class="headerlink" title="实现过程"></a>实现过程</h2><ol>
-<li><p>下载 fingerprint2.js，配置页面和登录页面会用到以下代码获取指纹。<br> <a href="/demo/20200322/fingerprint2.min.js" title="下载fingerprint2.js">来这里下载</a></p>
- <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getFingerprint</span>(<span class="params">callback</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> excludes = &#123;</span><br><span class="line">        userAgent: <span class="literal">true</span>,</span><br><span class="line">        audio: <span class="literal">true</span>,</span><br><span class="line">        enumerateDevices: <span class="literal">true</span>,</span><br><span class="line">        fonts: <span class="literal">true</span>,</span><br><span class="line">        fontsFlash: <span class="literal">true</span>,</span><br><span class="line">        webgl: <span class="literal">true</span>,</span><br><span class="line">        canvas: <span class="literal">true</span></span><br><span class="line">    &#125;</span><br><span class="line">    Fingerprint2.get(&#123; <span class="attr">excludes</span>: excludes &#125;, <span class="function"><span class="keyword">function</span> (<span class="params">components</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">var</span> values = components.map(<span class="function"><span class="keyword">function</span> (<span class="params">component</span>) </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> component.value;</span><br><span class="line">        &#125;);</span><br><span class="line">        <span class="keyword">var</span> murmur = Fingerprint2.x64hash128(values.join(<span class="string">''</span>), <span class="number">31</span>);</span><br><span class="line">        callback(murmur);</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+            <h4 id="meta-标签：自动刷新-跳转"><a href="#meta-标签：自动刷新-跳转" class="headerlink" title="meta 标签：自动刷新/跳转"></a>meta 标签：自动刷新/跳转</h4><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 5秒后跳转到page2 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">http-equiv</span>=<span class="string">"Refresh"</span> <span class="attr">content</span>=<span class="string">"5; URL=page2.html"</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- 60秒自动刷新 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">http-equiv</span>=<span class="string">"Refresh"</span> <span class="attr">content</span>=<span class="string">"60"</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h4 id="title-标签与-Hack-手段：消息提醒"><a href="#title-标签与-Hack-手段：消息提醒" class="headerlink" title="title 标签与 Hack 手段：消息提醒"></a>title 标签与 Hack 手段：消息提醒</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> msgNum = <span class="number">1</span> <span class="comment">// 消息条数</span></span><br><span class="line"><span class="keyword">let</span> cnt = <span class="number">0</span> <span class="comment">// 计数器</span></span><br><span class="line"><span class="keyword">const</span> inerval = setInterval(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">  cnt = (cnt + <span class="number">1</span>) % <span class="number">2</span></span><br><span class="line">  <span class="keyword">if</span>(msgNum===<span class="number">0</span>) &#123;</span><br><span class="line">    <span class="comment">// 通过DOM修改title</span></span><br><span class="line">    <span class="built_in">document</span>.title += <span class="string">`聊天页面`</span></span><br><span class="line">    clearInterval(interval)</span><br><span class="line">    <span class="keyword">return</span></span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">const</span> prefix = cnt % <span class="number">2</span> ? <span class="string">`新消息(<span class="subst">$&#123;msgNum&#125;</span>)`</span> : <span class="string">''</span></span><br><span class="line">  <span class="built_in">document</span>.title = <span class="string">`<span class="subst">$&#123;prefix&#125;</span>聊天页面`</span></span><br><span class="line">&#125;, <span class="number">1000</span>)</span><br></pre></td></tr></table></figure>
+<p><img src="https://s0.lgstatic.com/i/image/M00/07/67/CgqCHl65LJGAR25PAAAXBLXRFXg133.gif" alt="图片"><br>HTML5 下可使用 Web Notifications API 弹出系统消息</p>
+<h4 id="script-标签：调整加载顺序提升渲染速度"><a href="#script-标签：调整加载顺序提升渲染速度" class="headerlink" title="script 标签：调整加载顺序提升渲染速度"></a>script 标签：调整加载顺序提升渲染速度</h4><ul>
+<li><p>async 属性。立即请求文件，但不阻塞渲染引擎，而是文件加载完毕后阻塞渲染引擎并立即执行文件内容。</p>
 </li>
-<li><p>配置页面提交时候携带上面生成的指纹码</p>
- <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">getFingerprint(<span class="function"><span class="keyword">function</span> (<span class="params">fingerprint</span>) </span>&#123;</span><br><span class="line">    apiConfig(&#123;</span><br><span class="line">        username: <span class="string">'username'</span>,</span><br><span class="line">        password: <span class="string">'password'</span>,</span><br><span class="line">        fingerprint: fingerprint</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<li><p>defer 属性。立即请求文件，但不阻塞渲染引擎，等到解析完 HTML 之后再执行文件内容。</p>
 </li>
-<li><p>后台拿到指纹码与账户进行账户与指纹码关联并存储</p>
+<li><p>HTML5 标准 type 属性，对应值为“module”。让浏览器按照 ECMA Script 6 标准将文件当作模块进行解析，默认阻塞效果同 defer，也可以配合 async 在请求完成后立即执行<br><img src="https://s0.lgstatic.com/i/image/M00/07/0E/Ciqc1F647iiAZx3cAAB1ewBzlh0431.png" alt="图片"></p>
 </li>
-<li><p>前端下载脚本，修改用户名、密码、浏览器地址（建议使用谷歌浏览器）</p>
- <figure class="highlight vb"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">Dim</span> delayer</span><br><span class="line"><span class="keyword">Set</span> delayer = CreateObject(<span class="string">"WScript.Shell"</span>)</span><br><span class="line">WScript.sleep <span class="number">8000</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">Dim</span> username</span><br><span class="line">username = <span class="string">"用户名"</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">Dim</span> password</span><br><span class="line">password = <span class="string">"密码!"</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">Dim</span> browser</span><br><span class="line">browser = <span class="string">"C:\Program Files (x86)\Google\Chrome\Application\chrome.exe"</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">Dim</span> env</span><br><span class="line">env = <span class="string">"http://necloud.solway.com.cn"</span> <span class="comment">' 域名</span></span><br><span class="line"></span><br><span class="line">delayer.run <span class="string">""</span><span class="string">""</span> + browser + <span class="string">""</span><span class="string">" -kiosk "</span> + env + <span class="string">"/login.html?_="</span> &amp; DateDiff(<span class="string">"s"</span>, <span class="meta">#1/1/1970#, Now()) &amp; "&amp;username=" + username + "&amp;password=" + password,0,FALSE</span></span><br><span class="line"><span class="keyword">Set</span> delayer = <span class="literal">Nothing</span></span><br><span class="line">WScript.quit</span><br></pre></td></tr></table></figure>
+</ul>
+<h4 id="link-标签：通过预处理提升渲染速度"><a href="#link-标签：通过预处理提升渲染速度" class="headerlink" title="link 标签：通过预处理提升渲染速度"></a>link 标签：通过预处理提升渲染速度</h4><ul>
+<li><p>dns-prefetch。当 link 标签的 rel 属性值为“dns-prefetch”时，浏览器会对某个域名预先进行 DNS 解析并缓存。这样，当浏览器在请求同域名资源的时候，能省去从域名查询 IP 的过程，从而减少时间损耗。<br><img src="https://s0.lgstatic.com/i/image/M00/07/0E/Ciqc1F647jWAHmc_AAAiNGoHmY8154.png" alt="图片"></p>
 </li>
-<li><p>配置完成后，把脚本设置为开机自启</p>
-<ol>
-<li>win + r</li>
-<li>输入 shell:startup   回车，将会打开一个文件夹</li>
-<li>将脚本拖入文件夹</li>
-<li>重新启动电脑  不出错的情况下会开机自动全屏启动浏览器自动登录</li>
-</ol>
+<li><p>preconnect。让浏览器在一个 HTTP 请求正式发给服务器前预先执行一些操作，这包括 DNS 解析、TLS 协商、TCP 握手，通过消除往返延迟来为用户节省时间。</p>
 </li>
-<li><p>登录页操作</p>
- <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> searchParams = &#123;&#125;</span><br><span class="line"><span class="built_in">window</span>.location.search.substr(<span class="number">1</span>).split(<span class="string">'&amp;'</span>).forEach(<span class="function"><span class="keyword">function</span> <span class="title">name</span>(<span class="params">params</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> arr = params.split(<span class="string">'='</span>)</span><br><span class="line">    searchParams[arr[<span class="number">0</span>]] = arr[<span class="number">1</span>]</span><br><span class="line">&#125;)</span><br><span class="line"><span class="keyword">if</span> (searchParams.username &amp;&amp; searchParams.password) &#123;</span><br><span class="line">    <span class="comment">// 登录地址中携带了账号密码，执行自动登录操作</span></span><br><span class="line">    getFingerprint(<span class="function"><span class="keyword">function</span> (<span class="params">fingerprint</span>) </span>&#123;</span><br><span class="line">        login(&#123;</span><br><span class="line">            username: searchParams.username,</span><br><span class="line">            password: searchParams.password,</span><br><span class="line">            fingerprint: fingerprint</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p> 后台判断登录接口，如果携带了 fingerprint ，就判断 账号与指纹 是否匹配。如果匹配执行绕过验证码登录。</p>
+<li><p>prefetch/preload。两个值都是让浏览器预先下载并缓存某个资源，但不同的是，prefetch 可能会在浏览器忙时被忽略，而 preload 则是一定会被预先下载。</p>
 </li>
-</ol>
-<p>说明：只有上面配置的浏览器 + 上面配置的账号才可以自动登录。更换电脑、更换浏览器、浏览器版本改变需重新配置授权</p>
+<li><p>prerender。浏览器不仅会加载资源，还会解析执行页面，进行预渲染。</p>
+</li>
+</ul>
+<p><img src="https://s0.lgstatic.com/i/image/M00/07/0E/Ciqc1F647j-AFiBtAABWh7ld3uA965.png" alt="图片"></p>
+<h4 id="搜索优化"><a href="#搜索优化" class="headerlink" title="搜索优化"></a>搜索优化</h4><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">content</span>=<span class="string">"拉勾,拉勾网,拉勾招聘,拉钩, 拉钩网 ,互联网招聘,拉勾互联网招聘, 移动互联网招聘, 垂直互联网招聘, 微信招聘, 微博招聘, 拉勾官网, 拉勾百科,跳槽, 高薪职位, 互联网圈子, IT招聘, 职场招聘, 猎头招聘,O2O招聘, LBS招聘, 社交招聘, 校园招聘, 校招,社会招聘,社招"</span> <span class="attr">name</span>=<span class="string">"keywords"</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h4 id="link-标签：减少重复"><a href="#link-标签：减少重复" class="headerlink" title="link 标签：减少重复"></a>link 标签：减少重复</h4><p>有时候为了用户访问方便或者出于历史原因，对于同一个页面会有多个网址，又或者存在某些重定向页面，比如：</p>
+<ul>
+<li><a href="https://lagou.com/a.html" target="_blank" rel="noopener">https://lagou.com/a.html</a></li>
+<li><a href="https://lagou.com/detail?id=&quot;abcd&quot;" target="_blank" rel="noopener">https://lagou.com/detail?id=&quot;abcd&quot;</a><br>那么在这些页面中可以这样设置：<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">link</span> <span class="attr">href</span>=<span class="string">"https://lagou.com/a.html"</span> <span class="attr">rel</span>=<span class="string">"canonical"</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>这样可以让搜索引擎避免花费时间抓取重复网页。不过需要注意的是，它还有个限制条件，那就是指向的网站不允许跨域。</p>
+<p>当然，要合并网址还有其他的方式，比如使用站点地图，或者在 HTTP 请求响应头部添加 rel=”canonical”。</p>
+<h4 id="OGP（开放图表协议）"><a href="#OGP（开放图表协议）" class="headerlink" title="OGP（开放图表协议）"></a>OGP（开放图表协议）</h4><p>OGP 是 Facebook 公司在 2010 年提出的，目的是通过增加文档信息来提升社交网页在被分享时的预览效果。你只需要在一些分享页面中添加一些 meta 标签及属性，支持 OGP 协议的社交网站就会在解析页面时生成丰富的预览信息，比如站点名称、网页作者、预览图片。具体预览效果会因各个网站而有所变化。</p>
+<hr>
+<p><em>拉勾教育学习笔记，非原创。</em></p>
 
           
         
@@ -438,7 +439,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/8/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><span class="page-number current">9</span><a class="page-number" href="/page/10/">10</a><span class="space">&hellip;</span><a class="page-number" href="/page/30/">30</a><a class="extend next" rel="next" href="/page/10/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/page/8/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><span class="page-number current">9</span><a class="page-number" href="/page/10/">10</a><span class="space">&hellip;</span><a class="page-number" href="/page/31/">31</a><a class="extend next" rel="next" href="/page/10/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -484,7 +485,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">30</span>
+                  <span class="site-state-item-count">31</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -550,7 +551,7 @@
     
       <span class="post-meta-item-text">Site words total count&#58;</span>
     
-    <span title="Site words total count">24.1k</span>
+    <span title="Site words total count">26.2k</span>
   
 </div>
 
