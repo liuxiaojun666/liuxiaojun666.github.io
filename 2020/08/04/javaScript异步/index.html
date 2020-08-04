@@ -81,16 +81,19 @@
 
 
 
-<meta name="description" content="https://github.com/liuxiaojun666">
-<meta property="og:type" content="website">
-<meta property="og:title" content="刘小军的博客">
-<meta property="og:url" content="http://liuxiaojun.win/index.html">
+<meta name="description" content="异步和同步程序在同步调用函数的时候，会立即执行操作并等待得到返回结果后再继续运行，也就是说同步执行是阻塞的。 而异步会将操作和结果在时间上分隔开来，在当下执行操作，在未来某个时刻返回结果，在这个等待返回结果的过程中，程序将继续执行后面的代码。也就是说异步执行是非阻塞的。 12345678910function syncAdd(a, b) &amp;#123;  return a + b;&amp;#125;syn">
+<meta property="og:type" content="article">
+<meta property="og:title" content="javaScript异步">
+<meta property="og:url" content="http://liuxiaojun.win/2020/08/04/javaScript异步/index.html">
 <meta property="og:site_name" content="刘小军的博客">
-<meta property="og:description" content="https://github.com/liuxiaojun666">
+<meta property="og:description" content="异步和同步程序在同步调用函数的时候，会立即执行操作并等待得到返回结果后再继续运行，也就是说同步执行是阻塞的。 而异步会将操作和结果在时间上分隔开来，在当下执行操作，在未来某个时刻返回结果，在这个等待返回结果的过程中，程序将继续执行后面的代码。也就是说异步执行是非阻塞的。 12345678910function syncAdd(a, b) &amp;#123;  return a + b;&amp;#125;syn">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://s0.lgstatic.com/i/image/M00/1F/41/CgqCHl7m1W-AUWjTAAGFy-O9UzA843.png">
+<meta property="og:updated_time" content="2020-08-04T13:34:39.274Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="刘小军的博客">
-<meta name="twitter:description" content="https://github.com/liuxiaojun666">
+<meta name="twitter:title" content="javaScript异步">
+<meta name="twitter:description" content="异步和同步程序在同步调用函数的时候，会立即执行操作并等待得到返回结果后再继续运行，也就是说同步执行是阻塞的。 而异步会将操作和结果在时间上分隔开来，在当下执行操作，在未来某个时刻返回结果，在这个等待返回结果的过程中，程序将继续执行后面的代码。也就是说异步执行是非阻塞的。 12345678910function syncAdd(a, b) &amp;#123;  return a + b;&amp;#125;syn">
+<meta name="twitter:image" content="https://s0.lgstatic.com/i/image/M00/1F/41/CgqCHl7m1W-AUWjTAAGFy-O9UzA843.png">
 
 
 
@@ -120,13 +123,13 @@
 
 
 
-  <link rel="canonical" href="http://liuxiaojun.win/">
+  <link rel="canonical" href="http://liuxiaojun.win/2020/08/04/javaScript异步/">
 
 
 
 
 
-  <title>刘小军的博客</title>
+  <title>javaScript异步 | 刘小军的博客</title>
   
 
 
@@ -155,8 +158,7 @@
     
   
 
-  <div class="container sidebar-position-left 
-  page-home">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -239,9 +241,9 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
-  <section id="posts" class="posts-expand">
+
+  <div id="posts" class="posts-expand">
     
-      
 
   
 
@@ -271,9 +273,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2020/08/04/javaScript异步/" itemprop="url">javaScript异步</a></h1>
+          <h1 class="post-title" itemprop="name headline">javaScript异步</h1>
         
 
         <div class="post-meta">
@@ -364,9 +364,7 @@
       
 
       
-        
-          
-            <h4 id="异步和同步"><a href="#异步和同步" class="headerlink" title="异步和同步"></a>异步和同步</h4><p>程序在同步调用函数的时候，会立即执行操作并等待得到返回结果后再继续运行，也就是说同步执行是阻塞的。</p>
+        <h4 id="异步和同步"><a href="#异步和同步" class="headerlink" title="异步和同步"></a>异步和同步</h4><p>程序在同步调用函数的时候，会立即执行操作并等待得到返回结果后再继续运行，也就是说同步执行是阻塞的。</p>
 <p>而异步会将操作和结果在时间上分隔开来，在当下执行操作，在未来某个时刻返回结果，在这个等待返回结果的过程中，程序将继续执行后面的代码。也就是说异步执行是非阻塞的。</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">syncAdd</span>(<span class="params">a, b</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> a + b;</span><br><span class="line">&#125;</span><br><span class="line">syncAdd(<span class="number">1</span>, <span class="number">2</span>) <span class="comment">// 立即得到结果 3</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">asyncAdd</span>(<span class="params">a, b, cb</span>) </span>&#123;</span><br><span class="line">  setTimeout(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    cb(a + b);</span><br><span class="line">  &#125;, <span class="number">1000</span>)</span><br><span class="line">&#125;</span><br><span class="line">asyncAdd(<span class="number">1</span>, <span class="number">2</span>, <span class="built_in">console</span>.log) <span class="comment">// 1s后打印结果 3</span></span><br></pre></td></tr></table></figure>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = &#123;</span><br><span class="line">  counter: &#123;</span><br><span class="line">    index: <span class="number">1</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="built_in">console</span>.log( a ); <span class="comment">// ?  &#123;conter:&#123;index: 2&#125;&#125;。</span></span><br><span class="line">a.counter.index++;</span><br><span class="line"><span class="comment">// 原因在于浏览器在运行代码的时候，把控制台打印这种涉及 I/O 的操作进行了延迟执行。</span></span><br></pre></td></tr></table></figure>
@@ -409,8 +407,6 @@
 <h4 id="Promise-的局限性"><a href="#Promise-的局限性" class="headerlink" title="Promise 的局限性"></a>Promise 的局限性</h4><p><strong>立即执行</strong><br>当一个 Promise 实例被创建时，内部的代码就会立即被执行，而且无法从外部停止。比如无法取消超时或消耗性能的异步调用，容易导致资源的浪费。</p>
 <p><strong>单次执行</strong><br>Promise 处理的问题都是“一次性”的，因为一个 Promise 实例只能 resolve 或 reject 一次</p>
 
-          
-        
       
     </div>
     
@@ -420,6 +416,35 @@
     
 
     
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.png" alt="刘小军 微信支付">
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.png" alt="刘小军 支付宝">
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
 
     
 
@@ -427,12 +452,28 @@
       
 
       
+      
+      
 
       
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/08/03/javaScript函数/" rel="next" title="javaScript函数">
+                <i class="fa fa-chevron-left"></i> javaScript函数
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
 
       
-      
-        <div class="post-eof"></div>
       
     </footer>
   </div>
@@ -442,14 +483,11 @@
   </article>
 
 
-    
-  </section>
 
-  
-  <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/32/">32</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
-  </nav>
-
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -457,6 +495,13 @@
 
 
           
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
 
         </div>
         
@@ -477,8 +522,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -531,6 +585,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#异步和同步"><span class="nav-number">1.</span> <span class="nav-text">异步和同步</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#异步原理"><span class="nav-number">2.</span> <span class="nav-text">异步原理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#异步串行"><span class="nav-number">3.</span> <span class="nav-text">异步串行</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#异步并行"><span class="nav-number">4.</span> <span class="nav-text">异步并行</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#异常处理"><span class="nav-number">5.</span> <span class="nav-text">异常处理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Promise-的局限性"><span class="nav-number">6.</span> <span class="nav-text">Promise 的局限性</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -683,6 +753,10 @@
   
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
 
   
 
