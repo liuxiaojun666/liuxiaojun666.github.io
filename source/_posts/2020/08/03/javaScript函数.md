@@ -130,6 +130,8 @@ getName.apply({name: 'apply'})
 - 默认不会创建 prototype 原型属性；
 - 不能用作 Generator() 函数，不能使用 yeild 关键字。
 
+箭头函数的 **this** 指向定义是的上下文
+
 #### 函数的转换
 编写一个 add() 函数，支持对多个参数求和以及多次调用求和。示例如下：
 ``` js
@@ -207,7 +209,7 @@ var f = new F(args)
 ``` js
 var fn = Object.create(F.prototype)
 var obj = F.apply(fn, args)
-var f = obj && typeof obj === 'object' ? obj : fn;
+var f = obj && (typeof obj === 'object' || typeof obj === 'function') ? obj : fn;
 ```
 
 #### 怎么通过原型链实现多层继承？
