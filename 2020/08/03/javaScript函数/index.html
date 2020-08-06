@@ -88,7 +88,7 @@
 <meta property="og:site_name" content="刘小军的博客">
 <meta property="og:description" content="JavaScript 中的函数相对于数据类型而言更加复杂，它可以有属性，也可以被赋值给一个变量，还可以作为参数被传递…… this 关键字一般指向调用它的对象。 这句话其实有两层意思，首先 this 指向的应该是一个对象，更具体地说是函数执行的“上下文对象”。其次这个对象指向的是“调用它”的对象，如果调用它的不是对象或对象不存在，则会指向全局对象（严格模式下为 undefined）。 123456">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2020-08-03T13:57:45.038Z">
+<meta property="og:updated_time" content="2020-08-05T15:02:05.664Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="javaScript函数">
 <meta name="twitter:description" content="JavaScript 中的函数相对于数据类型而言更加复杂，它可以有属性，也可以被赋值给一个变量，还可以作为参数被传递…… this 关键字一般指向调用它的对象。 这句话其实有两层意思，首先 this 指向的应该是一个对象，更具体地说是函数执行的“上下文对象”。其次这个对象指向的是“调用它”的对象，如果调用它的不是对象或对象不存在，则会指向全局对象（严格模式下为 undefined）。 123456">
@@ -380,6 +380,7 @@
 <li>默认不会创建 prototype 原型属性；</li>
 <li>不能用作 Generator() 函数，不能使用 yeild 关键字。</li>
 </ul>
+<p>箭头函数的 <strong>this</strong> 指向定义是的上下文</p>
 <h4 id="函数的转换"><a href="#函数的转换" class="headerlink" title="函数的转换"></a>函数的转换</h4><p>编写一个 add() 函数，支持对多个参数求和以及多次调用求和。示例如下：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">add(<span class="number">1</span>) <span class="comment">// 1</span></span><br><span class="line">add(<span class="number">1</span>)(<span class="number">2</span>)<span class="comment">// 3</span></span><br><span class="line">add(<span class="number">1</span>, <span class="number">2</span>)(<span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>)(<span class="number">6</span>) <span class="comment">// 21</span></span><br></pre></td></tr></table></figure></p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">add</span>(<span class="params">...args</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> arr = args</span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">fn</span>(<span class="params">...newArgs</span>) </span>&#123;</span><br><span class="line">    arr = [...args, ...newArgs]</span><br><span class="line">    <span class="keyword">return</span> fn;</span><br><span class="line">  &#125;</span><br><span class="line"><span class="comment">// toString() 函数会在打印函数的时候调用，比如 console.log、valueOf 会在获取函数原始值时调用，比如加法操作。</span></span><br><span class="line">  fn.toString = fn.valueOf = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> arr.reduce(<span class="function">(<span class="params">acc, cur</span>) =&gt;</span> acc + <span class="built_in">parseInt</span>(cur))</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> fn</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h4 id="原型"><a href="#原型" class="headerlink" title="原型"></a>原型</h4><p>函数其实也是一种特殊的对象<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">fn</span>(<span class="params"></span>)</span>&#123;&#125; </span><br><span class="line">fn <span class="keyword">instanceof</span> <span class="built_in">Object</span> <span class="comment">// true</span></span><br></pre></td></tr></table></figure></p>
@@ -396,7 +397,7 @@
 <li>执行函数 F()，将 this 指向对象 fn，并传入参数 args，得到执行结果 result；</li>
 <li>判断上一步的执行结果 result，如果 result 为非空对象，则返回 result，否则返回 fn。</li>
 </ol>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> fn = <span class="built_in">Object</span>.create(F.prototype)</span><br><span class="line"><span class="keyword">var</span> obj = F.apply(fn, args)</span><br><span class="line"><span class="keyword">var</span> f = obj &amp;&amp; <span class="keyword">typeof</span> obj === <span class="string">'object'</span> ? obj : fn;</span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> fn = <span class="built_in">Object</span>.create(F.prototype)</span><br><span class="line"><span class="keyword">var</span> obj = F.apply(fn, args)</span><br><span class="line"><span class="keyword">var</span> f = obj &amp;&amp; (<span class="keyword">typeof</span> obj === <span class="string">'object'</span> || <span class="keyword">typeof</span> obj === <span class="string">'function'</span>) ? obj : fn;</span><br></pre></td></tr></table></figure>
 <h4 id="怎么通过原型链实现多层继承？"><a href="#怎么通过原型链实现多层继承？" class="headerlink" title="怎么通过原型链实现多层继承？"></a>怎么通过原型链实现多层继承？</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">A</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">&#125;</span><br><span class="line">A.prototype.a = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="string">'a'</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">B</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">&#125;</span><br><span class="line">B.prototype = <span class="keyword">new</span> A()</span><br><span class="line">B.prototype.b = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="string">'b'</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> c = <span class="keyword">new</span> B()</span><br><span class="line">c.b() <span class="comment">// 'b'</span></span><br><span class="line">c.a() <span class="comment">// 'a'</span></span><br></pre></td></tr></table></figure>
 <h4 id="typeof-和-instanceof"><a href="#typeof-和-instanceof" class="headerlink" title="typeof 和 instanceof"></a>typeof 和 instanceof</h4><p>typeof</p>
 <p>用来获取一个值的类型，可能的结果有下面几种：</p>
@@ -596,7 +597,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">32</span>
+                  <span class="site-state-item-count">35</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -678,7 +679,7 @@
     
       <span class="post-meta-item-text">Site words total count&#58;</span>
     
-    <span title="Site words total count">28.2k</span>
+    <span title="Site words total count">31.7k</span>
   
 </div>
 

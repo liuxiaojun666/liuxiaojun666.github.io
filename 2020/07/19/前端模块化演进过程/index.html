@@ -95,7 +95,7 @@
 <meta property="og:image" content="https://s0.lgstatic.com/i/image3/M01/10/C6/Ciqah16YeWaAEqbZAAB2uMwv74E224.png">
 <meta property="og:image" content="https://s0.lgstatic.com/i/image3/M01/03/97/CgoCgV6YeWaAHgm3AAB8JgXpadc131.png">
 <meta property="og:image" content="https://s0.lgstatic.com/i/image3/M01/89/DC/Cgq2xl6YeWaARx0OAACCLDANJto655.png">
-<meta property="og:updated_time" content="2020-07-19T13:27:07.739Z">
+<meta property="og:updated_time" content="2020-08-05T13:41:32.324Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="前端模块化演进过程">
 <meta name="twitter:description" content="模块化的演进过程 Stage 1 - 文件划分方式 Stage 2 – 命名空间方式 Stage 3 - IIFE Stage 4 - IIFE 依赖参数  Stage 1 - 文件划分方式1234└─ stage-1    ├── module-a.js    ├── module-b.js    └── index.html 1234// module-a.js function foo ()">
@@ -377,7 +377,7 @@
 <li><a href="#IIFE依赖参数">Stage 4 - IIFE 依赖参数</a></li>
 </ol>
 <h5 id="Stage-1-文件划分方式"><a href="#Stage-1-文件划分方式" class="headerlink" title="Stage 1 - 文件划分方式"></a><a id="文件划分方式">Stage 1 - 文件划分方式</a></h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">└─ stage-1</span><br><span class="line">    ├── module-a.js</span><br><span class="line">    ├── module-b.js</span><br><span class="line">    └── index.html</span><br></pre></td></tr></table></figure>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// module-a.js </span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">   <span class="built_in">console</span>.log(<span class="string">'moduleA#foo'</span>) </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// module-a.js </span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">   <span class="built_in">console</span>.log(<span class="string">'moduleA#foo'</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// module-b.js </span></span><br><span class="line"><span class="keyword">var</span> data = <span class="string">'something'</span></span><br></pre></td></tr></table></figure>
 <figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">title</span>&gt;</span>Stage 1<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"module-a.js"</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"module-b.js"</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="javascript">    <span class="comment">// 直接使用全局成员</span></span></span><br><span class="line"><span class="javascript">    foo() <span class="comment">// 可能存在命名冲突</span></span></span><br><span class="line"><span class="javascript">    <span class="built_in">console</span>.log(data)</span></span><br><span class="line"><span class="javascript">    data = <span class="string">'other'</span> <span class="comment">// 数据可能会被修改</span></span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
 <p>缺点：实现方式完全依靠约定实现</p>
@@ -578,7 +578,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">32</span>
+                  <span class="site-state-item-count">35</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -660,7 +660,7 @@
     
       <span class="post-meta-item-text">Site words total count&#58;</span>
     
-    <span title="Site words total count">28.2k</span>
+    <span title="Site words total count">31.7k</span>
   
 </div>
 
