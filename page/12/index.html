@@ -254,7 +254,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://liuxiaojun.win/2020/07/18/第02讲：如何高效操作DOM元素？/">
+    <link itemprop="mainEntityOfPage" href="http://liuxiaojun.win/2020/08/02/javascript数据类型/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="刘小军">
@@ -273,7 +273,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2020/07/18/第02讲：如何高效操作DOM元素？/" itemprop="url">如何高效操作DOM元素？</a></h1>
+                <a class="post-title-link" href="/2020/08/02/javascript数据类型/" itemprop="url">Javascript数据类型</a></h1>
         
 
         <div class="post-meta">
@@ -285,8 +285,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-07-18T20:39:27+08:00">
-                2020-07-18
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-08-02T16:52:12+08:00">
+                2020-08-02
               </time>
             
 
@@ -304,8 +304,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2020/07/18/第02讲：如何高效操作DOM元素？/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2020/07/18/第02讲：如何高效操作DOM元素？/" itemprop="commentCount"></span>
+                <a href="/2020/08/02/javascript数据类型/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2020/08/02/javascript数据类型/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -327,7 +327,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  1.8k
+                  2.3k
                 </span>
               
 
@@ -343,7 +343,7 @@
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
                 <span title="阅读时长">
-                  7
+                  9
                 </span>
               
             </div>
@@ -366,85 +366,69 @@
       
         
           
-            <h4 id="什么是-DOM"><a href="#什么是-DOM" class="headerlink" title="什么是 DOM"></a>什么是 DOM</h4><p>DOM（Document Object Model，文档对象模型）是 JavaScript 操作 HTML 的接口（这里只讨论属于前端范畴的 HTML DOM）</p>
-<h5 id="借助DOM实现比如"><a href="#借助DOM实现比如" class="headerlink" title="借助DOM实现比如"></a>借助DOM实现比如</h5><ul>
-<li>动态渲染列表、表格表单数据；</li>
-<li>监听点击、提交事件；</li>
-<li>懒加载一些脚本或样式文件；</li>
-<li>实现动态展开树组件，表单组件级联等这类复杂的操作。</li>
-</ul>
-<h4 id="DOM-V3-标准-归纳起来常用的主要由-3-个部分组成"><a href="#DOM-V3-标准-归纳起来常用的主要由-3-个部分组成" class="headerlink" title="DOM V3 标准 归纳起来常用的主要由 3 个部分组成"></a>DOM V3 标准 归纳起来常用的主要由 3 个部分组成</h4><ul>
-<li>DOM 节点<ul>
-<li>概念： 节点是 DOM 树的基本单位，有多种类型，比如注释节点、文本节点；</li>
-<li>与标签区别： 标签是 HTML 的基本单位，比如 p、div、input（不是节点，与元素节点对应）；</li>
-<li>与元素区别： 元素是节点中的一种，与 HTML 标签相对应，比如 p 标签会对应 p 元素。</li>
-</ul>
-</li>
-</ul>
+            <h4 id="javaScript数据类型有哪些"><a href="#javaScript数据类型有哪些" class="headerlink" title="javaScript数据类型有哪些"></a>javaScript数据类型有哪些</h4><p>JavaScript 的数据类型可以分为 8 种：</p>
 <ul>
-<li>DOM 事件<ul>
-<li>下一节</li>
+<li>空（Null）</li>
+<li>未定义（Undefined）</li>
+<li>数字（Number）</li>
+<li>数字（Bigint）</li>
+<li>字符串（String）</li>
+<li>布尔值（Boolean）</li>
+<li>符号（Symbol）</li>
+<li>对象（Object）</li>
 </ul>
-</li>
-</ul>
+<p>其中前 7 种类型为基础类型，最后 1 种为引用类型。这两者的区别在于，基础类型的数据在被引用或拷贝时，是值传递，也就是说会创建一个完全相等的变量；而引用类型只是创建一个指针指向原有的变量，实际上两个变量是“共享”这个数据的，并没有重新创建一个新的数据。</p>
+<h4 id="Undefined"><a href="#Undefined" class="headerlink" title="Undefined"></a>Undefined</h4><p>Undefined 是一个很特殊的数据类型，它只有一个值，也就是 undefined。可以通过下面几种方式来得到 undefined：</p>
 <ul>
-<li>选择区域<ul>
-<li>选择区域的使用场景有限，一般用于富文本编辑类业务</li>
+<li>引用已声明但未初始化的变量；</li>
+<li>引用未定义的对象属性；</li>
+<li>执行无返回值函数；</li>
+<li>执行 void 表达式；</li>
+<li>全局常量 window.undefined 或 undefined。</li>
 </ul>
-</li>
-</ul>
-<p>举例说明，在下面的代码中，“p” 是标签， 生成 DOM 树的时候会产生两个节点，一个是元素节点 p，另一个是字符串为“亚里士朱德”的文本节点。<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">p</span>&gt;</span>亚里士朱德<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
-<h4 id="为什么说-DOM-操作耗时"><a href="#为什么说-DOM-操作耗时" class="headerlink" title="为什么说 DOM 操作耗时"></a>为什么说 DOM 操作耗时</h4><ul>
-<li><a href="#1">浏览器的工作机制 线程切换</a></li>
-<li><a href="#2">重新渲染 重排、重绘</a></li>
-</ul>
-<h5 id="浏览器的工作机制-线程切换"><a href="#浏览器的工作机制-线程切换" class="headerlink" title="浏览器的工作机制 线程切换"></a><a name="1">浏览器的工作机制 线程切换</a></h5><p>浏览器包含渲染引擎（也称浏览器内核）和 JavaScript 引擎，它们都是单线程运行。单线程的优势是开发方便，避免多线程下的死锁、竞争等问题，劣势是失去了并发能力。</p>
-<p>浏览器为了避免两个引擎同时修改页面而造成渲染结果不一致的情况，增加了另外一个机制，这两个引擎具有互斥性，也就是说在某个时刻只有一个引擎在运行，另一个引擎会被阻塞。操作系统在进行线程切换的时候需要保存上一个线程执行时的状态信息并读取下一个线程的状态信息，俗称上下文切换。而这个操作相对而言是比较耗时的。</p>
-<p>每次 DOM 操作就会引发线程的上下文切换——从 JavaScript 引擎切换到渲染引擎执行对应操作，然后再切换回 JavaScript 引擎继续执行，这就带来了性能损耗。单次切换消耗的时间是非常少的，但是如果频繁地大量切换，那么就会产生性能问题。</p>
-<p>比如下面的测试代码，循环读取一百万次 DOM 中的 body 元素的耗时是读取 JSON 对象耗时的 10 倍。<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 测试次数：一百万次</span></span><br><span class="line"><span class="keyword">const</span> times = <span class="number">1000000</span></span><br><span class="line"><span class="comment">// 缓存body元素</span></span><br><span class="line"><span class="built_in">console</span>.time(<span class="string">'object'</span>)</span><br><span class="line"><span class="keyword">let</span> body = <span class="built_in">document</span>.body</span><br><span class="line"><span class="comment">// 循环赋值对象作为对照参考</span></span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">let</span> i=<span class="number">0</span>;i&lt;times;i++) &#123;</span><br><span class="line">  <span class="keyword">let</span> tmp = body</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">console</span>.timeEnd(<span class="string">'object'</span>)<span class="comment">// object: 1.77197265625ms</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.time(<span class="string">'dom'</span>)</span><br><span class="line"><span class="comment">// 循环读取body元素引发线程切换</span></span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">let</span> i=<span class="number">0</span>;i&lt;times;i++) &#123;</span><br><span class="line">  <span class="keyword">let</span> tmp = <span class="built_in">document</span>.body</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">console</span>.timeEnd(<span class="string">'dom'</span>)<span class="comment">// dom: 18.302001953125ms</span></span><br></pre></td></tr></table></figure></p>
-<h5 id="重新渲染"><a href="#重新渲染" class="headerlink" title="重新渲染"></a><a name="2">重新渲染</a></h5><p>元素及样式变化引起的再次渲染，在渲染过程中最耗时的两个步骤为重排（Reflow）与重绘（Repaint）。</p>
-<p>浏览器在渲染页面时会将 HTML 和 CSS 分别解析成 DOM 树和 CSSOM 树，然后合并进行排布，再绘制成我们可见的页面。如果在操作 DOM 时涉及到元素、样式的修改，就会引起渲染引擎重新计算样式生成 CSSOM 树，同时还有可能触发对元素的重新排布（简称“重排”）和重新绘制（简称“重绘”）。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a; <span class="comment">// undefined</span></span><br><span class="line"><span class="keyword">var</span> o = &#123;&#125;</span><br><span class="line">o.b <span class="comment">// undefined</span></span><br><span class="line">(<span class="function"><span class="params">()</span> =&gt;</span> &#123;&#125;)() <span class="comment">// undefined</span></span><br><span class="line"><span class="keyword">void</span> <span class="number">0</span> <span class="comment">// undefined</span></span><br><span class="line"><span class="built_in">window</span>.undefined <span class="comment">// undefined</span></span><br></pre></td></tr></table></figure>
+<p>其中比较推荐通过 void 表达式来得到 undefined 值，因为这种方式既简便（window.undefined 或 undefined 常量的字符长度都大于 “void 0” 表达式）又不需要引用额外的变量和属性；同时它作为表达式还可以配合三目运算符使用，代表不执行任何操作。</p>
+<h5 id="如何判断一个变量的值是否为-undefined-呢？"><a href="#如何判断一个变量的值是否为-undefined-呢？" class="headerlink" title="如何判断一个变量的值是否为 undefined 呢？"></a>如何判断一个变量的值是否为 undefined 呢？</h5><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 方式1</span></span><br><span class="line"><span class="keyword">if</span>(!x) &#123;</span><br><span class="line">  ...</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// xxx 只要变量 x 的值为 undefined、空字符串、数值 0、null 时都会判断为真</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">// 方式2</span></span><br><span class="line"><span class="keyword">if</span>(x===<span class="literal">undefined</span>) &#123;</span><br><span class="line">  ...</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 虽然通过 “===” 和 undefined 值做比较是可行的，但如果 x 未定义则会抛出错误 “ReferenceError: x is not defined” 导致程序执行终止，这对于代码的健壮性显然是不利的</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">// 方式2</span></span><br><span class="line"><span class="keyword">if</span>(<span class="keyword">typeof</span> x === <span class="string">'undefined'</span>) &#123;</span><br><span class="line">  ...</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// √√√√√√</span></span><br></pre></td></tr></table></figure>
+<h4 id="Null"><a href="#Null" class="headerlink" title="Null"></a>Null</h4><p>Null 数据类型和 Undefined 类似，只有唯一的一个值 null，都可以表示空值，甚至我们通过 “==” 来比较它们是否相等的时候得到的结果都是 true，但 null 是 JavaScript 保留关键字，而 undefined 只是一个常量。</p>
+<p>也就是说我们可以声明名称为 undefined 的变量（虽然只能在老版本的 IE 浏览器中给它重新赋值），但将 null 作为变量使用时则会报错。</p>
+<h4 id="Boolean"><a href="#Boolean" class="headerlink" title="Boolean"></a>Boolean</h4><p>Boolean 数据类型只有两个值：true 和 false，分别代表真和假，理解和使用起来并不复杂。但是我们常常会将各种表达式和变量转换成 Boolean 数据类型来当作判断条件，这时候就要注意了。</p>
+<p>下面是一个简单地将星期数转换成中文的函数，比如输入数字 1，函数就会返回“星期一”，输入数字 2 会返回“星期二”，以此类推，如果未输入数字则返回 undefined。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getWeek</span>(<span class="params">week</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> dict = [<span class="string">'日'</span>, <span class="string">'一'</span>, <span class="string">'二'</span>, <span class="string">'三'</span>, <span class="string">'四'</span>, <span class="string">'五'</span>, <span class="string">'六'</span>];</span><br><span class="line">  <span class="keyword">if</span>(week) <span class="keyword">return</span> <span class="string">`星期<span class="subst">$&#123;dict[week]&#125;</span>`</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里在 if 语句中就进行了类型转换，将 week 变量转换成 Boolean 数据类型，而 0、空字符串、null、undefined 在转换时都会返回 false。所以这段代码在输入 0 的时候不会返回“星期日”，而返回 undefined。<br>我们在做强制类型转换的时候一定要考虑这个问题。</p>
+<h4 id="Number"><a href="#Number" class="headerlink" title="Number"></a>Number</h4><h5 id="两个重要值"><a href="#两个重要值" class="headerlink" title="两个重要值"></a>两个重要值</h5><p>Number 是数值类型，有 2 个特殊数值得注意一下，即 NaN 和 Infinity</p>
 <ul>
-<li>重排<ul>
-<li>修改元素边距、大小</li>
-<li>添加、删除元素</li>
-<li>改变窗口大小</li>
+<li>NaN（Not a Number）通常在计算失败的时候会得到该值。要判断一个变量是否为 NaN，则可以通过 Number.isNaN 函数进行判断。</li>
+<li>Infinity 是无穷大，加上负号 “-” 会变成无穷小，在某些场景下比较有用，比如通过数值来表示权重或者优先级，Infinity 可以表示最高优先级或最大权重。</li>
 </ul>
-</li>
-<li>重绘<ul>
-<li>设置背景图片</li>
-<li>修改字体颜色</li>
-<li>改变visibility属性值</li>
+<h5 id="进制转换"><a href="#进制转换" class="headerlink" title="进制转换"></a>进制转换</h5><p>当我们需要将其他进制的整数转换成十进制显示的时候可以使用 parseInt 函数，该函数第一个参数为数值或字符串，第二个参数为进制数，默认为 10，当进制数转换失败时会返回 NaN。所以，如果在数组的 map 函数的回调函数中直接调用 parseInt，那么会将数组元素和索引值都作为参数传入。<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[<span class="string">'0'</span>, <span class="string">'1'</span>, <span class="string">'2'</span>].map(<span class="built_in">parseInt</span>) <span class="comment">// [0, NaN, NaN]</span></span><br></pre></td></tr></table></figure></p>
+<p>而将十进制转换成其他进制时，可以通过 toString 函数来实现。<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(<span class="number">10</span>).toString(<span class="number">2</span>) <span class="comment">// "1010"</span></span><br></pre></td></tr></table></figure></p>
+<h5 id="精度问题"><a href="#精度问题" class="headerlink" title="精度问题"></a>精度问题</h5><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">0.1</span> + <span class="number">0.2</span> <span class="comment">// 0.30000000000000004</span></span><br><span class="line"><span class="built_in">Math</span>.pow(<span class="built_in">Math</span>.pow(<span class="number">5</span>, <span class="number">1</span>/<span class="number">2</span>), <span class="number">2</span>) <span class="comment">// 5.000000000000001</span></span><br></pre></td></tr></table></figure>
+<p>出现这种情况的原因在于计算的时候，JavaScript 引擎会先将十进制数转换为二进制，然后进行加法运算，再将所得结果转换为十进制。在进制转换过程中如果小数位是无限的，就会出现误差。</p>
+<p>对于这个问题的解决方法也很简单，那就是消除无限小数位。</p>
+<ul>
+<li>一种方式是先转换成整数进行计算，然后再转换回小数，这种方式适合在小数位不是很多的时候。比如一些程序的支付功能 API 以“分”为单位，从而避免使用小数进行计算。</li>
+<li>还有另一种方法就是舍弃末尾的小数位。比如对上面的加法就可以先调用 toPrecision 截取 12 位，然后调用 parseFloat 函数转换回浮点数。</li>
 </ul>
-</li>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">parseFloat</span>((<span class="number">0.1</span> + <span class="number">0.2</span>).toPrecision(<span class="number">12</span>)) <span class="comment">// 0.3</span></span><br></pre></td></tr></table></figure>
+<h4 id="String"><a href="#String" class="headerlink" title="String"></a>String</h4><h5 id="千位分隔符"><a href="#千位分隔符" class="headerlink" title="千位分隔符"></a>千位分隔符</h5><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">sep</span>(<span class="params">n</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> [i, c] = n.toString().split(<span class="regexp">/(\.\d+)/</span>)</span><br><span class="line">  <span class="keyword">return</span> i.split(<span class="string">''</span>).reverse().map(<span class="function">(<span class="params">c, idx</span>) =&gt;</span> (idx+<span class="number">1</span>) % <span class="number">3</span> === <span class="number">0</span> ? <span class="string">','</span> + c: c).reverse().join(<span class="string">''</span>).replace(<span class="regexp">/^,/</span>, <span class="string">''</span>) + c</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">sep2</span>(<span class="params">n</span>)</span>&#123;</span><br><span class="line">  <span class="keyword">let</span> str = n.toString()</span><br><span class="line">  str.indexOf(<span class="string">'.'</span>) &lt; <span class="number">0</span> ? str+= <span class="string">'.'</span> : <span class="keyword">void</span> <span class="number">0</span></span><br><span class="line">  <span class="keyword">return</span> str.replace(<span class="regexp">/(\d)(?=(\d&#123;3&#125;)+\.)/g</span>, <span class="string">'$1,'</span>).replace(<span class="regexp">/\.$/</span>, <span class="string">''</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="Symbol"><a href="#Symbol" class="headerlink" title="Symbol"></a>Symbol</h4><p>Symbol 是 ES6 中引入的新数据类型，它表示一个唯一的常量，通过 Symbol 函数来创建对应的数据类型，创建时可以添加变量描述，该变量描述在传入时会被强行转换成字符串进行存储。</p>
+<h5 id="避免常量值重复"><a href="#避免常量值重复" class="headerlink" title="避免常量值重复"></a>避免常量值重复</h5><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> KEY = &#123;</span><br><span class="line">  alibaba: <span class="built_in">Symbol</span>(),</span><br><span class="line">  baidu: <span class="built_in">Symbol</span>(),</span><br><span class="line">  ...</span><br><span class="line">  bytedance: <span class="built_in">Symbol</span>()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getValue</span>(<span class="params">key</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">switch</span>(key)&#123;</span><br><span class="line">    <span class="keyword">case</span> KEY.alibaba:</span><br><span class="line">      ...</span><br><span class="line">    ...</span><br><span class="line">    <span class="keyword">case</span> KEY.baidu:</span><br><span class="line">      ...</span><br><span class="line">    <span class="keyword">case</span> KEY.bytedance:</span><br><span class="line">      ...</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">getValue(KEY.baidu);</span><br></pre></td></tr></table></figure>
+<p>这种场景下更适合使用 Symbol。不关心值本身，只关心值的唯一性。</p>
+<h5 id="避免对象属性覆盖"><a href="#避免对象属性覆盖" class="headerlink" title="避免对象属性覆盖"></a>避免对象属性覆盖</h5><p>对传入的对象参数添加一个临时属性 user<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">fn</span>(<span class="params">o</span>) </span>&#123; <span class="comment">// &#123;user: &#123;id: xx, name: yy&#125;&#125;</span></span><br><span class="line">  <span class="keyword">const</span> s = <span class="built_in">Symbol</span>()</span><br><span class="line">  o[s] = <span class="string">'zzz'</span></span><br><span class="line">  ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h4 id="BigInt"><a href="#BigInt" class="headerlink" title="BigInt"></a>BigInt</h4><p>在JavaScript中，BigInt 是一种数字类型的数据，它可以表示任意精度格式的整数。而在其他编程语言中，可以存在不同的数字类型，例如:整数、浮点数、双精度数或大斐波数。</p>
+<p>可以用在一个整数字面量后面加 n 的方式定义一个 BigInt ，如：10n，或者调用函数BigInt()。</p>
+<h4 id="补充：类型转换"><a href="#补充：类型转换" class="headerlink" title="补充：类型转换"></a>补充：类型转换</h4><p>JavaScript 这种弱类型的语言，相对于其他高级语言有一个特点，那就是在处理不同数据类型运算或逻辑操作时会强制转换成同一数据类型。</p>
+<p>通常强制转换的目标数据类型为 String、Number、Boolean 这三种。下面的表格中显示了 6 种基础数据类型转换关系。<br><img src="https://s0.lgstatic.com/i/image/M00/17/C1/CgqCHl7XaNOAOR-5AAC7iyHcEyQ034.png" alt="6 种基础数据类型转换关系"></p>
+<p>除了不同类型的转换之外，操作同种数据类型也会发生转换。把基本类型的数据换成对应的对象过程称之为“装箱转换”，反过来，把数据对象转换为基本类型的过程称之为“拆箱转换”。<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> n = <span class="number">1</span></span><br><span class="line"><span class="keyword">var</span> o = <span class="keyword">new</span> <span class="built_in">Number</span>(n) <span class="comment">// 显式装箱</span></span><br><span class="line">o.valueOf() <span class="comment">// 显式拆箱</span></span><br><span class="line">n.toPrecision(<span class="number">3</span>) <span class="comment">// 隐式装箱, 实际操作：var tmp = new Number(n);tmp.toPrecision(3);tmp = null;</span></span><br><span class="line">o + <span class="number">2</span> <span class="comment">// 隐式拆箱，实际操作:var tmp = o.valueOf();tmp + 2;tmp = null;</span></span><br></pre></td></tr></table></figure></p>
+<h5 id="什么时候会触发类型转换？"><a href="#什么时候会触发类型转换？" class="headerlink" title="什么时候会触发类型转换？"></a>什么时候会触发类型转换？</h5><ul>
+<li>运算相关的操作符包括 +、-、+=、++、* 、/、%、&lt;&lt;、&amp; 等。</li>
+<li>数据比较相关的操作符包括 &gt;、&lt;、== 、&lt;=、&gt;=、===。</li>
+<li>逻辑判断相关的操作符包括 &amp;&amp;、!、||、三目运算符。</li>
 </ul>
-<p><em>重排会导致重绘</em></p>
-<h4 id="如何高效操作-DOM"><a href="#如何高效操作-DOM" class="headerlink" title="如何高效操作 DOM"></a>如何高效操作 DOM</h4><ul>
-<li><a href="#在循环外操作元素">在循环外操作元素</a></li>
-<li><a href="#批量操作元素">批量操作元素</a></li>
-<li><a href="#缓存元素集合">缓存元素集合</a></li>
-</ul>
-<h5 id="在循环外操作元素"><a href="#在循环外操作元素" class="headerlink" title="在循环外操作元素"></a><a id="在循环外操作元素">在循环外操作元素</a></h5><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> times = <span class="number">10000</span>;</span><br><span class="line"><span class="built_in">console</span>.time(<span class="string">'switch'</span>)</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; times; i++) &#123;</span><br><span class="line">  <span class="built_in">document</span>.body === <span class="number">1</span> ? <span class="built_in">console</span>.log(<span class="number">1</span>) : <span class="keyword">void</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">console</span>.timeEnd(<span class="string">'switch'</span>) <span class="comment">// 1.873046875ms</span></span><br><span class="line"><span class="keyword">var</span> body = <span class="built_in">JSON</span>.stringify(<span class="built_in">document</span>.body)</span><br><span class="line"><span class="built_in">console</span>.time(<span class="string">'batch'</span>)</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; times; i++) &#123;</span><br><span class="line">  body === <span class="number">1</span> ? <span class="built_in">console</span>.log(<span class="number">1</span>) : <span class="keyword">void</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">console</span>.timeEnd(<span class="string">'batch'</span>) <span class="comment">// 0.846923828125ms</span></span><br></pre></td></tr></table></figure>
-<p>当然即使在循环外也要尽量减少操作元素，因为不知道他人调用你的代码时是否处于循环中。</p>
-<h5 id="批量操作元素"><a href="#批量操作元素" class="headerlink" title="批量操作元素"></a><a id="批量操作元素">批量操作元素</a></h5><ul>
-<li><a href="#批量创建元素">批量创建元素</a></li>
-<li><a href="#批量修改元素属性样式">批量修改元素属性样式</a></li>
-</ul>
-<h6 id="批量创建元素"><a href="#批量创建元素" class="headerlink" title="批量创建元素"></a><a id="批量创建元素">批量创建元素</a></h6><p>先将 1 万个 div 元素的 html 字符串拼接成一个完整字符串，然后赋值给 body 元素的 innerHTML 属性就可以明显减少耗时。</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="javascript"><span class="keyword">const</span> times = <span class="number">10000</span></span></span><br><span class="line"><span class="javascript"><span class="built_in">console</span>.time(<span class="string">'createElement'</span>)</span></span><br><span class="line"><span class="javascript"><span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; times; i++) &#123;</span></span><br><span class="line"><span class="javascript">  <span class="keyword">const</span> div = <span class="built_in">document</span>.createElement(<span class="string">'div'</span>)</span></span><br><span class="line"><span class="javascript">  <span class="built_in">document</span>.body.appendChild(div)</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="javascript"><span class="built_in">console</span>.timeEnd(<span class="string">'createElement'</span>) <span class="comment">// 54.964111328125ms</span></span></span><br><span class="line"><span class="javascript"><span class="built_in">console</span>.time(<span class="string">'innerHTML'</span>)</span></span><br><span class="line"><span class="javascript"><span class="keyword">let</span> html=<span class="string">''</span></span></span><br><span class="line"><span class="javascript"><span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; times; i++) &#123;</span></span><br><span class="line"><span class="xml">  html+='<span class="tag">&lt;<span class="name">div</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span>'</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="javascript"><span class="built_in">document</span>.body.innerHTML += html <span class="comment">// 31.919921875ms</span></span></span><br><span class="line"><span class="javascript"><span class="built_in">console</span>.timeEnd(<span class="string">'innerHTML'</span>)</span></span><br><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">script</span>/&gt;</span></span></span><br></pre></td></tr></table></figure>
-<p>在此基础上实现事件监听就会略微麻烦，只能通过事件代理或者重新选取元素再进行单独绑定</p>
-<h6 id="批量修改元素属性样式"><a href="#批量修改元素属性样式" class="headerlink" title="批量修改元素属性样式"></a><a id="批量修改元素属性样式">批量修改元素属性样式</a></h6><p>创建 2 万个 div 元素，以单节点树结构进行排布，每个元素有一个对应的序号作为文本内容。现在通过 style 属性对第 1 个 div 元素进行 2 万次样式调整。下面是直接操作 style 属性的代码：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> times = <span class="number">20000</span>;</span><br><span class="line"><span class="keyword">let</span> html = <span class="string">''</span></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; times; i++) &#123;</span><br><span class="line">  html = <span class="string">`&lt;div&gt;<span class="subst">$&#123;i&#125;</span><span class="subst">$&#123;html&#125;</span>&lt;/div&gt;`</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">document</span>.body.innerHTML += html</span><br><span class="line"><span class="keyword">const</span> div = <span class="built_in">document</span>.querySelector(<span class="string">'div'</span>)</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; times; i++) &#123;</span><br><span class="line">  div.style.fontSize = (i % <span class="number">12</span>) + <span class="number">12</span> + <span class="string">'px'</span></span><br><span class="line">  div.style.color = i % <span class="number">2</span> ? <span class="string">'red'</span> : <span class="string">'green'</span></span><br><span class="line">  div.style.margin = (i % <span class="number">12</span>) + <span class="number">12</span> + <span class="string">'px'</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>如果将需要修改的样式属性放入 JavaScript 数组，然后对这些修改进行 reduce 操作，得到最终需要的样式之后再设置元素属性，那么性能会提升很多。代码如下</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> times = <span class="number">20000</span>;</span><br><span class="line"><span class="keyword">let</span> html = <span class="string">''</span></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; times; i++) &#123;</span><br><span class="line">  html = <span class="string">`&lt;div&gt;<span class="subst">$&#123;i&#125;</span><span class="subst">$&#123;html&#125;</span>&lt;/div&gt;`</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">document</span>.body.innerHTML += html</span><br><span class="line"><span class="keyword">let</span> queue = [] <span class="comment">//  创建缓存样式的数组</span></span><br><span class="line"><span class="keyword">let</span> microTask <span class="comment">// 执行修改样式的微任务</span></span><br><span class="line"><span class="keyword">const</span> st = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">const</span> div = <span class="built_in">document</span>.querySelector(<span class="string">'div'</span>)</span><br><span class="line">  <span class="keyword">const</span> style = queue.reduce(<span class="function">(<span class="params">acc, cur</span>) =&gt;</span> (&#123;...acc, ...cur&#125;), &#123;&#125;)</span><br><span class="line">  <span class="keyword">for</span>(<span class="keyword">let</span> prop <span class="keyword">in</span> style) &#123;</span><br><span class="line">    div.style[prop] = style[prop]</span><br><span class="line">  &#125;</span><br><span class="line">  queue = []</span><br><span class="line">  microTask = <span class="literal">null</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">const</span> setStyle = <span class="function">(<span class="params">style</span>) =&gt;</span> &#123;</span><br><span class="line">  queue.push(style)</span><br><span class="line">  <span class="keyword">if</span>(!microTask) microTask = <span class="built_in">Promise</span>.resolve().then(st)</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; times; i++) &#123;</span><br><span class="line">  <span class="keyword">const</span> style = &#123;</span><br><span class="line">    fontSize: (i % <span class="number">12</span>) + <span class="number">12</span> + <span class="string">'px'</span>,</span><br><span class="line">    color: i % <span class="number">2</span> ? <span class="string">'red'</span> : <span class="string">'green'</span>,</span><br><span class="line">    margin:  (i % <span class="number">12</span>) + <span class="number">12</span> + <span class="string">'px'</span></span><br><span class="line">  &#125;</span><br><span class="line">  setStyle(style)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>virtualDOM 之所以号称高性能，其实现原理就与此类似。</p>
-<h5 id="缓存元素集合"><a href="#缓存元素集合" class="headerlink" title="缓存元素集合"></a><a id="缓存元素集合">缓存元素集合<a></a></a></h5><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; <span class="built_in">document</span>.querySelectorAll(<span class="string">'div'</span>).length; i++) &#123;</span><br><span class="line">  <span class="built_in">document</span>.querySelectorAll(<span class="string">`div`</span>)[i].innerText = i</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 优化 缓存元素集合</span></span><br><span class="line"><span class="keyword">const</span> divs = <span class="built_in">document</span>.querySelectorAll(<span class="string">'div'</span>)</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; divs.length; i++) &#123;</span><br><span class="line">  divs[i].innerText = i</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="其他优化-提升渲染性能"><a href="#其他优化-提升渲染性能" class="headerlink" title="其他优化 提升渲染性能"></a>其他优化 提升渲染性能</h4><ul>
-<li>尽量不要使用复杂的匹配规则和复杂的样式，从而减少渲染引擎计算样式规则生成 CSSOM 树的时间；</li>
-<li>尽量减少重排和重绘影响的区域；</li>
-<li>使用 CSS3 特性来实现动画效果。</li>
-</ul>
-<hr>
-<p><em>拉勾教育学习笔记，非原创。</em></p>
+<h4 id="Object"><a href="#Object" class="headerlink" title="Object"></a>Object</h4><p>相对于基础类型，引用类型 Object 则复杂很多。简单地说，Object 类型数据就是键值对的集合，键是一个字符串（或者 Symbol） ，值可以是任意类型的值； 复杂地说，Object 又包括很多子类型，比如 Date、Array、Set、RegExp。</p>
+<p>对于 Object 类型，我们重点理解一种常见的操作，即深拷贝。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">clone</span>(<span class="params">obj</span>) </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 防止对象类型无限递归调用</span></span><br><span class="line">    <span class="comment">// WeakMap 来记录已经拷贝过的对象，如果当前对象已经被拷贝过，那么直接从 WeakMap 中取出，否则重新创建一个对象并加入 WeakMap 中</span></span><br><span class="line">  <span class="keyword">let</span> map = <span class="keyword">new</span> <span class="built_in">WeakMap</span>()</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">deep</span>(<span class="params">data</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">let</span> result = &#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 把 Symbol 数据类型也考虑进来，所以不能通过 Object.keys 获取键名或 for...in 方式遍历，而是通过 getOwnPropertyNames 和 getOwnPropertySymbols 函数将键名组合成数组，然后进行遍历</span></span><br><span class="line">    <span class="keyword">const</span> keys = [...Object.getOwnPropertyNames(data), ...Object.getOwnPropertySymbols(data)]</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 对于键数组长度为 0 的非 Object 类型的数据可直接返回</span></span><br><span class="line">    <span class="keyword">if</span>(!keys.length) <span class="keyword">return</span> data</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 如果当前对象已经被拷贝过，那么直接从 WeakMap 中取出</span></span><br><span class="line">    <span class="keyword">const</span> exist = map.get(data)</span><br><span class="line">    <span class="keyword">if</span> (exist) <span class="keyword">return</span> exist</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 创建一个对象并加入 WeakMap 中</span></span><br><span class="line">    map.set(data, result)</span><br><span class="line"></span><br><span class="line">    keys.forEach(<span class="function"><span class="params">key</span> =&gt;</span> &#123;</span><br><span class="line">      <span class="keyword">let</span> item = data[key]</span><br><span class="line"></span><br><span class="line">        <span class="comment">// [undefined, null, true, '', 0, Symbol(), 2n, &#123;&#125;].map(it =&gt; typeof it)// ["undefined", "object", "boolean", "string", "number", "symbol", "bigint", "object"]</span></span><br><span class="line">      <span class="keyword">if</span> (<span class="keyword">typeof</span> item === <span class="string">'object'</span> &amp;&amp; item) &#123;</span><br><span class="line">        result[key] = deep(item)</span><br><span class="line">      &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        result[key] = item</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">    <span class="keyword">return</span> result</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> deep(obj)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
           
         
@@ -484,7 +468,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/11/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/11/">11</a><span class="page-number current">12</span><a class="page-number" href="/page/13/">13</a><span class="space">&hellip;</span><a class="page-number" href="/page/35/">35</a><a class="extend next" rel="next" href="/page/13/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/page/11/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/11/">11</a><span class="page-number current">12</span><a class="page-number" href="/page/13/">13</a><span class="space">&hellip;</span><a class="page-number" href="/page/41/">41</a><a class="extend next" rel="next" href="/page/13/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -530,7 +514,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">35</span>
+                  <span class="site-state-item-count">41</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -596,7 +580,7 @@
     
       <span class="post-meta-item-text">Site words total count&#58;</span>
     
-    <span title="Site words total count">31.7k</span>
+    <span title="Site words total count">33.9k</span>
   
 </div>
 

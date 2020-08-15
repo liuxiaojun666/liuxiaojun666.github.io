@@ -254,7 +254,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://liuxiaojun.win/2020/08/06/代码？/">
+    <link itemprop="mainEntityOfPage" href="http://liuxiaojun.win/2020/08/15/闭包/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="刘小军">
@@ -273,7 +273,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2020/08/06/代码？/" itemprop="url">浏览器如何执行 Javascript 代码？</a></h1>
+                <a class="post-title-link" href="/2020/08/15/闭包/" itemprop="url">闭包</a></h1>
         
 
         <div class="post-meta">
@@ -285,8 +285,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-08-06T21:28:06+08:00">
-                2020-08-06
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-08-15T20:19:07+08:00">
+                2020-08-15
               </time>
             
 
@@ -304,8 +304,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2020/08/06/代码？/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2020/08/06/代码？/" itemprop="commentCount"></span>
+                <a href="/2020/08/15/闭包/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2020/08/15/闭包/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -327,7 +327,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  582
+                  312
                 </span>
               
 
@@ -343,7 +343,7 @@
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
                 <span title="阅读时长">
-                  2
+                  1
                 </span>
               
             </div>
@@ -366,22 +366,14 @@
       
         
           
-            <h4 id="编译过程"><a href="#编译过程" class="headerlink" title="编译过程"></a>编译过程</h4><p>JavaScript 引擎可分为解析、解释和优化 3 个步骤。下面我们就以 V8 引擎为例进行讲解。</p>
-<h5 id="解析"><a href="#解析" class="headerlink" title="解析"></a>解析</h5><ul>
-<li>词法分析，将 JavaScript 代码解析成一个个的令牌（Token）；</li>
-<li>语法分析，将令牌组装成一棵抽象的语法树（AST）。</li>
+            <h4 id="闭包-Closure-：函数和其周围的状态-词法环境-的引用捆绑在一起形成闭包。"><a href="#闭包-Closure-：函数和其周围的状态-词法环境-的引用捆绑在一起形成闭包。" class="headerlink" title="闭包 (Closure)：函数和其周围的状态(词法环境)的引用捆绑在一起形成闭包。"></a>闭包 (Closure)：函数和其周围的状态(词法环境)的引用捆绑在一起形成闭包。</h4><ul>
+<li>可以在另一个作用域中调用一个函数的内部函数并访问到该函数的作用域中的成员</li>
 </ul>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> name = <span class="string">'web'</span></span><br><span class="line"><span class="built_in">console</span>.log(name)</span><br></pre></td></tr></table></figure>
-<p>通过<strong>词法分析</strong>会对这段代码逐个字符进行解析，生成类似下面结构的令牌（Token），这些令牌类型各不相同，有关键字、标识符、符号、字符串。</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">Keyword(var)</span><br><span class="line">Identifier(name)</span><br><span class="line">Punctuator(=)</span><br><span class="line">String('web')</span><br><span class="line">Identifier(console)</span><br><span class="line">Punctuator(.)</span><br><span class="line">Identifier(<span class="built_in">log</span>)</span><br><span class="line">Punctuator(()</span><br><span class="line">Identifier(name)</span><br><span class="line">Punctuator())</span><br></pre></td></tr></table></figure>
-<p><strong>语法分析</strong>阶段会用令牌生成类似下面结构的抽象语法树，生成树的过程并不是简单地把所有令牌都添加到树上，而是去除了不必要的符号令牌之后，按照语法规则来生成。<br><img src="https://s0.lgstatic.com/i/image/M00/27/1E/Ciqc1F70ZQSAGf1cAAEehLtbbTk491.png" alt="语法分析树"><br>抽象语法树</p>
-<p>JavaScript 引擎是通过解释器 Ignition 将 AST 转换成字节码。字节码是对机器码的一个抽象描述，相对于机器码而言，它的代码量更小，从而可以减少内存消耗。</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">[generated bytecode <span class="keyword">for</span> function: <span class="built_in">log</span> (<span class="number">0x1e680d83fc59</span> &lt;SharedFunctionInfo <span class="built_in">log</span>&gt;)]</span><br><span class="line">Parameter count <span class="number">1</span></span><br><span class="line">Register count <span class="number">6</span></span><br><span class="line">Frame size <span class="number">48</span></span><br><span class="line"> <span class="number">9646</span> E&gt; <span class="number">0x376a94a60ea6</span> @    <span class="number">0</span> : a7                StackCheck </span><br><span class="line">         ......</span><br><span class="line">         <span class="number">0x376a94a60ec9</span> @   <span class="number">35</span> : <span class="number">26</span> f6             Star r5</span><br><span class="line"> <span class="number">9683</span> E&gt; <span class="number">0x376a94a60ecb</span> @   <span class="number">37</span> : <span class="number">5</span>a f9 <span class="number">02</span> f7 f6 <span class="number">06</span> CallProperty2 r2, &lt;<span class="keyword">this</span>&gt;, r4, r5, [<span class="number">6</span>]</span><br><span class="line">         <span class="number">0x376a94a60ed1</span> @   <span class="number">43</span> : <span class="number">0</span>d                LdaUndefined </span><br><span class="line"> <span class="number">9729</span> S&gt; <span class="number">0x376a94a60ed2</span> @   <span class="number">44</span> : ab                Return </span><br><span class="line"><span class="function">Constant <span class="title">pool</span> <span class="params">(size = <span class="number">3</span>)</span></span></span><br><span class="line"><span class="function">Handler <span class="title">Table</span> <span class="params">(size = <span class="number">0</span>)</span></span></span><br><span class="line"><span class="function">Source Position <span class="title">Table</span> <span class="params">(size = <span class="number">24</span>)</span></span></span><br></pre></td></tr></table></figure>
-<h5 id="优化"><a href="#优化" class="headerlink" title="优化"></a>优化</h5><p>解释器在得到 AST 之后，会按需进行解释和执行，也就是说如果某个函数没有被调用，则不会去解释执行它。</p>
-<p>在这个过程中解释器会将一些重复可优化的操作（比如类型判断）收集起来生成分析数据，然后将生成的字节码和分析数据传给编译器 TurboFan，编译器会依据分析数据来生成高度优化的机器码。</p>
-<p>优化后的机器码的作用和缓存很类似，当解释器再次遇到相同的内容时，就可以直接执行优化后的机器码。当然优化后的代码有时可能会无法运行（比如函数参数类型改变），那么会再次反优化为字节码交给解释器。</p>
-<p>整个过程如下面流程图所示：</p>
-<p><img src="https://s0.lgstatic.com/i/image/M00/27/29/CgqCHl70ZTqAR9m6AAEz8M57qjs116.png" alt="编译器优化优化"></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 函数作为返回值</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">makeFn</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">let</span> msg = <span class="string">'Hello function'</span></span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(msg)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">const</span> fn = makeFn()</span><br><span class="line">fn()</span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// once</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">once</span> (<span class="params">fn</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">let</span> done = <span class="literal">false</span></span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (!done) &#123;</span><br><span class="line">        done = <span class="literal">true</span></span><br><span class="line">        <span class="keyword">return</span> fn.apply(<span class="keyword">this</span>, <span class="built_in">arguments</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> pay = once(<span class="function"><span class="keyword">function</span> (<span class="params">money</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">`支付：<span class="subst">$&#123;money&#125;</span> RMB`</span>)</span><br><span class="line">&#125;)</span><br><span class="line"><span class="comment">// 只会支付一次</span></span><br><span class="line">pay(<span class="number">5</span>)</span><br><span class="line">pay(<span class="number">5</span>)</span><br></pre></td></tr></table></figure>
+<p>闭包的本质：函数在执行的时候会放到一个执行栈上当函数执行完毕之后会从执行栈上移除，<strong>但是堆上的作用域成员因为被外部引用不能释放</strong>，因此内部函数依然可以访问外部函数的成员</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 生成计算数字的多少次幂的函数</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">makePower</span> (<span class="params">power</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> (<span class="params">x</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">Math</span>.pow(x, power)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> power2 = makePower(<span class="number">2</span>)</span><br><span class="line"><span class="keyword">let</span> power3 = makePower(<span class="number">3</span>)</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(power2(<span class="number">4</span>))</span><br><span class="line"><span class="built_in">console</span>.log(power3(<span class="number">4</span>))</span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 第一个数是基本工资，第二个数是绩效工资</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">makeSalary</span> (<span class="params">x</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> (<span class="params">y</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> x + y</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> salaryLevel1 = makeSalary(<span class="number">1500</span>)</span><br><span class="line"><span class="keyword">let</span> salaryLevel2 = makeSalary(<span class="number">2500</span>)</span><br><span class="line"><span class="built_in">console</span>.log(salaryLevel1(<span class="number">2000</span>))</span><br><span class="line"><span class="built_in">console</span>.log(salaryLevel1(<span class="number">3000</span>))</span><br></pre></td></tr></table></figure>
 
           
         
@@ -421,7 +413,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/35/">35</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/41/">41</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -467,7 +459,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">35</span>
+                  <span class="site-state-item-count">41</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -533,7 +525,7 @@
     
       <span class="post-meta-item-text">Site words total count&#58;</span>
     
-    <span title="Site words total count">31.7k</span>
+    <span title="Site words total count">33.9k</span>
   
 </div>
 

@@ -254,7 +254,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://liuxiaojun.win/2019/01/16/文件下载与文件流blob获取/">
+    <link itemprop="mainEntityOfPage" href="http://liuxiaojun.win/2020/01/22/json转csv/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="刘小军">
@@ -273,7 +273,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/01/16/文件下载与文件流blob获取/" itemprop="url">文件下载与文件流Blob获取</a></h1>
+                <a class="post-title-link" href="/2020/01/22/json转csv/" itemprop="url">Json转csv</a></h1>
         
 
         <div class="post-meta">
@@ -285,8 +285,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-01-16T16:06:58+08:00">
-                2019-01-16
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-01-22T10:47:22+08:00">
+                2020-01-22
               </time>
             
 
@@ -304,8 +304,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2019/01/16/文件下载与文件流blob获取/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2019/01/16/文件下载与文件流blob获取/" itemprop="commentCount"></span>
+                <a href="/2020/01/22/json转csv/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2020/01/22/json转csv/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -327,7 +327,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  237
+                  113
                 </span>
               
 
@@ -366,8 +366,8 @@
       
         
           
-            <p>默认下载文件<br>有下载进度<br>blob为true时，回调函数接收一个blob对象为参数。</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line">(<span class="function"><span class="keyword">function</span> (<span class="params">global, factory</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">typeof</span> exports === <span class="string">'object'</span> &amp;&amp; <span class="keyword">typeof</span> <span class="built_in">module</span> !== <span class="string">'undefined'</span> ? factory(exports) :</span><br><span class="line">        <span class="keyword">typeof</span> define === <span class="string">'function'</span> &amp;&amp; define.amd ? define([<span class="string">'exports'</span>], factory) :</span><br><span class="line">            (factory((global.$solway = global.$solway || &#123;&#125;)));</span><br><span class="line">&#125;(<span class="built_in">window</span>, (<span class="function">(<span class="params">exports</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> download = (&#123;</span><br><span class="line">        url,</span><br><span class="line">        filename,</span><br><span class="line">        callback = <span class="function"><span class="params">()</span> =&gt;</span> &#123;&#125;,</span><br><span class="line">        blob = <span class="literal">false</span>,</span><br><span class="line">        download = <span class="literal">true</span>,</span><br><span class="line">        progress = <span class="function"><span class="params">()</span> =&gt;</span> &#123;&#125;</span><br><span class="line">    &#125;) =&gt; &#123;</span><br><span class="line">        <span class="keyword">const</span> oReq = <span class="keyword">new</span> XMLHttpRequest();</span><br><span class="line">        oReq.open(<span class="string">"GET"</span>, url, <span class="literal">true</span>); <span class="comment">//'/minio/download.htm?id=25'</span></span><br><span class="line">        oReq.responseType = <span class="string">"blob"</span>;</span><br><span class="line">        oReq.addEventListener(<span class="string">"progress"</span>, (&#123; total, loaded &#125;) =&gt; progress(total, loaded), <span class="literal">false</span>);</span><br><span class="line">        oReq.onload = <span class="function"><span class="keyword">function</span> (<span class="params">oEvent</span>) </span>&#123;</span><br><span class="line">            <span class="keyword">if</span> (oReq.response.size === <span class="number">0</span> || oReq.status === <span class="number">404</span>) &#123;</span><br><span class="line">                <span class="keyword">if</span> (confirm(<span class="string">' 文件为空或不存在，确定继续执行吗？'</span>)) __fun();</span><br><span class="line">                <span class="keyword">return</span> callback();</span><br><span class="line">            &#125; <span class="keyword">else</span> __fun();</span><br><span class="line"></span><br><span class="line">            </span><br><span class="line">            <span class="function"><span class="keyword">function</span> <span class="title">__fun</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">                <span class="keyword">const</span> _blob = <span class="keyword">new</span> Blob([oReq.response]);</span><br><span class="line">                <span class="keyword">if</span> (download) &#123;</span><br><span class="line">                    <span class="keyword">const</span> elink = <span class="built_in">document</span>.createElement(<span class="string">'a'</span>);</span><br><span class="line">                    <span class="keyword">const</span> hasFileName = oReq.getResponseHeader(<span class="string">'content-disposition'</span>);</span><br><span class="line">                    elink.download = filename || (hasFileName &amp;&amp; <span class="built_in">decodeURI</span>(hasFileName.split(<span class="string">`UTF-8''`</span>)[<span class="number">1</span>])) || <span class="string">'未命名.你想要的扩展名'</span>;</span><br><span class="line">                    elink.style.display = <span class="string">'none'</span>;</span><br><span class="line">                    elink.href = URL.createObjectURL(_blob);</span><br><span class="line">                    elink.target = <span class="string">'_blank'</span>;</span><br><span class="line">                    <span class="built_in">document</span>.body.appendChild(elink);</span><br><span class="line">                    elink.click();</span><br><span class="line">                    <span class="built_in">document</span>.body.removeChild(elink);</span><br><span class="line">                    <span class="keyword">if</span> (!blob) callback();</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">if</span> (blob) &#123;</span><br><span class="line">                    callback(_blob);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;;</span><br><span class="line">        oReq.send();</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    exports.download = download;</span><br><span class="line">&#125;)));</span><br></pre></td></tr></table></figure>
+            <h3 id="功能：-json转csv并下载"><a href="#功能：-json转csv并下载" class="headerlink" title="功能： json转csv并下载"></a>功能： json转csv并下载</h3><p>示例<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">downloadJSON2CSV([</span><br><span class="line">    &#123; <span class="attr">name</span>: <span class="string">'名称'</span>, <span class="attr">value</span>: <span class="string">'值'</span>, <span class="attr">description</span>: <span class="string">'描述'</span> &#125;,</span><br><span class="line">    &#123; <span class="attr">name</span>: <span class="string">'adsf'</span>, <span class="attr">value</span>: <span class="string">'asdga'</span>, <span class="attr">description</span>: <span class="string">'132132'</span> &#125;</span><br><span class="line">])</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">downloadJSON2CSV</span> (<span class="params">objArray, filename = <span class="string">'1.csv'</span></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">const</span> array = <span class="keyword">typeof</span> objArray !== <span class="string">'object'</span> ? <span class="built_in">JSON</span>.parse(objArray) : objArray</span><br><span class="line">    <span class="keyword">let</span> str = <span class="string">''</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; array.length; i++) &#123;</span><br><span class="line">        <span class="keyword">let</span> line = <span class="string">''</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">let</span> index <span class="keyword">in</span> array[i]) line += array[i][index] + <span class="string">','</span></span><br><span class="line">        line.slice(<span class="number">0</span>, line.Length - <span class="number">1</span>)</span><br><span class="line">        str += line + <span class="string">'\r'</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">const</span> elink = <span class="built_in">document</span>.createElement(<span class="string">'a'</span>)</span><br><span class="line">    elink.download = filename</span><br><span class="line">    <span class="keyword">const</span> blob = <span class="keyword">new</span> Blob([str])</span><br><span class="line">    elink.style.display = <span class="string">'none'</span></span><br><span class="line">    elink.href = URL.createObjectURL(blob)</span><br><span class="line">    elink.target = <span class="string">'_blank'</span></span><br><span class="line">    <span class="built_in">document</span>.body.appendChild(elink)</span><br><span class="line">    elink.click()</span><br><span class="line">    <span class="built_in">document</span>.body.removeChild(elink)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
           
         
@@ -407,7 +407,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/22/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/22/">22</a><span class="page-number current">23</span><a class="page-number" href="/page/24/">24</a><span class="space">&hellip;</span><a class="page-number" href="/page/35/">35</a><a class="extend next" rel="next" href="/page/24/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/page/22/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/22/">22</a><span class="page-number current">23</span><a class="page-number" href="/page/24/">24</a><span class="space">&hellip;</span><a class="page-number" href="/page/41/">41</a><a class="extend next" rel="next" href="/page/24/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -453,7 +453,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">35</span>
+                  <span class="site-state-item-count">41</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -519,7 +519,7 @@
     
       <span class="post-meta-item-text">Site words total count&#58;</span>
     
-    <span title="Site words total count">31.7k</span>
+    <span title="Site words total count">33.9k</span>
   
 </div>
 
