@@ -1,0 +1,859 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon.ico?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon.ico?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+  <meta name="msapplication-config" content="/images/browserconfig.xml">
+
+
+
+  <meta name="keywords" content="刘小军, 前端">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="为什么要学函子在函数式编程中如何把副作用控制在可控的范围内、异常处理、异步操作等。 什么是 Functor 容器：包含值和值的变形关系(这个变形关系就是函数) 函子：是一个特殊的容器，通过一个普通的对象来实现，该对象具有 map 方法，map 方法可以运行一个函数对值进行处理(变形关系)  Functor 函子123456789101112131415161718// 一个容器，包裹一个值clas">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Functor函子">
+<meta property="og:url" content="http://liuxiaojun.win/2020/08/16/Functor函子/index.html">
+<meta property="og:site_name" content="刘小军的博客">
+<meta property="og:description" content="为什么要学函子在函数式编程中如何把副作用控制在可控的范围内、异常处理、异步操作等。 什么是 Functor 容器：包含值和值的变形关系(这个变形关系就是函数) 函子：是一个特殊的容器，通过一个普通的对象来实现，该对象具有 map 方法，map 方法可以运行一个函数对值进行处理(变形关系)  Functor 函子123456789101112131415161718// 一个容器，包裹一个值clas">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2020-08-16T08:22:37.850Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Functor函子">
+<meta name="twitter:description" content="为什么要学函子在函数式编程中如何把副作用控制在可控的范围内、异常处理、异步操作等。 什么是 Functor 容器：包含值和值的变形关系(这个变形关系就是函数) 函子：是一个特殊的容器，通过一个普通的对象来实现，该对象具有 map 方法，map 方法可以运行一个函数对值进行处理(变形关系)  Functor 函子123456789101112131415161718// 一个容器，包裹一个值clas">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"always","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: 'undefined',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://liuxiaojun.win/2020/08/16/Functor函子/">
+
+
+
+
+
+  <title>Functor函子 | 刘小军的博客</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?cbc9864d8ce0f6e0edee0a320269cc26";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">刘小军的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://liuxiaojun.win/2020/08/16/Functor函子/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="刘小军">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="刘小军的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Functor函子</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-08-16T15:37:09+08:00">
+                2020-08-16
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2020/08/16/Functor函子/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2020/08/16/Functor函子/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  1.5k
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  6
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h4 id="为什么要学函子"><a href="#为什么要学函子" class="headerlink" title="为什么要学函子"></a>为什么要学函子</h4><p>在函数式编程中如何把副作用控制在可控的范围内、异常处理、异步操作等。</p>
+<h4 id="什么是-Functor"><a href="#什么是-Functor" class="headerlink" title="什么是 Functor"></a>什么是 Functor</h4><ul>
+<li>容器：包含值和值的变形关系(这个变形关系就是函数)</li>
+<li>函子：是一个特殊的容器，通过一个普通的对象来实现，该对象具有 map 方法，map 方法可以运行一个函数对值进行处理(变形关系)</li>
+</ul>
+<h4 id="Functor-函子"><a href="#Functor-函子" class="headerlink" title="Functor 函子"></a>Functor 函子</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 一个容器，包裹一个值</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Container</span> </span>&#123;</span><br><span class="line">    <span class="comment">// of 静态方法，可以省略 new 关键字创建对象</span></span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">of</span> (value) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> Container(value)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">constructor</span> (value) &#123;</span><br><span class="line">        <span class="keyword">this</span>._value = value</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// map 方法，传入变形关系，将容器里的每一个值映射到另一个容器</span></span><br><span class="line">    map (fn) &#123;</span><br><span class="line">        <span class="keyword">return</span> Container.of(fn(<span class="keyword">this</span>._value))</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 测试</span></span><br><span class="line">Container.of(<span class="number">3</span>)</span><br><span class="line">    .map(<span class="function"><span class="params">x</span> =&gt;</span> x + <span class="number">2</span>)</span><br><span class="line">    .map(<span class="function"><span class="params">x</span> =&gt;</span> x * x)</span><br></pre></td></tr></table></figure>
+<p><strong>总结</strong></p>
+<ul>
+<li>函数式编程的运算不直接操作值，而是由函子完成</li>
+<li>函子就是一个实现了 map 契约的对象</li>
+<li>我们可以把函子想象成一个盒子，这个盒子里封装了一个值</li>
+<li>想要处理盒子中的值，我们需要给盒子的 map 方法传递一个处理值的函数（纯函数），由这个函数来对值进行处理</li>
+<li>最终 map 方法返回一个包含新值的盒子（函子）</li>
+</ul>
+<p>在 Functor 中如果我们传入 null 或 undefined<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 值如果不小心传入了空值(副作用)</span></span><br><span class="line">Container.of(<span class="literal">null</span>)</span><br><span class="line">    .map(<span class="function"><span class="params">x</span> =&gt;</span> x.toUpperCase())</span><br><span class="line"><span class="comment">// TypeError: Cannot read property 'toUpperCase' of null</span></span><br></pre></td></tr></table></figure></p>
+<h4 id="MayBe-函子"><a href="#MayBe-函子" class="headerlink" title="MayBe 函子"></a>MayBe 函子</h4><ul>
+<li>我们在编程的过程中可能会遇到很多错误，需要对这些错误做相应的处理</li>
+<li>MayBe 函子的作用就是可以对外部的空值情况做处理（控制副作用在允许的范围）</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MayBe</span> </span>&#123;</span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">of</span> (value) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> MayBe(value)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">constructor</span> (value) &#123;</span><br><span class="line">        <span class="keyword">this</span>._value = value</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 如果对空值变形的话直接返回 值为 null 的函子</span></span><br><span class="line">    map (fn) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.isNothing() ? MayBe.of(<span class="literal">null</span>) : MayBe.of(fn(<span class="keyword">this</span>._value))</span><br><span class="line">    &#125;</span><br><span class="line">    isNothing () &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>._value === <span class="literal">null</span> || <span class="keyword">this</span>._value === <span class="literal">undefined</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 传入具体值</span></span><br><span class="line">MayBe.of(<span class="string">'Hello World'</span>)</span><br><span class="line">    .map(<span class="function"><span class="params">x</span> =&gt;</span> x.toUpperCase())</span><br><span class="line"><span class="comment">// 传入 null 的情况</span></span><br><span class="line">MayBe.of(<span class="literal">null</span>)</span><br><span class="line">    .map(<span class="function"><span class="params">x</span> =&gt;</span> x.toUpperCase())</span><br><span class="line"><span class="comment">// =&gt; MayBe &#123; _value: null &#125;</span></span><br></pre></td></tr></table></figure>
+<p>在 MayBe 函子中，我们很难确认是哪一步产生的空值问题，如下例：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">MayBe.of(<span class="string">'hello world'</span>)</span><br><span class="line">    .map(<span class="function"><span class="params">x</span> =&gt;</span> x.toUpperCase())</span><br><span class="line">    .map(<span class="function"><span class="params">x</span> =&gt;</span> <span class="literal">null</span>)</span><br><span class="line">    .map(<span class="function"><span class="params">x</span> =&gt;</span> x.split(<span class="string">' '</span>))</span><br><span class="line"><span class="comment">// =&gt; MayBe &#123; _value: null &#125;</span></span><br></pre></td></tr></table></figure></p>
+<h4 id="Either-函子"><a href="#Either-函子" class="headerlink" title="Either 函子"></a>Either 函子</h4><ul>
+<li>Either 两者中的任何一个，类似于 if…else…的处理</li>
+<li>异常会让函数变的不纯，Either 函子可以用来做异常处理</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Left</span> </span>&#123;</span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">of</span> (value) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> Left(value)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">constructor</span> (value) &#123;</span><br><span class="line">        <span class="keyword">this</span>._value = value</span><br><span class="line">    &#125;</span><br><span class="line">    map (fn) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Right</span> </span>&#123;</span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">of</span> (value) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> Right(value)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">constructor</span> (value) &#123;</span><br><span class="line">        <span class="keyword">this</span>._value = value</span><br><span class="line">    &#125;</span><br><span class="line">    map(fn) &#123;</span><br><span class="line">        <span class="keyword">return</span> Right.of(fn(<span class="keyword">this</span>._value))</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Either 用来处理异常<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">parseJSON</span>(<span class="params">json</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> Right.of(<span class="built_in">JSON</span>.parse(json));</span><br><span class="line">    &#125; <span class="keyword">catch</span> (e) &#123;</span><br><span class="line">        <span class="keyword">return</span> Left.of(&#123; <span class="attr">error</span>: e.message&#125;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> r = parseJSON(<span class="string">'&#123; "name": "zs" &#125;'</span>)</span><br><span class="line">    .map(<span class="function"><span class="params">x</span> =&gt;</span> x.name.toUpperCase())</span><br><span class="line"><span class="built_in">console</span>.log(r)</span><br></pre></td></tr></table></figure></p>
+<h4 id="IO-函子"><a href="#IO-函子" class="headerlink" title="IO 函子"></a>IO 函子</h4><ul>
+<li>IO 函子中的 _value 是一个函数，这里是把函数作为值来处理</li>
+<li>IO 函子可以把不纯的动作存储到 _value 中，延迟执行这个不纯的操作(惰性执行)，包装当前的操作纯</li>
+<li>把不纯的操作交给调用者来处理</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> fp = <span class="built_in">require</span>(<span class="string">'lodash/fp'</span>)</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">IO</span> </span>&#123;</span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">of</span> (x) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> IO(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> x</span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">constructor</span> (fn) &#123;</span><br><span class="line">        <span class="keyword">this</span>._value = fn</span><br><span class="line">    &#125;</span><br><span class="line">    map (fn) &#123;</span><br><span class="line">        <span class="comment">// 把当前的 value 和 传入的 fn 组合成一个新的函数</span></span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> IO(fp.flowRight(fn, <span class="keyword">this</span>._value))</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 调用</span></span><br><span class="line"><span class="keyword">let</span> io = IO.of(process).map(<span class="function"><span class="params">p</span> =&gt;</span> p.execPath)</span><br><span class="line"><span class="built_in">console</span>.log(io._value())</span><br></pre></td></tr></table></figure>
+<h4 id="Task-异步执行"><a href="#Task-异步执行" class="headerlink" title="Task 异步执行"></a>Task 异步执行</h4><p>异步任务的实现过于复杂，我们使用 folktale 中的 Task 来演示</p>
+<p><a href="https://folktale.origamitower.com/" target="_blank" rel="noopener">folktale</a> 一个标准的函数式编程库</p>
+<ul>
+<li>和 lodash、ramda 不同的是，他没有提供很多功能函数</li>
+<li>只提供了一些函数式处理的操作，例如：compose、curry 等，一些函子 Task、Either、MayBe 等</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> &#123; compose, curry &#125; = <span class="built_in">require</span>(<span class="string">'folktale/core/lambda'</span>)</span><br><span class="line"><span class="keyword">const</span> &#123; toUpper, first &#125; = <span class="built_in">require</span>(<span class="string">'lodash/fp'</span>)</span><br><span class="line"><span class="comment">// 第一个参数是传入函数的参数个数</span></span><br><span class="line"><span class="keyword">let</span> f = curry(<span class="number">2</span>, <span class="function"><span class="keyword">function</span> (<span class="params">x, y</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(x + y)</span><br><span class="line">&#125;)</span><br><span class="line">f(<span class="number">3</span>, <span class="number">4</span>)</span><br><span class="line">f(<span class="number">3</span>)(<span class="number">4</span>)</span><br><span class="line"><span class="comment">// 函数组合</span></span><br><span class="line"><span class="keyword">let</span> f = compose(toUpper, first)</span><br><span class="line">f([<span class="string">'one'</span>, <span class="string">'two'</span>])</span><br></pre></td></tr></table></figure>
+<p>Task 异步执行</p>
+<ul>
+<li>folktale(2.3.2) 2.x 中的 Task 和 1.0 中的 Task 区别很大，1.0 中的用法更接近我们现在演示的函子</li>
+<li>这里以 2.3.2 来演示</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> &#123; task &#125; = <span class="built_in">require</span>(<span class="string">'folktale/concurrency/task'</span>)</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">readFile</span>(<span class="params">filename</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> task(<span class="function"><span class="params">resolver</span> =&gt;</span> &#123;</span><br><span class="line">        fs.readFile(filename, <span class="string">'utf-8'</span>, (err, data) =&gt; &#123;</span><br><span class="line">            <span class="keyword">if</span> (err) resolver.reject(err)</span><br><span class="line">            resolver.resolve(data)</span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 调用 run 执行</span></span><br><span class="line">readFile(<span class="string">'package.json'</span>)</span><br><span class="line">    .map(split(<span class="string">'\n'</span>))</span><br><span class="line">    .map(find(<span class="function"><span class="params">x</span> =&gt;</span> x.includes(<span class="string">'version'</span>)))</span><br><span class="line">    .run()</span><br><span class="line">    .listen(&#123;</span><br><span class="line">        onRejected: <span class="function"><span class="params">err</span> =&gt;</span> &#123;</span><br><span class="line">            <span class="built_in">console</span>.log(err)</span><br><span class="line">        &#125;,</span><br><span class="line">        onResolved: <span class="function"><span class="params">value</span> =&gt;</span> &#123;</span><br><span class="line">            <span class="built_in">console</span>.log(value)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<h4 id="Pointed-函子"><a href="#Pointed-函子" class="headerlink" title="Pointed 函子"></a>Pointed 函子</h4><ul>
+<li>Pointed 函子是实现了 of 静态方法的函子</li>
+<li>of 方法是为了避免使用 new 来创建对象，更深层的含义是 of 方法用来把值放到上下文Context（把值放到容器中，使用 map 来处理值）</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Container</span> </span>&#123;</span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">of</span> (value) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> Container(value)</span><br><span class="line">    &#125;</span><br><span class="line">    ……</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Contanier.of(<span class="number">2</span>)</span><br><span class="line">    .map(<span class="function"><span class="params">x</span> =&gt;</span> x + <span class="number">5</span>)</span><br></pre></td></tr></table></figure>
+<h4 id="Monad（单子）"><a href="#Monad（单子）" class="headerlink" title="Monad（单子）"></a>Monad（单子）</h4><p>在使用 IO 函子的时候，如果我们写出如下代码：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> fs = <span class="built_in">require</span>(<span class="string">'fs'</span>)</span><br><span class="line"><span class="keyword">const</span> fp = <span class="built_in">require</span>(<span class="string">'lodash/fp'</span>)</span><br><span class="line"><span class="keyword">let</span> readFile = <span class="function"><span class="keyword">function</span> (<span class="params">filename</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> IO(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> fs.readFileSync(filename, <span class="string">'utf-8'</span>)</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> print = <span class="function"><span class="keyword">function</span>(<span class="params">x</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> IO(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(x)</span><br><span class="line">        <span class="keyword">return</span> x</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// IO(IO(x))</span></span><br><span class="line"><span class="keyword">let</span> cat = fp.flowRight(print, readFile)</span><br><span class="line"><span class="comment">// 调用</span></span><br><span class="line"><span class="keyword">let</span> r = cat(<span class="string">'package.json'</span>)._value()._value()</span><br><span class="line"><span class="built_in">console</span>.log(r)</span><br></pre></td></tr></table></figure>
+<ul>
+<li>Monad 函子是可以变扁的 Pointed 函子，IO(IO(x))</li>
+<li>一个函子如果具有 join 和 of 两个方法并遵守一些定律就是一个 Monad</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> fp = <span class="built_in">require</span>(<span class="string">'lodash/fp'</span>)</span><br><span class="line"><span class="comment">// IO Monad</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">IO</span> </span>&#123;</span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">of</span> (x) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> IO(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> x</span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">constructor</span> (fn) &#123;</span><br><span class="line">        <span class="keyword">this</span>._value = fn</span><br><span class="line">    &#125;</span><br><span class="line">    map (fn) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> IO(fp.flowRight(fn, <span class="keyword">this</span>._value))</span><br><span class="line">    &#125;</span><br><span class="line">    join () &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>._value()</span><br><span class="line">    &#125;</span><br><span class="line">    flatMap (fn) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.map(fn).join()</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> r = readFile(<span class="string">'package.json'</span>)</span><br><span class="line">            .map(fp.toUpper)</span><br><span class="line">            .flatMap(print)</span><br><span class="line">            .join()</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.png" alt="刘小军 微信支付">
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.png" alt="刘小军 支付宝">
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/08/16/函数组合/" rel="next" title="函数组合">
+                <i class="fa fa-chevron-left"></i> 函数组合
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">刘小军</p>
+              <p class="site-description motion-element" itemprop="description"><a href="https://github.com/liuxiaojun666" target="_blank">https://github.com/liuxiaojun666</a></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">44</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">18</span>
+                  <span class="site-state-item-name">标签</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          <div class="links-of-author motion-element">
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#为什么要学函子"><span class="nav-number">1.</span> <span class="nav-text">为什么要学函子</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#什么是-Functor"><span class="nav-number">2.</span> <span class="nav-text">什么是 Functor</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Functor-函子"><span class="nav-number">3.</span> <span class="nav-text">Functor 函子</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#MayBe-函子"><span class="nav-number">4.</span> <span class="nav-text">MayBe 函子</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Either-函子"><span class="nav-number">5.</span> <span class="nav-text">Either 函子</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#IO-函子"><span class="nav-number">6.</span> <span class="nav-text">IO 函子</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Task-异步执行"><span class="nav-number">7.</span> <span class="nav-text">Task 异步执行</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Pointed-函子"><span class="nav-number">8.</span> <span class="nav-text">Pointed 函子</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Monad（单子）"><span class="nav-number">9.</span> <span class="nav-text">Monad（单子）</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">刘小军</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+      <span class="post-meta-item-text">Site words total count&#58;</span>
+    
+    <span title="Site words total count">37.1k</span>
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.3</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+  <div style="display: none;">
+    <script type="text/javascript">
+    
+      var cnzz_protocol = (("https:" == document.location.protocol) ? "https://" : "http://");
+      document.write(unescape("%3Cspan id='cnzz_stat_icon_1277697726'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s23.cnzz.com/z_stat.php%3Fid%3D1277697726' type='text/javascript'%3E%3C/script%3E"));
+    </script>
+  </div>
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item=>{
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: true,
+        notify: true,
+        appId: 'QrQXqH8h3rLUnOfSQsUahbhj-gzGzoHsz',
+        appKey: 'exT4E2hOos79VDDPkQWrMorl',
+        placeholder: 'Just go go',
+        avatar:'mm',
+        guest_info:guest,
+        pageSize:'10' || 10,
+    });
+  </script>
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

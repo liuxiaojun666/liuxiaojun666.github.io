@@ -254,7 +254,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://liuxiaojun.win/2020/08/15/函数式编程/">
+    <link itemprop="mainEntityOfPage" href="http://liuxiaojun.win/2020/08/15/闭包/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="刘小军">
@@ -273,7 +273,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2020/08/15/函数式编程/" itemprop="url">函数式编程</a></h1>
+                <a class="post-title-link" href="/2020/08/15/闭包/" itemprop="url">闭包</a></h1>
         
 
         <div class="post-meta">
@@ -285,7 +285,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-08-15T19:04:54+08:00">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-08-15T20:19:07+08:00">
                 2020-08-15
               </time>
             
@@ -304,8 +304,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2020/08/15/函数式编程/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2020/08/15/函数式编程/" itemprop="commentCount"></span>
+                <a href="/2020/08/15/闭包/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2020/08/15/闭包/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -327,7 +327,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  520
+                  312
                 </span>
               
 
@@ -366,34 +366,14 @@
       
         
           
-            <h4 id="为什么要学习函数式编程"><a href="#为什么要学习函数式编程" class="headerlink" title="为什么要学习函数式编程"></a>为什么要学习函数式编程</h4><p>函数式编程是非常古老的一个概念，早于第一台计算机的诞生，<a href="https://zhuanlan.zhihu.com/p/24648375?refer=marisa" target="_blank" rel="noopener">函数式编程的历史</a>。<br>那我们为什么现在还要学函数式编程？</p>
-<ul>
-<li>函数式编程是随着 React 的流行受到越来越多的关注</li>
-<li>Vue 3也开始拥抱函数式编程</li>
-<li>函数式编程可以抛弃 this</li>
-<li>打包过程中可以更好的利用 tree shaking 过滤无用代码</li>
-<li>方便测试、方便并行处理</li>
-<li>有很多库可以帮助我们进行函数式开发：lodash、underscore、ramda</li>
+            <h4 id="闭包-Closure-：函数和其周围的状态-词法环境-的引用捆绑在一起形成闭包。"><a href="#闭包-Closure-：函数和其周围的状态-词法环境-的引用捆绑在一起形成闭包。" class="headerlink" title="闭包 (Closure)：函数和其周围的状态(词法环境)的引用捆绑在一起形成闭包。"></a>闭包 (Closure)：函数和其周围的状态(词法环境)的引用捆绑在一起形成闭包。</h4><ul>
+<li>可以在另一个作用域中调用一个函数的内部函数并访问到该函数的作用域中的成员</li>
 </ul>
-<h4 id="什么是函数式编程"><a href="#什么是函数式编程" class="headerlink" title="什么是函数式编程"></a>什么是函数式编程</h4><p>函数式编程(Functional Programming, FP)，FP 是编程范式之一，我们常听说的编程范式还有面向过程编程、面向对象编程。</p>
-<ul>
-<li>面向对象编程的思维方式：把现实世界中的事物抽象成程序世界中的类和对象，通过封装、继承和多态来演示事物事件的联系</li>
-<li>函数式编程的思维方式：把现实世界的事物和事物之间的联系抽象到程序世界（对运算过程进行抽象）<ul>
-<li>程序的本质：根据输入通过某种运算获得相应的输出，程序开发过程中会涉及很多有输入和输出的函数</li>
-<li>x -&gt; f(联系、映射) -&gt; y，y=f(x)</li>
-<li><strong>函数式编程中的函数指的不是程序中的函数</strong>(方法)，而是数学中的函数即映射关系，例如：<strong>y = sin(x)</strong>，x和y的关系</li>
-<li><strong>相同的输入始终要得到相同的输出</strong>(纯函数)</li>
-<li>函数式编程用来描述数据(函数)之间的映射</li>
-</ul>
-</li>
-</ul>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 非函数式 </span></span><br><span class="line"><span class="keyword">let</span> num1 = <span class="number">2</span> </span><br><span class="line"><span class="keyword">let</span> num2 = <span class="number">3</span> </span><br><span class="line"><span class="keyword">let</span> sum = num1 + num2 </span><br><span class="line"><span class="built_in">console</span>.log(sum) </span><br><span class="line"></span><br><span class="line"><span class="comment">// 函数式 </span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">add</span> (<span class="params">n1, n2</span>) </span>&#123; </span><br><span class="line">    <span class="keyword">return</span> n1 + n2 </span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> sum = add(<span class="number">2</span>, <span class="number">3</span>) </span><br><span class="line"><span class="built_in">console</span>.log(sum)</span><br></pre></td></tr></table></figure>
-<h4 id="前置知识"><a href="#前置知识" class="headerlink" title="前置知识"></a>前置知识</h4><ul>
-<li><a href="/2020/08/15/函数是一等公民/">函数是一等公民</a></li>
-<li><a href="/2020/08/15/高阶函数/">高阶函数</a></li>
-<li><a href="/2020/08/15/闭包/">闭包</a></li>
-</ul>
-<h4 id="纯函数"><a href="#纯函数" class="headerlink" title="纯函数"></a>纯函数</h4><p><a href="/2020/08/15/纯函数/">纯函数</a>：相同的输入永远会得到相同的输出，而且没有任何可观察的副作用</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 函数作为返回值</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">makeFn</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">let</span> msg = <span class="string">'Hello function'</span></span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(msg)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">const</span> fn = makeFn()</span><br><span class="line">fn()</span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// once</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">once</span> (<span class="params">fn</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">let</span> done = <span class="literal">false</span></span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (!done) &#123;</span><br><span class="line">        done = <span class="literal">true</span></span><br><span class="line">        <span class="keyword">return</span> fn.apply(<span class="keyword">this</span>, <span class="built_in">arguments</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> pay = once(<span class="function"><span class="keyword">function</span> (<span class="params">money</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">`支付：<span class="subst">$&#123;money&#125;</span> RMB`</span>)</span><br><span class="line">&#125;)</span><br><span class="line"><span class="comment">// 只会支付一次</span></span><br><span class="line">pay(<span class="number">5</span>)</span><br><span class="line">pay(<span class="number">5</span>)</span><br></pre></td></tr></table></figure>
+<p>闭包的本质：函数在执行的时候会放到一个执行栈上当函数执行完毕之后会从执行栈上移除，<strong>但是堆上的作用域成员因为被外部引用不能释放</strong>，因此内部函数依然可以访问外部函数的成员</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 生成计算数字的多少次幂的函数</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">makePower</span> (<span class="params">power</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> (<span class="params">x</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">Math</span>.pow(x, power)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> power2 = makePower(<span class="number">2</span>)</span><br><span class="line"><span class="keyword">let</span> power3 = makePower(<span class="number">3</span>)</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(power2(<span class="number">4</span>))</span><br><span class="line"><span class="built_in">console</span>.log(power3(<span class="number">4</span>))</span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 第一个数是基本工资，第二个数是绩效工资</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">makeSalary</span> (<span class="params">x</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> (<span class="params">y</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> x + y</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> salaryLevel1 = makeSalary(<span class="number">1500</span>)</span><br><span class="line"><span class="keyword">let</span> salaryLevel2 = makeSalary(<span class="number">2500</span>)</span><br><span class="line"><span class="built_in">console</span>.log(salaryLevel1(<span class="number">2000</span>))</span><br><span class="line"><span class="built_in">console</span>.log(salaryLevel1(<span class="number">3000</span>))</span><br></pre></td></tr></table></figure>
 
           
         
@@ -433,7 +413,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/4/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><span class="space">&hellip;</span><a class="page-number" href="/page/41/">41</a><a class="extend next" rel="next" href="/page/6/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/page/4/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><span class="space">&hellip;</span><a class="page-number" href="/page/44/">44</a><a class="extend next" rel="next" href="/page/6/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -479,7 +459,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">41</span>
+                  <span class="site-state-item-count">44</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -545,7 +525,7 @@
     
       <span class="post-meta-item-text">Site words total count&#58;</span>
     
-    <span title="Site words total count">33.9k</span>
+    <span title="Site words total count">37.1k</span>
   
 </div>
 

@@ -254,7 +254,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://liuxiaojun.win/2020/03/22/网站开机自启浏览器全屏自动登录/">
+    <link itemprop="mainEntityOfPage" href="http://liuxiaojun.win/2020/07/19/前端模块化演进过程/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="刘小军">
@@ -273,7 +273,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2020/03/22/网站开机自启浏览器全屏自动登录/" itemprop="url">网站开机自启浏览器全屏自动登录</a></h1>
+                <a class="post-title-link" href="/2020/07/19/前端模块化演进过程/" itemprop="url">前端模块化演进过程</a></h1>
         
 
         <div class="post-meta">
@@ -285,8 +285,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-03-22T11:49:42+08:00">
-                2020-03-22
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-07-19T12:24:17+08:00">
+                2020-07-19
               </time>
             
 
@@ -304,8 +304,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2020/03/22/网站开机自启浏览器全屏自动登录/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2020/03/22/网站开机自启浏览器全屏自动登录/" itemprop="commentCount"></span>
+                <a href="/2020/07/19/前端模块化演进过程/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2020/07/19/前端模块化演进过程/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -327,7 +327,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  558
+                  1.1k
                 </span>
               
 
@@ -343,7 +343,7 @@
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
                 <span title="阅读时长">
-                  2
+                  4
                 </span>
               
             </div>
@@ -366,39 +366,63 @@
       
         
           
-            <h2 id="需求"><a href="#需求" class="headerlink" title="需求"></a>需求</h2><p>大屏展示页面，需要开机自动启动浏览器并且实现绕过验证码自动登录。</p>
-<h2 id="最终实现"><a href="#最终实现" class="headerlink" title="最终实现"></a>最终实现</h2><ol>
-<li>配置开机自启动页面，用户输入账号、密码。</li>
-<li>配置完成后，用户下载一个vbs脚本</li>
-<li>把vbs脚本放入开机自启项</li>
-<li>下次开机就会执行脚本自动登录了</li>
+            <h4 id="模块化的演进过程"><a href="#模块化的演进过程" class="headerlink" title="模块化的演进过程"></a>模块化的演进过程</h4><ol>
+<li><a href="#文件划分方式">Stage 1 - 文件划分方式</a></li>
+<li><a href="#命名空间方式">Stage 2 – 命名空间方式</a></li>
+<li><a href="#IIFE">Stage 3 - IIFE</a></li>
+<li><a href="#IIFE依赖参数">Stage 4 - IIFE 依赖参数</a></li>
 </ol>
-<h2 id="实现过程"><a href="#实现过程" class="headerlink" title="实现过程"></a>实现过程</h2><ol>
-<li><p>下载 fingerprint2.js，配置页面和登录页面会用到以下代码获取指纹。<br> <a href="/demo/20200322/fingerprint2.min.js" title="下载fingerprint2.js">来这里下载</a></p>
- <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getFingerprint</span>(<span class="params">callback</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> excludes = &#123;</span><br><span class="line">        userAgent: <span class="literal">true</span>,</span><br><span class="line">        audio: <span class="literal">true</span>,</span><br><span class="line">        enumerateDevices: <span class="literal">true</span>,</span><br><span class="line">        fonts: <span class="literal">true</span>,</span><br><span class="line">        fontsFlash: <span class="literal">true</span>,</span><br><span class="line">        webgl: <span class="literal">true</span>,</span><br><span class="line">        canvas: <span class="literal">true</span></span><br><span class="line">    &#125;</span><br><span class="line">    Fingerprint2.get(&#123; <span class="attr">excludes</span>: excludes &#125;, <span class="function"><span class="keyword">function</span> (<span class="params">components</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">var</span> values = components.map(<span class="function"><span class="keyword">function</span> (<span class="params">component</span>) </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> component.value;</span><br><span class="line">        &#125;);</span><br><span class="line">        <span class="keyword">var</span> murmur = Fingerprint2.x64hash128(values.join(<span class="string">''</span>), <span class="number">31</span>);</span><br><span class="line">        callback(murmur);</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="Stage-1-文件划分方式"><a href="#Stage-1-文件划分方式" class="headerlink" title="Stage 1 - 文件划分方式"></a><a id="文件划分方式">Stage 1 - 文件划分方式</a></h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">└─ stage-1</span><br><span class="line">    ├── module-a.js</span><br><span class="line">    ├── module-b.js</span><br><span class="line">    └── index.html</span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// module-a.js </span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">   <span class="built_in">console</span>.log(<span class="string">'moduleA#foo'</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// module-b.js </span></span><br><span class="line"><span class="keyword">var</span> data = <span class="string">'something'</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">title</span>&gt;</span>Stage 1<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"module-a.js"</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"module-b.js"</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="javascript">    <span class="comment">// 直接使用全局成员</span></span></span><br><span class="line"><span class="javascript">    foo() <span class="comment">// 可能存在命名冲突</span></span></span><br><span class="line"><span class="javascript">    <span class="built_in">console</span>.log(data)</span></span><br><span class="line"><span class="javascript">    data = <span class="string">'other'</span> <span class="comment">// 数据可能会被修改</span></span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>缺点：实现方式完全依靠约定实现</p>
+<ul>
+<li>模块直接在全局工作，大量模块成员污染全局作用域；</li>
+<li>没有私有空间，所有模块内的成员都可以在模块外部被访问或者修改；</li>
+<li>一旦模块增多，容易产生命名冲突；</li>
+<li>无法管理模块与模块之间的依赖关系；</li>
+<li>在维护的过程中也很难分辨每个成员所属的模块。</li>
+</ul>
+<h5 id="Stage-2-命名空间方式"><a href="#Stage-2-命名空间方式" class="headerlink" title="Stage 2 - 命名空间方式"></a><a id="命名空间方式">Stage 2 - 命名空间方式</a></h5><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// module-a.js</span></span><br><span class="line"><span class="built_in">window</span>.moduleA = &#123;</span><br><span class="line">  method1: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'moduleA#method1'</span>)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// module-b.js</span></span><br><span class="line"><span class="built_in">window</span>.moduleB = &#123;</span><br><span class="line">  data: <span class="string">'something'</span></span><br><span class="line">  method1: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'moduleB#method1'</span>)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">title</span>&gt;</span>Stage 2<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"module-a.js"</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"module-b.js"</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">script</span>&gt;</span></span><br><span class="line">    moduleA.method1()</span><br><span class="line">    moduleB.method1()</span><br><span class="line"><span class="javascript">    <span class="comment">// 模块成员依然可以被修改</span></span></span><br><span class="line"><span class="javascript">    moduleA.data = <span class="string">'foo'</span></span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>这种命名空间的方式只是解决了命名冲突的问题，但是其它问题依旧存在。</p>
+<h5 id="Stage-3-IIFE"><a href="#Stage-3-IIFE" class="headerlink" title="Stage 3 - IIFE"></a><a id="IIFE">Stage 3 - IIFE</a></h5><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// module-a.js</span></span><br><span class="line">;(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> name = <span class="string">'module-a'</span></span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">method1</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(name + <span class="string">'#method1'</span>)</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="built_in">window</span>.moduleA = &#123;</span><br><span class="line">    method1: method1</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)()</span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// module-b.js</span></span><br><span class="line">;(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> name = <span class="string">'module-b'</span></span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">method1</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(name + <span class="string">'#method1'</span>)</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="built_in">window</span>.moduleB = &#123;</span><br><span class="line">    method1: method1</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)()</span><br></pre></td></tr></table></figure>
+<p>这种方式带来了私有成员的概念，私有成员只能在模块成员内通过闭包的形式访问，这就解决了前面所提到的全局作用域污染和命名冲突的问题。</p>
+<h5 id="Stage-4-IIFE依赖参数"><a href="#Stage-4-IIFE依赖参数" class="headerlink" title="Stage 4 - IIFE依赖参数"></a><a id="IIFE依赖参数">Stage 4 - IIFE依赖参数</a></h5><p>在 IIFE 的基础之上，我们还可以利用 IIFE 参数作为依赖声明使用，这使得每一个模块之间的依赖关系变得更加明显。<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// module-a.js</span></span><br><span class="line">;(<span class="function"><span class="keyword">function</span> (<span class="params">$</span>) </span>&#123; <span class="comment">// 通过参数明显表明这个模块的依赖</span></span><br><span class="line">  <span class="keyword">var</span> name = <span class="string">'module-a'</span></span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">method1</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(name + <span class="string">'#method1'</span>)</span><br><span class="line">    $(<span class="string">'body'</span>).animate(&#123; <span class="attr">margin</span>: <span class="string">'200px'</span> &#125;)</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="built_in">window</span>.moduleA = &#123;</span><br><span class="line">    method1: method1</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)(jQuery)</span><br></pre></td></tr></table></figure></p>
+<h4 id="模块加载的问题"><a href="#模块加载的问题" class="headerlink" title="模块加载的问题"></a>模块加载的问题</h4><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">title</span>&gt;</span>Evolution<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"https://unpkg.com/jquery"</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"module-a.js"</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"module-b.js"</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">script</span>&gt;</span></span><br><span class="line">    moduleA.method1()</span><br><span class="line">    moduleB.method1()</span><br><span class="line">  <span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>虽然都解决了模块代码的组织问题，但模块加载的问题却被忽略了</p>
+<p>模块的加载并不受代码的控制</p>
+<h4 id="模块化规范"><a href="#模块化规范" class="headerlink" title="模块化规范"></a>模块化规范</h4><ul>
+<li>CommonJS 规范<blockquote>
+<p>它是 Node.js 中所遵循的模块规范，该规范约定，一个文件就是一个模块，每个模块都有单独的作用域，通过 module.exports 导出成员，再通过 require 函数载入模块。<br>Node.js 执行机制是在启动时加载模块，执行过程中只是使用模块，所以这种方式不会有问题。</p>
+</blockquote>
 </li>
-<li><p>配置页面提交时候携带上面生成的指纹码</p>
- <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">getFingerprint(<span class="function"><span class="keyword">function</span> (<span class="params">fingerprint</span>) </span>&#123;</span><br><span class="line">    apiConfig(&#123;</span><br><span class="line">        username: <span class="string">'username'</span>,</span><br><span class="line">        password: <span class="string">'password'</span>,</span><br><span class="line">        fingerprint: fingerprint</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<li>AMD（Asynchronous Module Definition）<blockquote>
+<p>代表：Require.js。除了实现了 AMD 模块化规范，本身也是一个非常强大的模块加载器。<br><img src="https://s0.lgstatic.com/i/image3/M01/89/DC/Cgq2xl6YeWWAZhc-AAIVA96nDrk023.png" alt="AMD定义模块"><br><img src="https://s0.lgstatic.com/i/image3/M01/03/97/CgoCgV6YeWWAZBOiAAFbOHcA3-o771.png" alt="AMD载入模块"></p>
+</blockquote>
 </li>
-<li><p>后台拿到指纹码与账户进行账户与指纹码关联并存储</p>
+<li>CMD （Common Module Definition）<blockquote>
+<p>代表：Sea.js。<br>写法类似 CommonJs 规范。<br>Sea.js 被 Require.js 兼容了，下图<br><img src="https://s0.lgstatic.com/i/image3/M01/10/C6/Ciqah16YeWWAHUDmAAI62LbE3vI465.png" alt="Sea.js 被 Require.js 兼容了"></p>
+</blockquote>
 </li>
-<li><p>前端下载脚本，修改用户名、密码、浏览器地址（建议使用谷歌浏览器）</p>
- <figure class="highlight vb"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">Dim</span> delayer</span><br><span class="line"><span class="keyword">Set</span> delayer = CreateObject(<span class="string">"WScript.Shell"</span>)</span><br><span class="line">WScript.sleep <span class="number">8000</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">Dim</span> username</span><br><span class="line">username = <span class="string">"用户名"</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">Dim</span> password</span><br><span class="line">password = <span class="string">"密码!"</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">Dim</span> browser</span><br><span class="line">browser = <span class="string">"C:\Program Files (x86)\Google\Chrome\Application\chrome.exe"</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">Dim</span> env</span><br><span class="line">env = <span class="string">"http://necloud.solway.com.cn"</span> <span class="comment">' 域名</span></span><br><span class="line"></span><br><span class="line">delayer.run <span class="string">""</span><span class="string">""</span> + browser + <span class="string">""</span><span class="string">" -kiosk "</span> + env + <span class="string">"/login.html?_="</span> &amp; DateDiff(<span class="string">"s"</span>, <span class="meta">#1/1/1970#, Now()) &amp; "&amp;username=" + username + "&amp;password=" + password,0,FALSE</span></span><br><span class="line"><span class="keyword">Set</span> delayer = <span class="literal">Nothing</span></span><br><span class="line">WScript.quit</span><br></pre></td></tr></table></figure>
+</ul>
+<h4 id="模块化的标准规范"><a href="#模块化的标准规范" class="headerlink" title="模块化的标准规范"></a>模块化的标准规范</h4><ul>
+<li>在 Node.js 环境中，我们遵循 CommonJS 规范来组织模块。</li>
+<li>在浏览器环境中，我们遵循 ES Modules 规范。<blockquote>
+<p>ES Modules 是 ECMAScript 2015（ES6）中才定义的模块系统，兼容性，借助webapck打包工具</p>
+</blockquote>
 </li>
-<li><p>配置完成后，把脚本设置为开机自启</p>
-<ol>
-<li>win + r</li>
-<li>输入 shell:startup   回车，将会打开一个文件夹</li>
-<li>将脚本拖入文件夹</li>
-<li>重新启动电脑  不出错的情况下会开机自动全屏启动浏览器自动登录</li>
-</ol>
-</li>
-<li><p>登录页操作</p>
- <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> searchParams = &#123;&#125;</span><br><span class="line"><span class="built_in">window</span>.location.search.substr(<span class="number">1</span>).split(<span class="string">'&amp;'</span>).forEach(<span class="function"><span class="keyword">function</span> <span class="title">name</span>(<span class="params">params</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> arr = params.split(<span class="string">'='</span>)</span><br><span class="line">    searchParams[arr[<span class="number">0</span>]] = arr[<span class="number">1</span>]</span><br><span class="line">&#125;)</span><br><span class="line"><span class="keyword">if</span> (searchParams.username &amp;&amp; searchParams.password) &#123;</span><br><span class="line">    <span class="comment">// 登录地址中携带了账号密码，执行自动登录操作</span></span><br><span class="line">    getFingerprint(<span class="function"><span class="keyword">function</span> (<span class="params">fingerprint</span>) </span>&#123;</span><br><span class="line">        login(&#123;</span><br><span class="line">            username: searchParams.username,</span><br><span class="line">            password: searchParams.password,</span><br><span class="line">            fingerprint: fingerprint</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p> 后台判断登录接口，如果携带了 fingerprint ，就判断 账号与指纹 是否匹配。如果匹配执行绕过验证码登录。</p>
-</li>
-</ol>
-<p>说明：只有上面配置的浏览器 + 上面配置的账号才可以自动登录。更换电脑、更换浏览器、浏览器版本改变需重新配置授权</p>
+</ul>
+<h4 id="模块打包工具的出现"><a href="#模块打包工具的出现" class="headerlink" title="模块打包工具的出现"></a>模块打包工具的出现</h4><ul>
+<li>解决兼容问题。<br><img src="https://s0.lgstatic.com/i/image3/M01/10/C6/Ciqah16YeWaAEqbZAAB2uMwv74E224.png" alt="解决兼容问题"></li>
+<li>模块化的方式划分出来的模块文件过多，浏览器的频繁发送网络请求，影响应用的工作效率。<br><img src="https://s0.lgstatic.com/i/image3/M01/03/97/CgoCgV6YeWaAHgm3AAB8JgXpadc131.png" alt="将散落的模块再打包到一起"></li>
+<li>HTML 和 CSS 这些资源文件也会面临需要被模块化的问题。<br><img src="https://s0.lgstatic.com/i/image3/M01/89/DC/Cgq2xl6YeWaARx0OAACCLDANJto655.png" alt="支持不同种类的前端模块类型"></li>
+</ul>
+<hr>
+<p><em>拉勾教育学习笔记，非原创。</em></p>
 
           
         
@@ -438,7 +462,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/19/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/19/">19</a><span class="page-number current">20</span><a class="page-number" href="/page/21/">21</a><span class="space">&hellip;</span><a class="page-number" href="/page/41/">41</a><a class="extend next" rel="next" href="/page/21/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/page/19/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/19/">19</a><span class="page-number current">20</span><a class="page-number" href="/page/21/">21</a><span class="space">&hellip;</span><a class="page-number" href="/page/44/">44</a><a class="extend next" rel="next" href="/page/21/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -484,7 +508,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">41</span>
+                  <span class="site-state-item-count">44</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -550,7 +574,7 @@
     
       <span class="post-meta-item-text">Site words total count&#58;</span>
     
-    <span title="Site words total count">33.9k</span>
+    <span title="Site words total count">37.1k</span>
   
 </div>
 

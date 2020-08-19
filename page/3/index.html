@@ -254,7 +254,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://liuxiaojun.win/2020/08/15/高阶函数/">
+    <link itemprop="mainEntityOfPage" href="http://liuxiaojun.win/2020/08/16/柯里化Currying/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="刘小军">
@@ -273,7 +273,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2020/08/15/高阶函数/" itemprop="url">高阶函数</a></h1>
+                <a class="post-title-link" href="/2020/08/16/柯里化Currying/" itemprop="url">柯里化Currying</a></h1>
         
 
         <div class="post-meta">
@@ -285,8 +285,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-08-15T19:51:43+08:00">
-                2020-08-15
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-08-16T10:25:09+08:00">
+                2020-08-16
               </time>
             
 
@@ -304,8 +304,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2020/08/15/高阶函数/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2020/08/15/高阶函数/" itemprop="commentCount"></span>
+                <a href="/2020/08/16/柯里化Currying/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2020/08/16/柯里化Currying/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -327,7 +327,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  371
+                  498
                 </span>
               
 
@@ -343,7 +343,7 @@
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
                 <span title="阅读时长">
-                  1
+                  2
                 </span>
               
             </div>
@@ -366,30 +366,26 @@
       
         
           
-            <h4 id="高阶函数"><a href="#高阶函数" class="headerlink" title="高阶函数"></a>高阶函数</h4><ul>
-<li>可以把函数作为参数传递给另一个函数</li>
-<li>可以把函数作为另一个函数的返回结果</li>
+            <h4 id="柯里化"><a href="#柯里化" class="headerlink" title="柯里化"></a>柯里化</h4><ul>
+<li>当一个函数有多个参数的时候先传递一部分参数调用它（这部分参数以后永远不变）</li>
+<li>然后返回一个新的函数接收剩余的参数，返回结果</li>
 </ul>
-<p>函数作为参数<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// forEach</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">forEach</span> (<span class="params">array, fn</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; array.length; i++) &#123;</span><br><span class="line">        fn(array[i])</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// filter</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">filter</span> (<span class="params">array, fn</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">let</span> results = []</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; array.length; i++) &#123;</span><br><span class="line">        <span class="keyword">if</span> (fn(array[i])) &#123;</span><br><span class="line">            results.push(array[i])</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> results</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>函数作为返回值<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">makeFn</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">let</span> msg = <span class="string">'Hello function'</span></span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(msg)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">const</span> fn = makeFn()</span><br><span class="line">fn()</span><br></pre></td></tr></table></figure></p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// once</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">once</span> (<span class="params">fn</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">let</span> done = <span class="literal">false</span></span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (!done) &#123;</span><br><span class="line">            done = <span class="literal">true</span></span><br><span class="line">            <span class="keyword">return</span> fn.apply(<span class="keyword">this</span>, <span class="built_in">arguments</span>)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> pay = once(<span class="function"><span class="keyword">function</span> (<span class="params">money</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">`支付：<span class="subst">$&#123;money&#125;</span> RMB`</span>)</span><br><span class="line">&#125;)</span><br><span class="line"><span class="comment">// 只会支付一次</span></span><br><span class="line">pay(<span class="number">5</span>)</span><br><span class="line">pay(<span class="number">5</span>)</span><br><span class="line">pay(<span class="number">5</span>)</span><br></pre></td></tr></table></figure>
-<h4 id="使用高阶函数的意义"><a href="#使用高阶函数的意义" class="headerlink" title="使用高阶函数的意义"></a>使用高阶函数的意义</h4><ul>
-<li>抽象可以帮我们屏蔽细节，只需要关注与我们的目标</li>
-<li>高阶函数是用来抽象通用的问题</li>
+<p>使用柯里化解决硬编码的问题<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">checkAge</span> (<span class="params">age</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">let</span> min = <span class="number">18</span></span><br><span class="line">    <span class="keyword">return</span> age &gt;= min</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 普通纯函数</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">checkAge</span> (<span class="params">min, age</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> age &gt;= min</span><br><span class="line">&#125;</span><br><span class="line">checkAge(<span class="number">18</span>, <span class="number">24</span>)</span><br><span class="line">checkAge(<span class="number">18</span>, <span class="number">20</span>)</span><br><span class="line">checkAge(<span class="number">20</span>, <span class="number">30</span>)</span><br><span class="line"><span class="comment">// 柯里化</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">checkAge</span> (<span class="params">min</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> (<span class="params">age</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> age &gt;= min</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// ES6 写法</span></span><br><span class="line"><span class="keyword">let</span> checkAge = <span class="function"><span class="params">min</span> =&gt;</span> (<span class="function"><span class="params">age</span> =&gt;</span> age &gt;= min)</span><br><span class="line"><span class="keyword">let</span> checkAge18 = checkAge(<span class="number">18</span>)</span><br><span class="line"><span class="keyword">let</span> checkAge20 = checkAge(<span class="number">20</span>)</span><br><span class="line">checkAge18(<span class="number">24</span>)</span><br><span class="line">checkAge18(<span class="number">20</span>)</span><br></pre></td></tr></table></figure></p>
+<h4 id="lodash-中的柯里化函数"><a href="#lodash-中的柯里化函数" class="headerlink" title="lodash 中的柯里化函数"></a>lodash 中的柯里化函数</h4><p><strong>_.curry(func)</strong></p>
+<ul>
+<li>功能：创建一个函数，该函数接收一个或多个 func 的参数，如果 func 所需要的参数都被提供则执行 func 并返回执行的结果。否则继续返回该函数并等待接收剩余的参数。</li>
+<li>参数：需要柯里化的函数</li>
+<li>返回值：柯里化后的函数</li>
 </ul>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 面向过程的方式</span></span><br><span class="line"><span class="keyword">let</span> array = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>]</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; array.length; i++) &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(array[i])</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 高阶高阶函数</span></span><br><span class="line"><span class="keyword">let</span> array = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>]</span><br><span class="line">forEach(array, item =&gt; &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(item)</span><br><span class="line">&#125;)</span><br><span class="line"><span class="keyword">let</span> r = filter(array, item =&gt; &#123;</span><br><span class="line">    <span class="keyword">return</span> item % <span class="number">2</span> === <span class="number">0</span></span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
-<h4 id="常用高阶函数"><a href="#常用高阶函数" class="headerlink" title="常用高阶函数"></a>常用高阶函数</h4><ul>
-<li>forEach</li>
-<li>map</li>
-<li>filter</li>
-<li>every</li>
-<li>some</li>
-<li>find/findIndex</li>
-<li>reduce</li>
-<li>sort</li>
-<li>……</li>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> _ = <span class="built_in">require</span>(<span class="string">'lodash'</span>)</span><br><span class="line"><span class="comment">// 要柯里化的函数</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getSum</span> (<span class="params">a, b, c</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> a + b + c</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 柯里化后的函数</span></span><br><span class="line"><span class="keyword">let</span> curried = _.curry(getSum)</span><br><span class="line"><span class="comment">// 测试</span></span><br><span class="line">curried(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>)</span><br><span class="line">curried(<span class="number">1</span>)(<span class="number">2</span>)(<span class="number">3</span>)</span><br><span class="line">curried(<span class="number">1</span>, <span class="number">2</span>)(<span class="number">3</span>)</span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> _ = <span class="built_in">require</span>(<span class="string">'lodash'</span>)</span><br><span class="line"><span class="keyword">const</span> match = _.curry(<span class="function"><span class="keyword">function</span> (<span class="params">reg, str</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> str.match(reg)</span><br><span class="line">&#125;)</span><br><span class="line"><span class="keyword">const</span> haveSpace = match(<span class="regexp">/\s+/g</span>)</span><br><span class="line"><span class="keyword">const</span> haveNumber = match(<span class="regexp">/\d+/g</span>)</span><br><span class="line"><span class="built_in">console</span>.log(haveSpace(<span class="string">'hello world'</span>))</span><br><span class="line"><span class="built_in">console</span>.log(haveNumber(<span class="string">'25$'</span>))</span><br><span class="line"><span class="keyword">const</span> filter = _.curry(<span class="function"><span class="keyword">function</span> (<span class="params">func, array</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> array.filter(func)</span><br><span class="line">&#125;)</span><br><span class="line"><span class="built_in">console</span>.log(filter(haveSpace, [<span class="string">'John Connor'</span>, <span class="string">'John_Donne'</span>]))</span><br><span class="line"><span class="keyword">const</span> findSpace = filter(haveSpace)</span><br><span class="line"><span class="built_in">console</span>.log(findSpace([<span class="string">'John Connor'</span>, <span class="string">'John_Donne'</span>]))</span><br></pre></td></tr></table></figure>
+<p>模拟 _.curry() 的实现<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">curry</span> (<span class="params">func</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> <span class="title">curriedFn</span> (<span class="params">...args</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (func.length &gt; args.length) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">                <span class="keyword">return</span> curriedFn(...args.concat(<span class="built_in">Array</span>.from(<span class="built_in">arguments</span>)))</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> func(...args)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><ul>
+<li>柯里化可以让我们给一个函数传递较少的参数得到一个已经记住了某些固定参数的新函数</li>
+<li>这是一种对函数参数的’缓存’</li>
+<li>让函数变的更灵活，让函数的粒度更小</li>
+<li>可以把多元函数转换成一元函数，可以组合使用函数产生强大的功能</li>
 </ul>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> map = <span class="function">(<span class="params">array, fn</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">let</span> results = []</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">const</span> value <span class="keyword">of</span> array) &#123;</span><br><span class="line">        results.push(fn(value))</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> results</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">const</span> every = <span class="function">(<span class="params">array, fn</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">let</span> result = <span class="literal">true</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">const</span> value <span class="keyword">of</span> array) &#123;</span><br><span class="line">        result = fn(value)</span><br><span class="line">        <span class="keyword">if</span> (!result) &#123;</span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> result   </span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">const</span> some = <span class="function">(<span class="params">array, fn</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">let</span> result = <span class="literal">false</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">const</span> value <span class="keyword">of</span> array) &#123;</span><br><span class="line">        result = fn(value)</span><br><span class="line">        <span class="keyword">if</span> (result) &#123;</span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> result</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
           
         
@@ -429,7 +425,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/2/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/41/">41</a><a class="extend next" rel="next" href="/page/4/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/page/2/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/44/">44</a><a class="extend next" rel="next" href="/page/4/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -475,7 +471,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">41</span>
+                  <span class="site-state-item-count">44</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -541,7 +537,7 @@
     
       <span class="post-meta-item-text">Site words total count&#58;</span>
     
-    <span title="Site words total count">33.9k</span>
+    <span title="Site words total count">37.1k</span>
   
 </div>
 

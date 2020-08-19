@@ -254,7 +254,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://liuxiaojun.win/2020/08/15/闭包/">
+    <link itemprop="mainEntityOfPage" href="http://liuxiaojun.win/2020/08/16/函数组合/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="刘小军">
@@ -273,7 +273,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2020/08/15/闭包/" itemprop="url">闭包</a></h1>
+                <a class="post-title-link" href="/2020/08/16/函数组合/" itemprop="url">函数组合</a></h1>
         
 
         <div class="post-meta">
@@ -285,8 +285,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-08-15T20:19:07+08:00">
-                2020-08-15
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-08-16T11:40:38+08:00">
+                2020-08-16
               </time>
             
 
@@ -304,8 +304,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2020/08/15/闭包/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2020/08/15/闭包/" itemprop="commentCount"></span>
+                <a href="/2020/08/16/函数组合/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2020/08/16/函数组合/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -327,7 +327,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  312
+                  1.1k
                 </span>
               
 
@@ -343,7 +343,7 @@
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
                 <span title="阅读时长">
-                  1
+                  5
                 </span>
               
             </div>
@@ -366,14 +366,52 @@
       
         
           
-            <h4 id="闭包-Closure-：函数和其周围的状态-词法环境-的引用捆绑在一起形成闭包。"><a href="#闭包-Closure-：函数和其周围的状态-词法环境-的引用捆绑在一起形成闭包。" class="headerlink" title="闭包 (Closure)：函数和其周围的状态(词法环境)的引用捆绑在一起形成闭包。"></a>闭包 (Closure)：函数和其周围的状态(词法环境)的引用捆绑在一起形成闭包。</h4><ul>
-<li>可以在另一个作用域中调用一个函数的内部函数并访问到该函数的作用域中的成员</li>
+            <h4 id="函数组合"><a href="#函数组合" class="headerlink" title="函数组合"></a>函数组合</h4><ul>
+<li>函数组合可以让我们把细粒度的函数重新组合生成一个新的函数</li>
+<li>纯函数和柯里化很容易写出洋葱代码 h(g(f(x)))<ul>
+<li>获取数组的最后一个元素再转换成大写字母， _.toUpper(_.first(_.reverse(array)))</li>
 </ul>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 函数作为返回值</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">makeFn</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">let</span> msg = <span class="string">'Hello function'</span></span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(msg)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">const</span> fn = makeFn()</span><br><span class="line">fn()</span><br></pre></td></tr></table></figure>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// once</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">once</span> (<span class="params">fn</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">let</span> done = <span class="literal">false</span></span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (!done) &#123;</span><br><span class="line">        done = <span class="literal">true</span></span><br><span class="line">        <span class="keyword">return</span> fn.apply(<span class="keyword">this</span>, <span class="built_in">arguments</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> pay = once(<span class="function"><span class="keyword">function</span> (<span class="params">money</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">`支付：<span class="subst">$&#123;money&#125;</span> RMB`</span>)</span><br><span class="line">&#125;)</span><br><span class="line"><span class="comment">// 只会支付一次</span></span><br><span class="line">pay(<span class="number">5</span>)</span><br><span class="line">pay(<span class="number">5</span>)</span><br></pre></td></tr></table></figure>
-<p>闭包的本质：函数在执行的时候会放到一个执行栈上当函数执行完毕之后会从执行栈上移除，<strong>但是堆上的作用域成员因为被外部引用不能释放</strong>，因此内部函数依然可以访问外部函数的成员</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 生成计算数字的多少次幂的函数</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">makePower</span> (<span class="params">power</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> (<span class="params">x</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">Math</span>.pow(x, power)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> power2 = makePower(<span class="number">2</span>)</span><br><span class="line"><span class="keyword">let</span> power3 = makePower(<span class="number">3</span>)</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(power2(<span class="number">4</span>))</span><br><span class="line"><span class="built_in">console</span>.log(power3(<span class="number">4</span>))</span><br></pre></td></tr></table></figure>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 第一个数是基本工资，第二个数是绩效工资</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">makeSalary</span> (<span class="params">x</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> (<span class="params">y</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> x + y</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> salaryLevel1 = makeSalary(<span class="number">1500</span>)</span><br><span class="line"><span class="keyword">let</span> salaryLevel2 = makeSalary(<span class="number">2500</span>)</span><br><span class="line"><span class="built_in">console</span>.log(salaryLevel1(<span class="number">2000</span>))</span><br><span class="line"><span class="built_in">console</span>.log(salaryLevel1(<span class="number">3000</span>))</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="管道"><a href="#管道" class="headerlink" title="管道"></a>管道</h4><p>下面这张图表示程序中使用函数处理数据的过程，给 fn 函数输入参数 a，返回结果 b。可以想想 a 数据<br>通过一个管道得到了 b 数据。<br><img src="/images/2020/08/16/a.png" alt="管道"><br>当 fn 函数比较复杂的时候，我们可以把函数 fn 拆分成多个小函数，此时多了中间运算过程产生的 m 和n。</p>
+<p>下面这张图中可以想象成把 fn 这个管道拆分成了3个管道 f1, f2, f3，数据 a 通过管道 f3 得到结果 m，m再通过管道 f2 得到结果 n，n 通过管道 f1 得到最终结果 b<br><img src="/images/2020/08/16/b.png" alt="管道"><br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">fn = compose(f1, f2, f3)</span><br><span class="line">b = fn(a)</span><br></pre></td></tr></table></figure></p>
+<h4 id="函数组合-1"><a href="#函数组合-1" class="headerlink" title="函数组合"></a>函数组合</h4><p>函数组合 (compose)：如果一个函数要经过多个函数处理才能得到最终值，这个时候可以把中间过程的函数合并成一个函数</p>
+<ul>
+<li>函数就像是数据的管道，函数组合就是把这些管道连接起来，让数据穿过多个管道形成最终结果</li>
+<li>函数组合默认是从右到左执行</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 组合函数</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">compose</span> (<span class="params">f, g</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> (<span class="params">x</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> f(g(x))</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">first</span> (<span class="params">arr</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> arr[<span class="number">0</span>]</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">reverse</span> (<span class="params">arr</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> arr.reverse()</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 从右到左运行</span></span><br><span class="line"><span class="keyword">let</span> last = compose(first, reverse)</span><br><span class="line"><span class="built_in">console</span>.log(last([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>]))</span><br></pre></td></tr></table></figure>
+<p>lodash 中的组合函数</p>
+<ul>
+<li>lodash 中组合函数 flow() 或者 flowRight()，他们都可以组合多个函数</li>
+<li>flow() 是从左到右运行</li>
+<li>flowRight() 是从右到左运行，使用的更多一些</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> _ = <span class="built_in">require</span>(<span class="string">'lodash'</span>)</span><br><span class="line"><span class="keyword">const</span> toUpper = <span class="function"><span class="params">s</span> =&gt;</span> s.toUpperCase()</span><br><span class="line"><span class="keyword">const</span> reverse = <span class="function"><span class="params">arr</span> =&gt;</span> arr.reverse()</span><br><span class="line"><span class="keyword">const</span> first = <span class="function"><span class="params">arr</span> =&gt;</span> arr[<span class="number">0</span>]</span><br><span class="line"><span class="keyword">const</span> f = _.flowRight(toUpper, first, reverse)</span><br><span class="line"><span class="built_in">console</span>.log(f([<span class="string">'one'</span>, <span class="string">'two'</span>, <span class="string">'three'</span>]))</span><br></pre></td></tr></table></figure>
+<p>模拟实现 lodash 的 flowRight 方法<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// // 多函数组合</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">compose</span> (<span class="params">...args</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> (<span class="params">value</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> args.reverse().reduce(<span class="function"><span class="keyword">function</span> (<span class="params">val, cur</span>) </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> cur(val)</span><br><span class="line">        &#125;, value)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// ES6</span></span><br><span class="line"><span class="keyword">const</span> compose = <span class="function">(<span class="params">...fns</span>) =&gt;</span> <span class="function"><span class="params">value</span> =&gt;</span> fns.reverse().reduce(<span class="function">(<span class="params">val, cur</span>) =&gt;</span> cur(val), value)</span><br></pre></td></tr></table></figure></p>
+<p>函数的组合要满足结合律 (associativity)：</p>
+<ul>
+<li>我们既可以把 g 和 h 组合，还可以把 f 和 g 组合，结果都是一样的<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 结合律（associativity）</span></span><br><span class="line"><span class="keyword">let</span> f = compose(f, g, h)</span><br><span class="line"><span class="keyword">let</span> associative = compose(compose(f, g), h) == compose(f, compose(g, h))</span><br><span class="line"><span class="comment">// true</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>所以代码还可以像下面这样<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> _ = <span class="built_in">require</span>(<span class="string">'lodash'</span>)</span><br><span class="line"><span class="comment">// const f = _.flowRight(_.toUpper, _.first, _.reverse)</span></span><br><span class="line"><span class="comment">// const f = _.flowRight(_.flowRight(_.toUpper, _.first), _.reverse)</span></span><br><span class="line"><span class="keyword">const</span> f = _.flowRight(_.toUpper, _.flowRight(_.first, _.reverse))</span><br><span class="line"><span class="built_in">console</span>.log(f([<span class="string">'one'</span>, <span class="string">'two'</span>, <span class="string">'three'</span>]))</span><br><span class="line"><span class="comment">// =&gt; THREE</span></span><br></pre></td></tr></table></figure></p>
+<h4 id="调试"><a href="#调试" class="headerlink" title="调试"></a>调试</h4><p>如何调试组合函数<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> f = _.flowRight(_.toUpper, _.first, _.reverse)</span><br><span class="line"><span class="built_in">console</span>.log(f([<span class="string">'one'</span>, <span class="string">'two'</span>, <span class="string">'three'</span>]))</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> _ = <span class="built_in">require</span>(<span class="string">'lodash'</span>)</span><br><span class="line"><span class="keyword">const</span> trace = _.curry(<span class="function">(<span class="params">tag, v</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(tag, v)</span><br><span class="line">    <span class="keyword">return</span> v</span><br><span class="line">&#125;)</span><br><span class="line"><span class="keyword">const</span> split = _.curry(<span class="function">(<span class="params">sep, str</span>) =&gt;</span> _.split(str, sep))</span><br><span class="line"><span class="keyword">const</span> join = _.curry(<span class="function">(<span class="params">sep, array</span>) =&gt;</span> _.join(array, sep))</span><br><span class="line"><span class="keyword">const</span> map = _.curry(<span class="function">(<span class="params">fn, array</span>) =&gt;</span> _.map(array, fn))</span><br><span class="line"><span class="keyword">const</span> f = _.flowRight(join(<span class="string">'-'</span>), trace(<span class="string">'map 之后'</span>), map(_.toLower), trace(<span class="string">'split 之后'</span>), split(<span class="string">' '</span>))</span><br><span class="line"><span class="built_in">console</span>.log(f(<span class="string">'NEVER SAY DIE'</span>))</span><br></pre></td></tr></table></figure>
+<h4 id="lodash-fp"><a href="#lodash-fp" class="headerlink" title="lodash/fp"></a><a href="https://github.com/lodash/lodash/wiki/FP-Guide" target="_blank" rel="noopener">lodash/fp</a></h4><ul>
+<li>lodash 的 fp 模块提供了实用的对函数式编程友好的方法</li>
+<li>提供了不可变 auto-curried iteratee-first data-last 的方法</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// lodash 模块</span></span><br><span class="line"><span class="keyword">const</span> _ = <span class="built_in">require</span>(<span class="string">'lodash'</span>)</span><br><span class="line">_.map([<span class="string">'a'</span>, <span class="string">'b'</span>, <span class="string">'c'</span>], _.toUpper)</span><br><span class="line"><span class="comment">// =&gt; ['A', 'B', 'C']</span></span><br><span class="line">_.map([<span class="string">'a'</span>, <span class="string">'b'</span>, <span class="string">'c'</span>])</span><br><span class="line"><span class="comment">// =&gt; ['a', 'b', 'c']</span></span><br><span class="line">_.split(<span class="string">'Hello World'</span>, <span class="string">' '</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">// lodash/fp 模块</span></span><br><span class="line"><span class="keyword">const</span> fp = <span class="built_in">require</span>(<span class="string">'lodash/fp'</span>)</span><br><span class="line">fp.map(fp.toUpper, [<span class="string">'a'</span>, <span class="string">'b'</span>, <span class="string">'c'</span>])</span><br><span class="line">fp.map(fp.toUpper)([<span class="string">'a'</span>, <span class="string">'b'</span>, <span class="string">'c'</span>])</span><br><span class="line">fp.split(<span class="string">' '</span>, <span class="string">'Hello World'</span>)</span><br><span class="line">fp.split(<span class="string">' '</span>)(<span class="string">'Hello World'</span>)</span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> fp = <span class="built_in">require</span>(<span class="string">'lodash/fp'</span>)</span><br><span class="line"><span class="keyword">const</span> f = fp.flowRight(fp.join(<span class="string">'-'</span>), fp.map(_.toLower), fp.split(<span class="string">' '</span>))</span><br><span class="line"><span class="built_in">console</span>.log(f(<span class="string">'NEVER SAY DIE'</span>))</span><br></pre></td></tr></table></figure>
+<h4 id="Point-Free"><a href="#Point-Free" class="headerlink" title="Point Free"></a>Point Free</h4><p>Point Free：我们可以把数据处理的过程定义成与数据无关的合成运算，不需要用到代表数据的那个参数，只要把简单的运算步骤合成到一起，在使用这种模式之前我们需要定义一些辅助的基本运算函数。</p>
+<ul>
+<li>不需要指明处理的数据</li>
+<li>只需要合成运算过程</li>
+<li>需要定义一些辅助的基本运算函数</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> f = fp.flowRight(fp.join(<span class="string">'-'</span>), fp.map(_.toLower), fp.split(<span class="string">' '</span>))</span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 非 Point Free 模式</span></span><br><span class="line"><span class="comment">// Hello World =&gt; hello_world</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">f</span> (<span class="params">word</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> word.toLowerCase().replace(<span class="regexp">/\s+/g</span>, <span class="string">'_'</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// Point Free</span></span><br><span class="line"><span class="keyword">const</span> fp = <span class="built_in">require</span>(<span class="string">'lodash/fp'</span>)</span><br><span class="line"><span class="keyword">const</span> f = fp.flowRight(fp.replace(<span class="regexp">/\s+/g</span>, <span class="string">'_'</span>), fp.toLower)</span><br><span class="line"><span class="built_in">console</span>.log(f(<span class="string">'Hello World'</span>))</span><br></pre></td></tr></table></figure>
+<p>使用 Point Free 的模式，把单词中的首字母提取并转换成大写<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> fp = <span class="built_in">require</span>(<span class="string">'lodash/fp'</span>)</span><br><span class="line"><span class="keyword">const</span> firstLetterToUpper = fp.flowRight(join(<span class="string">'. '</span>),</span><br><span class="line">fp.map(fp.flowRight(fp.first, fp.toUpper)), split(<span class="string">' '</span>))</span><br><span class="line"><span class="built_in">console</span>.log(firstLetterToUpper(<span class="string">'world wild web'</span>))</span><br><span class="line"><span class="comment">// =&gt; W. W. W</span></span><br></pre></td></tr></table></figure></p>
 
           
         
@@ -413,7 +451,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/41/">41</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/44/">44</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -459,7 +497,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">41</span>
+                  <span class="site-state-item-count">44</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -525,7 +563,7 @@
     
       <span class="post-meta-item-text">Site words total count&#58;</span>
     
-    <span title="Site words total count">33.9k</span>
+    <span title="Site words total count">37.1k</span>
   
 </div>
 
